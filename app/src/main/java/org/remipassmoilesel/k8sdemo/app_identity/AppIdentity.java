@@ -14,17 +14,8 @@ public class AppIdentity {
     private Map<String, String> envVars;
 
     public AppIdentity() {
-        this.hostname = this.getHostName();
+        this.hostname = this.findHostName();
         this.envVars = System.getenv();
-    }
-
-    private String getHostName() {
-        try {
-            return InetAddress.getLocalHost().getHostName();
-        } catch (UnknownHostException e) {
-            logger.error("Unable to find hostname: ", e);
-            return "Unknown host";
-        }
     }
 
     public String getHostname() {
@@ -33,6 +24,15 @@ public class AppIdentity {
 
     public Map<String, String> getEnvVars() {
         return envVars;
+    }
+
+    private String findHostName() {
+        try {
+            return InetAddress.getLocalHost().getHostName();
+        } catch (UnknownHostException e) {
+            logger.error("Unable to find hostname: ", e);
+            return "Unknown host";
+        }
     }
 
 }
