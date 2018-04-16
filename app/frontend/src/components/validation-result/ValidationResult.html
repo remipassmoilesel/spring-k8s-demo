@@ -1,0 +1,13 @@
+<div class="validation-result" v-if="result">
+
+    <h3>Validation result</h3>
+
+    <div>Date: {{ result.document.date }}</div>
+    <div>Document is valid: {{ result.valid }}</div>
+
+    <div>Signature:</div>
+    <div>
+        <pre>{{ result.document.signature }}</pre>
+    </div>
+
+</div>

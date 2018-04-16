@@ -1,0 +1,22 @@
+<b-container class="new-document-view">
+
+    <h1>Upload and sign a document</h1>
+
+    <b-form>
+
+        <b-form-group label="Document"
+                      label-for="documentInput1"
+                      description="Select a document to send on server and sign it.">
+            <input id="documentInput1"
+                   type="file"
+                   @change="onFileSelected"
+                   required
+                   placeholder="Click here">
+            </input>
+        </b-form-group>
+
+        <b-button @click="onSubmit" type="button" variant="primary">Submit</b-button>
+
+    </b-form>
+
+</b-container>

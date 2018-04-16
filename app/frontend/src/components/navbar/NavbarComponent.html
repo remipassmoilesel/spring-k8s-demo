@@ -1,0 +1,16 @@
+<b-navbar toggleable="md" :sticky="true" class="custom-navbar">
+
+  <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+
+  <b-navbar-brand to="/" class="brand">
+      <img src="../../assets/img/icon-small.png" class="d-inline-block align-middle" alt="Menu">
+      Spring Kubernetes demo
+  </b-navbar-brand>
+
+  <b-collapse is-nav id="nav_collapse">
+    <b-navbar-nav>
+      <b-nav-item v-for="route in routes" :key="route.text" :to="route.path" exact>{{route.text}}</b-nav-item>
+    </b-navbar-nav>
+  </b-collapse>
+
+</b-navbar>

@@ -1,0 +1,18 @@
+<div class="app-identity">
+
+    <div v-if="appIdentity">
+        <h2>{{ appIdentity.hostname }}</h2>
+
+        <table>
+            <tr v-for="(value, name) in appIdentity.envVars">
+                <td class="var-name">{{ name }}</td>
+                <td class="var-value">{{ limitLength(value) }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div v-else>
+        Please wait ...
+    </div>
+
+</div>

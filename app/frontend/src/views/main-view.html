@@ -1,0 +1,13 @@
+<div>
+
+  <navbar :inverted="false"></navbar>
+
+  <div class="main-content">
+    <transition name="router-anim" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+      <router-view class="router-view"></router-view>
+    </transition>
+  </div>
+
+  <custom-footer></custom-footer>
+
+</div>

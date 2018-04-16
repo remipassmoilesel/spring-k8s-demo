@@ -1,0 +1,38 @@
+@import "../../sass/variables";
+
+.custom-navbar {
+
+  min-height: 5em;
+  border-bottom: 1px solid #d0d3d6;
+  border-radius: 3px;
+  box-shadow: 0px 2px 2px 0px rgb(239, 239, 239);
+  background: #FAFAFA;
+
+  .brand {
+    font-size: 1.6em;
+    color: $gray5;
+
+    img {
+      height: 1em;
+      margin-left: 1em;
+      margin-right: 0.2em;
+    }
+
+  }
+
+  .nav-item {
+    margin: 0.1em 3%;
+
+    .nav-link {
+      text-transform: uppercase;
+      font-weight: 700;
+      text-size-adjust: 100%;
+
+      &.active {
+        color: $gray5;
+        font-weight: bolder;
+      }
+    }
+  }
+
+}

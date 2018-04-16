@@ -1,0 +1,32 @@
+@import "../../sass/variables";
+
+.custom-footer {
+
+  border-top: solid 1px #e3e3e3;
+
+  background: white;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+
+  color: $gray2;
+
+  .social-links-bar {
+    font-size: 1.2em;
+    display: inline-block;
+  }
+
+  .source-code-ref {
+    font-size: 1em;
+
+    @media screen and (max-width: $small-device) {
+      display: none;
+    }
+    @media screen and (min-width: $normal-device) {
+      margin-right: 1em;
+    }
+  }
+
+  a {
+    color: $gray2;
+  }
+}

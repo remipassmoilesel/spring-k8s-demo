@@ -1,0 +1,66 @@
+@import "variables";
+
+html, body, #app-main {
+  height: 100%;
+  margin: 0;
+
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  @media screen and (max-width: $small-device) {
+    font-size: 12px;
+  }
+  @media screen and (min-width: $normal-device) {
+    font-size: 15px;
+  }
+
+  color: $gray3;
+  background-color: white;
+
+}
+
+h1, h2, h3, h4 {
+  text-transform: uppercase;
+  text-align: left !important;
+  margin-bottom: 1.5em;
+  color: $gray5;
+}
+
+h1 {
+  font-size: 1.7em;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
+h3 {
+  font-size: 1.4em;
+}
+
+p {
+  text-align: justify;
+}
+
+hr {
+  border-top: solid #e8e8e8;
+  border-width: 1px 0 0;
+
+  margin: 0.1em 10% 0.1em 10%;
+}
+
+a {
+  color: $gray2;
+  text-decoration: none;
+
+  &:hover{
+    text-decoration: none !important;
+    color: $blue4 !important;
+  }
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}

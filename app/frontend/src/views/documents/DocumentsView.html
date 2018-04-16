@@ -1,0 +1,12 @@
+<b-container class="documents-view">
+
+    <h1>Documents</h1>
+
+    <div v-if="documents && documents.length">
+        <document :document="doc" v-for="doc in documents"></document>
+    </div>
+    <div v-else>
+        No documents found.
+    </div>
+
+</b-container>

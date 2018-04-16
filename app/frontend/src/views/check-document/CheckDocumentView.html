@@ -1,0 +1,39 @@
+<b-container class="check-document-view">
+
+    <h1>Check a document signature</h1>
+
+    <div v-if="documents">
+        <b-form>
+
+            <b-form-group label="Original document"
+                          label-for="originalDocument"
+                          description="Select a document to compare to.">
+                <select id="originalDocument" v-model="form.originalDocument" required>
+                    <option v-for="doc in documents" :value="doc.id">{{ doc.name }}</option>
+                </select>
+            </b-form-group>
+
+            <b-form-group label="Document to compare"
+                          label-for="checkDocumentInput1"
+                          description="Select a document to send on server and check it.">
+                <input id="checkDocumentInput1"
+                       type="file"
+                       @change="onFileSelected"
+                       required
+                       placeholder="Click here">
+                </input>
+            </b-form-group>
+
+            <b-button @click="onSubmit" type="button" variant="primary">Submit</b-button>
+
+        </b-form>
+
+        <validation-result v-if="validationResult" :result="validationResult"></validation-result>
+
+    </div>
+
+    <div v-else>
+        Please wait ...
+    </div>
+
+</b-container>

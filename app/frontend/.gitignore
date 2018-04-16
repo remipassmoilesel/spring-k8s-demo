@@ -1,0 +1,14 @@
+.DS_Store
+node_modules/
+dist/
+coverage/
+src/css
+src/**/*.js
+src/**/*.map
+*.log
+remi-pace.fr/.idea
+yarn.lock
+yarn-error.log
+package-lock.json
+inventory.cfg
+*.retry

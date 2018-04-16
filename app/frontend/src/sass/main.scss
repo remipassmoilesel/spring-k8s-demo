@@ -1,0 +1,36 @@
+@import "~bootstrap/scss/bootstrap.scss";
+@import "~font-awesome/css/font-awesome.css";
+@import "~animate.css/animate.css";
+@import "globals";
+@import "variables";
+
+.main-content {
+  margin-top: 1.5em;
+  overflow: auto;
+}
+
+.router-view {
+  padding-top: 1em;
+  padding-bottom: 15em;
+}
+
+.noscript-warning {
+  background: yellow;
+  text-align: center;
+  font-weight: bolder;
+}
+
+.information-link {
+  font-size: 0.9em;
+  margin-left: 0.5em;
+  color: $gray2;
+}
+
+.router-anim-enter-to {
+  animation-duration: 0.4s;
+  animation-delay: 0.3s;
+}
+
+.router-anim-leave-to {
+  animation-duration: 0.3s;
+}
