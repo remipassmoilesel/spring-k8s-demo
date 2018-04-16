@@ -33,6 +33,7 @@ In order to restart application on build in developement mode, configure Intelli
 ## TODO
 
 - Sonarqube analysis ?
+- Gracefull shutdown
 - Deployment
 - Health check route
 - Document download

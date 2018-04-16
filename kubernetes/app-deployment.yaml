@@ -24,7 +24,7 @@ spec:
           - name: K8SDEMO_DB_HOST
             value: mysql
           - name: K8SDEMO_DB_URL
-            value: jdbc:mysql://$K8SDEMO_DB_HOST:3306/
+            value: jdbc:mysql://mysql:3306/
           - name: K8SDEMO_DB_USERNAME
             value: k8sdemo
           - name: K8SDEMO_DB_PASSWORD
@@ -33,9 +33,9 @@ spec:
             value: admin
           - name: K8SDEMO_PASSWORD
             value: admin
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 8085
-          initialDelaySeconds: 3
-          periodSeconds: 3
+#        livenessProbe:
+#          httpGet:
+#            path: /
+#            port: 8085
+#          initialDelaySeconds: 10
+#          periodSeconds: 3

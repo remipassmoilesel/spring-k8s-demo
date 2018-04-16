@@ -18,6 +18,14 @@ spec:
         name: mysql
         env:
         - name: MYSQL_ROOT_PASSWORD
+          value: 2de2f3f547eece2011dfa25dc4076b8fb0433bd13839249d019fdc95f0809c6405435c5f3ef38c63a2
+        - name: MYSQL_ROOT_HOST
+          value: '%'
+        - name: MYSQL_DATABASE
+          value: k8sdemo
+        - name: MYSQL_USER
+          value: k8sdemo
+        - name: MYSQL_PASSWORD
           value: 163265e90d64a570c966babc5e45ffef3b92590a16e14588a3cc4073372578b6f28daeea220512669f
         ports:
         - containerPort: 3306
