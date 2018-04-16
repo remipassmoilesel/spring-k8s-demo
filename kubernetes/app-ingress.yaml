@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: spring-k8s-demo
+  labels:
+    app: spring-k8s-demo
+spec:
+  rules:
+    - host: spring-demo.remi-pace.fr
+      http:
+        paths:
+          - backend:
+              serviceName: spring-k8s-demo
+              servicePort: 8085
+

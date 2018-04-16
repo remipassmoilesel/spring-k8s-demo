@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: spring-k8s-demo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: spring-k8s-demo
+    spec:
+      containers:
+      - name: spring-k8s-demo
+        image: spring-k8s-demo:0.1
+        ports:
+        - containerPort: 8085
+        env:
+          - name: K8SDEMO_ACTIVE_PROFILE
+            value: prod
+          - name: K8SDEMO_DBNAME
+            value: k8sdemo
+          - name: K8SDEMO_DBNAME_DEV
+            value: k8sdemo_dev
+          - name: K8SDEMO_DB_HOST
+            value: mysql
+          - name: K8SDEMO_DB_URL
+            value: jdbc:mysql://$K8SDEMO_DB_HOST:3306/
+          - name: K8SDEMO_DB_USERNAME
+            value: k8sdemo
+          - name: K8SDEMO_DB_PASSWORD
+            value: 163265e90d64a570c966babc5e45ffef3b92590a16e14588a3cc4073372578b6f28daeea220512669f
+          - name: K8SDEMO_LOGIN
+            value: admin
+          - name: K8SDEMO_PASSWORD
+            value: admin
