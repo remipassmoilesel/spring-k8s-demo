@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# You can modify these environment vars to modify site behavior
+# You can modify these environment vars to modify application behavior
 
 export K8SDEMO_ACTIVE_PROFILE=dev
 
