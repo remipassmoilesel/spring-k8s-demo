@@ -4,10 +4,12 @@
 
 Show how Spring work like a charm on Kubernetes.
 
-## Application
+## Description
 
 With this application, you can upload documents, save then sign them with a
 GPG key.
+
+This application can be deployed easily on a Kubernetes cluster.
 
 ## IntelliJ settings
 
@@ -18,7 +20,8 @@ In order to restart application on build in developement mode, configure Intelli
 
 ## TODO
 
-- Cleanup: useless files, code ...
+- Sonarqube analysis ?
 - Deployment
 - Health check route
 - Document download
+- Frontend improvements
