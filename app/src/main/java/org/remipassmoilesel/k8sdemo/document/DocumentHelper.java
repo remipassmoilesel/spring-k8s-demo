@@ -1,7 +1,6 @@
 package org.remipassmoilesel.k8sdemo.document;
 
 import org.apache.commons.io.FileUtils;
-import org.remipassmoilesel.k8sdemo.gpg.GpgKey;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -38,13 +37,13 @@ public class DocumentHelper {
     }
 
     public void checkDocumentContent(Document document) {
-        if(document.getContent() == null){
+        if (document.getContent() == null) {
             throw new Error("Document content is null");
         }
     }
 
     public void checkDocumentSignature(Document document) {
-        if(document.getSignature() == null){
+        if (document.getSignature() == null) {
             throw new Error("Document signature is null");
         }
     }

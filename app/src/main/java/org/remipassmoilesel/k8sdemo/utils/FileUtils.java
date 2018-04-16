@@ -18,4 +18,5 @@ public class FileUtils {
         InputStream resource = classLoader.getResourceAsStream(path);
         return IOUtils.toString(resource);
     }
+
 }

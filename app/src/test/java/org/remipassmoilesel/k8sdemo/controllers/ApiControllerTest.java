@@ -98,7 +98,7 @@ public class ApiControllerTest {
         MockMultipartFile testDocument = new MockMultipartFile(
                 "candidate",
                 "document.odt",
-                "application/vnd.oasis.opendocument.text ",
+                "application/vnd.oasis.opendocument.text",
                 testDoc.getContent()
         );
 
@@ -122,7 +122,7 @@ public class ApiControllerTest {
         MockMultipartFile testDocument = new MockMultipartFile(
                 "candidate",
                 "document.odt",
-                "application/vnd.oasis.opendocument.text ",
+                "application/vnd.oasis.opendocument.text",
                 testDoc2.getContent()
         );
 

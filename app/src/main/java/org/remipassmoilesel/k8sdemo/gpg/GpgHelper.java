@@ -18,8 +18,7 @@ public class GpgHelper {
         this.checkGpgKeys(key);
         this.docHelper.checkDocumentContent(doc);
 
-        gpgw.importPrivateKey(key.getPrivateKey());
-        gpgw.importPublicKey(key.getPublicKey());
+        this.prepareKeys(key);
 
         Path tempPath = docHelper.persistDocContentTemporary(doc);
 
@@ -37,8 +36,7 @@ public class GpgHelper {
         this.docHelper.checkDocumentContent(doc);
         this.docHelper.checkDocumentSignature(doc);
 
-        gpgw.importPrivateKey(key.getPrivateKey());
-        gpgw.importPublicKey(key.getPublicKey());
+        this.prepareKeys(key);
 
         Path docTempPath = docHelper.persistDocContentTemporary(doc);
         Path signTempPath = docHelper.persistDocSignatureTemporary(doc);
@@ -72,13 +70,18 @@ public class GpgHelper {
         return this.defaultGpgKeys;
     }
 
-    public void checkGpgKeys(GpgKey key) {
+    private void checkGpgKeys(GpgKey key) {
         if (key.getPrivateKey() == null) {
             throw new Error("Private key is null");
         }
         if (key.getPublicKey() == null) {
             throw new Error("Public key is null");
         }
+    }
+
+    private void prepareKeys(GpgKey key) throws IOException {
+        gpgw.importPrivateKey(key.getPrivateKey());
+        gpgw.importPublicKey(key.getPublicKey());
     }
 
     private void loadDefaultKeys() {

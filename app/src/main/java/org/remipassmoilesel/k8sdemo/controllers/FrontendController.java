@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class FrontendController {
     private static final Logger logger = LoggerFactory.getLogger(FrontendController.class);
 
-    public static final String INDEX_TEMPLATE_NAME = "index";
     public static final String APP_CONFIG_ATTR = "appConfig";
+    private static final String INDEX_TEMPLATE_NAME = "index";
 
     private ObjectMapper mapper = new ObjectMapper();
 
@@ -28,6 +28,7 @@ public class FrontendController {
         model.addAttribute(APP_CONFIG_ATTR, config);
 
         return INDEX_TEMPLATE_NAME;
+
     }
 
 }

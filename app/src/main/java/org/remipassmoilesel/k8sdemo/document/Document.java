@@ -96,7 +96,6 @@ public class Document {
 
     @Override
     public int hashCode() {
-
         int result = Objects.hash(id, name, date, signature);
         result = 31 * result + Arrays.hashCode(content);
         return result;

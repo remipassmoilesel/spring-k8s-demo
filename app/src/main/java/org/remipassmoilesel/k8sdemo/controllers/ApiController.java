@@ -29,7 +29,8 @@ public class ApiController {
     @Autowired
     private DocumentManager documentManager;
 
-    private AppIdentityProvider appIdentityProvider = new AppIdentityProvider();
+    @Autowired
+    private AppIdentityProvider appIdentityProvider;
 
     @ResponseBody
     @RequestMapping(
@@ -38,7 +39,9 @@ public class ApiController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public AppIdentity getAppIdentity() {
+
         return appIdentityProvider.getAppIdentity();
+
     }
 
     @ResponseBody
@@ -48,12 +51,13 @@ public class ApiController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public List<Document> getDocuments() throws IOException {
+
         List<Document> documents = documentManager.getDocuments();
 
         // do not send document content
         documents.stream().forEach(doc -> doc.setContent(null));
-
         return documents;
+
     }
 
     @ResponseBody
@@ -62,7 +66,9 @@ public class ApiController {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public Document uploadAndSignDocument(@RequestParam("document") MultipartFile sentDocument) throws IOException {
+    public Document uploadAndSignDocument(
+            @RequestParam("document") MultipartFile sentDocument) throws IOException {
+
         InputStream docInputStream = sentDocument.getInputStream();
         String documentName = sentDocument.getOriginalFilename();
         byte[] documentContent = IOUtils.toByteArray(docInputStream);
@@ -72,6 +78,7 @@ public class ApiController {
         // do not send document content
         document.setContent(null);
         return document;
+
     }
 
     @ResponseBody
@@ -83,6 +90,7 @@ public class ApiController {
     public GpgValidationResult checkIfDocumentValid(
             @RequestParam("candidate") MultipartFile sentCandidate,
             @RequestParam("documentId") Long documentId) throws IOException {
+
         InputStream docInputStream = sentCandidate.getInputStream();
         byte[] documentContent = IOUtils.toByteArray(docInputStream);
 
@@ -91,5 +99,6 @@ public class ApiController {
         // do not send document content
         validationResult.getDocument().setContent(null);
         return validationResult;
+
     }
 }

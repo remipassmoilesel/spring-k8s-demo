@@ -5,20 +5,13 @@ import org.remipassmoilesel.k8sdemo.document.Document;
 import java.util.Objects;
 
 public class GpgValidationResult {
-    private Document document;
+
     private boolean isValid;
+    private Document document;
 
     public GpgValidationResult(Document document, boolean isValid) {
         this.document = document;
         this.isValid = isValid;
-    }
-
-    public Document getDocument() {
-        return document;
-    }
-
-    public void setDocument(Document document) {
-        this.document = document;
     }
 
     public boolean isValid() {
@@ -27,6 +20,14 @@ public class GpgValidationResult {
 
     public void setValid(boolean valid) {
         isValid = valid;
+    }
+
+    public Document getDocument() {
+        return document;
+    }
+
+    public void setDocument(Document document) {
+        this.document = document;
     }
 
     @Override
@@ -40,7 +41,6 @@ public class GpgValidationResult {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(document, isValid);
     }
 
