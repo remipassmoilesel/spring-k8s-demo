@@ -11,6 +11,18 @@ GPG key.
 
 This application can be deployed easily on a Kubernetes cluster.
 
+## Why Kubernetes ?
+
+...
+
+## Use and test application
+
+...
+
+## Deploy on a Kubernetes cluster
+
+...
+
 ## IntelliJ settings
 
 In order to restart application on build in developement mode, configure Intellij:
