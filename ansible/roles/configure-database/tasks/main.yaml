@@ -8,4 +8,5 @@
     name: "{{ db_user }}"
     host: "{{ db_host }}"
     password: "{{ db_password }}"
+    priv: "{{ db_name }}.*:ALL"
     state: present
