@@ -2,7 +2,6 @@ import Vue from 'vue';
 import * as assert from 'assert';
 import * as _ from 'lodash';
 import {AbstractUiComponent} from './AbstractUiComponent';
-import {AppIdentityComponent} from './app-identity';
 import {NavbarComponent} from './navbar';
 import {CustomFooterComponent} from './footer';
 import {DocumentComponent} from './document';
@@ -14,7 +13,6 @@ Vue.use(BootstrapVue);
 const components: AbstractUiComponent [] = [
     new CustomFooterComponent(),
     new NavbarComponent(),
-    new AppIdentityComponent(),
     new DocumentComponent(),
     new ValidationResultComponent(),
 ];

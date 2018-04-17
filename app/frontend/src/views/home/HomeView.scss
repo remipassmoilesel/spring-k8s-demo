@@ -2,4 +2,22 @@
 
 .home-view {
 
+  .var-name {
+    font-weight: bolder;
+  }
+
+  .var-value {
+    word-wrap: break-word;
+  }
+
+  .alert-info {
+    margin: 2em 0em;
+  }
+
+  .please-wait {
+    margin: 5em;
+    text-align: center;
+    font-weight: bolder;
+  }
+
 }
