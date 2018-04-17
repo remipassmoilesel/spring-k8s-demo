@@ -21,14 +21,12 @@ spec:
             value: k8sdemo
           - name: K8SDEMO_DBNAME_DEV
             value: k8sdemo_dev
-          - name: K8SDEMO_DB_HOST
-            value: mysql
           - name: K8SDEMO_DB_URL
-            value: jdbc:mysql://mysql:3306/
+            value: jdbc:mysql://192.168.0.16:3306/
           - name: K8SDEMO_DB_USERNAME
             value: k8sdemo
           - name: K8SDEMO_DB_PASSWORD
-            value: 163265e90d64a570c966babc5e45ffef3b92590a16e14588a3cc4073372578b6f28daeea220512669f
+            value: ad7598938574b282cd347469ead2c561d4f4aaa0a0a86ae793181f3887748ea29a6372ddde784f936e67228cd49c93e4730ccdd48296987c74a326a89a
           - name: K8SDEMO_LOGIN
             value: admin
           - name: K8SDEMO_PASSWORD
