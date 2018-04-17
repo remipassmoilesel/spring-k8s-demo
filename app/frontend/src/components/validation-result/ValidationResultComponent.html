@@ -1,0 +1,21 @@
+<div class="validation-result" v-if="result">
+
+    <h3>Validation result</h3>
+
+    <b-alert v-if="result.valid" variant="success" show>
+        <span class="fa fa-check"></span> Document is valid !
+    </b-alert>
+
+    <b-alert v-else variant="danger" show>
+        <span class="fa fa-warning"></span>&nbsp; Document is invalid !
+    </b-alert>
+
+    <div class="title">Document name: {{ result.document.name}}</div>
+    <div class="metadata">Original signature on: {{ result.document.date }}</div>
+
+    <div class="signature">Signature:</div>
+    <div>
+        <pre>{{ result.document.signature }}</pre>
+    </div>
+
+</div>

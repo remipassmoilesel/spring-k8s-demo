@@ -1,7 +1,30 @@
 @import "../../sass/variables";
 
 .validation-result {
+
   h3 {
     margin-bottom: 0.5em;
   }
+
+  .alert {
+    margin: 2em 0em;
+  }
+
+  .title {
+    font-size: 1.2em;
+    font-weight: bolder;
+  }
+
+  .metadata {
+    margin-bottom: 1em;
+  }
+
+  .signature {
+    margin-bottom: 1em;
+
+    pre {
+      margin-top: 1em;
+    }
+  }
+
 }
