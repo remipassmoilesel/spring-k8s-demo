@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source setenv-dev.sh
+source ./scripts/setenv-dev.sh
 
 sudo mysql -u root -e "CREATE DATABASE $K8SDEMO_DBNAME"
 sudo mysql -u root -e "CREATE DATABASE $K8SDEMO_DBNAME_DEV"

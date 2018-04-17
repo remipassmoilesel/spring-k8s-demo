@@ -2,22 +2,36 @@
 
 ## Purpose
 
-Show how Spring work like a charm on Kubernetes.
-
-## Description
-
-With this application, you can upload documents, save then sign them with a
-GPG key.
-
-This application can be deployed easily on a Kubernetes cluster.
+This is a small application built with Spring Boot and VueJS, intended to be deployed on a Kubernetes cluster. 
+With this application, you can upload documents, sign them then check them with a GPG key. 
 
 ## Why Kubernetes ?
 
-...
+Kubernetes offer many advantages:
+
+- With kubernetes and Docker, deploying an application is really easy
+- You can deploy any type of technology, including technologies that are not normally compatible with each other
+- Applications are overseen and responsive: they heal themselves, and they can scale according to their activities
+- The use of servers is optimized: no RAM or CPU that sleep and cost money
 
 ## Use and test application
 
-...
+/!\ Warning: This application has only been tested on Ubuntu and Alpine Linux
+
+You can try this application locally easily. You just need a Mariadb/MySQL database:
+
+```
+    $ sudo apt install -y mariadb-server
+    $ sudo systemctl start mysql
+```
+
+Then clone and run the application:
+
+```
+    $ git clone https://github.com/remipassmoilesel/spring-k8s-demo
+    $ cd spring-k8s-demo
+    $ ./scripts/setup-dev-db.sh
+```
 
 ## Deploy on a Kubernetes cluster
 
