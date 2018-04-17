@@ -19,7 +19,7 @@ Kubernetes offer many advantages:
 
 ## Use and test application
 
-⚠️⚠️⚠️ Warning: This application has only been tested on Ubuntu and Alpine Linux
+⚠️ Warning: This application has only been tested on Ubuntu and Alpine Linux
 
 You can try this application locally easily. You will need NodeJS 8, npm, and a Mariadb/MySQL database:
 
