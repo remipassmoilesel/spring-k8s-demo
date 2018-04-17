@@ -1,0 +1,6 @@
+- hosts: mariadb
+  vars_files:
+  - db_configs.yml
+  roles:
+  - install-mariadb
+  - configure-databases

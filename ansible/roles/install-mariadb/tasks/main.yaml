@@ -1,0 +1,18 @@
+- name: Install mariaDB
+  apt:
+    name: mariadb-server
+    state: present
+
+- name: Configure mariadb listen interface
+  lineinfile:
+    dest: /etc/mysql/mariadb.conf.d/50-server.cnf
+    line: "bind-address = 0.0.0.0"
+    regexp: "^bind-address.+(127.0.0.1|0.0.0.0)"
+
+- name: Restart Mariadb
+  systemd:
+    name: mysql
+    state: restarted
+
+
+

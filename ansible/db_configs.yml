@@ -1,0 +1,10 @@
+
+databases:
+
+  - {
+      name: "k8sdemo",
+      host: "%",
+      user: "k8sdemo",
+      password: "ad7598938574b282cd347469ead2c561d4f4aaa0a0a86ae793181f3887748ea29a6372ddde784f936e67228cd49c93e4730ccdd48296987c74a326a89a"
+    }
+
