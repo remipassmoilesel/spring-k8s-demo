@@ -1,10 +1,14 @@
 <div class="document" v-if="document">
 
-    <h3>{{ document.name }}</h3>
+    <h3>
+        <span class="fa fa-file"></span>
+        &nbsp;{{ document.name }}
+    </h3>
 
-    <div>Date: {{ document.date }}</div>
-    <div>Signature:</div>
-    <div>
+    <div class="metadata">Uploaded and signed on: {{ getReadableDate() }}</div>
+
+    <div class="signature">
+        PGP Signature:
         <pre>{{ document.signature }}</pre>
     </div>
 

@@ -1,7 +1,25 @@
 @import "../../sass/variables";
 
 .document {
+
+  padding: 2em;
+  border: 1px solid $gray2;
+  border-radius: 14px 14px 14px 14px;
+
   h3 {
-    margin-bottom: 0.5em;
+    margin-bottom: 1em;
   }
+
+  .metadata {
+    margin-bottom: 1em;
+  }
+
+  .signature {
+    margin-bottom: 1em;
+
+    pre {
+      margin-top: 1em;
+    }
+  }
+
 }
