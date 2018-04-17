@@ -12,7 +12,7 @@ RUN chmod +x /entrypoint.sh
 RUN mkdir /tomcat-logs
 RUN chown tomcat:tomcat /tomcat-logs
 
-#USER tomcat
+USER tomcat
 
 EXPOSE 8085
 ENTRYPOINT /entrypoint.sh

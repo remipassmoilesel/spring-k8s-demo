@@ -31,9 +31,9 @@ spec:
             value: admin
           - name: K8SDEMO_PASSWORD
             value: admin
-#        livenessProbe:
-#          httpGet:
-#            path: /
-#            port: 8085
-#          initialDelaySeconds: 10
-#          periodSeconds: 3
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8085
+          initialDelaySeconds: 10
+          periodSeconds: 3

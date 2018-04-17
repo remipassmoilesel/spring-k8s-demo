@@ -6,6 +6,7 @@
 
 cd app/frontend/
 
+npm install
 npm run update-static-dir
 
 cd ..
