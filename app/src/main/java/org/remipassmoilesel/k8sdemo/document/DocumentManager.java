@@ -32,6 +32,10 @@ public class DocumentManager {
         return document;
     }
 
+    public void deleteDocument(Long documentId) {
+        documentRepository.deleteById(documentId);
+    }
+
     @Transactional
     public GpgValidationResult verifyDocument(byte[] documentContent, Long originalDocumentId) throws IOException {
 

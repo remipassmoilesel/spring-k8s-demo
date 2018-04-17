@@ -18,9 +18,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -87,6 +86,19 @@ public class ApiControllerTest {
                 .andExpect(jsonPath("$[0].date").exists())
                 .andExpect(jsonPath("$[0].signature").exists())
                 .andReturn();
+    }
+
+    @Test
+    public void deleteDocumentsShouldWork() throws Exception {
+
+        Document testDoc = TestHelpers.getTestDocument(1);
+        Document fullDoc = documentManager.persistDocument(testDoc.getName(), testDoc.getContent());
+
+        mockMvc.perform(delete(Routes.DOCUMENTS)
+                .param("documentId", String.valueOf(fullDoc.getId())))
+                .andExpect(status().isOk())
+                .andReturn();
+
     }
 
     @Test

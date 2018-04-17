@@ -81,6 +81,14 @@ public class ApiController {
 
     }
 
+    @RequestMapping(
+            path = Routes.DOCUMENTS,
+            method = RequestMethod.DELETE
+    )
+    public void deleteDocument(@RequestParam("documentId") Long documentId) {
+        documentManager.deleteDocument(documentId);
+    }
+
     @ResponseBody
     @RequestMapping(
             path = Routes.DOC_SIGNATURE,
