@@ -18,20 +18,28 @@ Kubernetes offer many advantages:
 
 /!\ Warning: This application has only been tested on Ubuntu and Alpine Linux
 
-You can try this application locally easily. You just need a Mariadb/MySQL database:
+You can try this application locally easily. You will need NodeJS 8, npm, and a Mariadb/MySQL database:
 
 ```
-    $ sudo apt install -y mariadb-server
+    $ sudo apt install -y mariadb-server nodejs npm
     $ sudo systemctl start mysql
 ```
 
-Then clone and run the application:
+Then clone and setup the database:
 
 ```
     $ git clone https://github.com/remipassmoilesel/spring-k8s-demo
     $ cd spring-k8s-demo
     $ ./scripts/setup-dev-db.sh
 ```
+
+Then build and run the application locally:
+
+```
+    $ ./scripts/package*app.sh
+    $ ./scripts/launch-dev.sh
+```
+
 
 ## Deploy on a Kubernetes cluster
 
