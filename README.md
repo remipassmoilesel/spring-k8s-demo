@@ -5,6 +5,9 @@
 This is a small application built with Spring Boot and VueJS, intended to be deployed on a Kubernetes cluster. 
 With this application, you can upload documents, sign them then check them with a GPG key. 
 
+A living demo on a Kubernetes cluster is available here: [spring-demo.remi-pace.fr](https://spring-demo.remi-pace.fr) 
+ - sorry for the self-signed certificate, I have done too many experiments with Let's Encrypt :)
+
 ## Why Kubernetes ?
 
 Kubernetes offer many advantages:
@@ -36,16 +39,22 @@ Then clone and setup the database:
 Then build and run the application locally:
 
 ```
-    $ ./scripts/package*app.sh
-    $ ./scripts/launch-dev.sh
+    $ ./scripts/package-and-launch.sh
 ```
-
 
 ## Deploy on a Kubernetes cluster
 
-...
+You will need a Kubernetes cluster and an ingress controller. You can make trials with [Minikube](https://kubernetes.io/docs/tutorials/stateless-application/hello-minikube/)
 
-## IntelliJ settings
+Then adapt the deployment file with the address of your MariaDB database: [kubernetes/app-deployment.yaml]
+
+And finally deploy:
+
+```
+    $ ./scripts/k8s-deploy.sh
+```
+
+## IntelliJ settings for development
 
 In order to restart application on build in developement mode, configure Intellij:
 
@@ -55,8 +64,5 @@ In order to restart application on build in developement mode, configure Intelli
 ## TODO
 
 - Sonarqube analysis ?
-- Gracefull shutdown
-- Deployment
-- Health check route
-- Document download
-- Frontend improvements
+- Gracefull shutdown, in order to close properly databases connection on stop
+- A better health check route, in order to check more application components
