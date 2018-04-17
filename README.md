@@ -63,6 +63,7 @@ In order to restart application on build in developement mode, configure Intelli
 
 ## TODO
 
-- Sonarqube analysis ?
+- Application auto-scaling setup
 - Gracefull shutdown, in order to close properly databases connection on stop
 - A better health check route, in order to check more application components
+- Sonarqube analysis ?
