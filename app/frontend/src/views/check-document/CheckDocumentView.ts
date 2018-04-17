@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import {Component, Vue} from 'vue-property-decorator';
 import {Logger} from '../../lib/util/Logger';
 import {ApiClient} from '../../lib/api/ApiClient';
@@ -6,6 +7,11 @@ import {IDocument} from '../../lib/entities/IDocument';
 
 import './CheckDocumentView.scss';
 import {IGpgValidationResult} from '../../lib/entities/IGpgValidationResult';
+
+interface IOption {
+    value: string;
+    text: string;
+}
 
 @Component({
     template: require('./CheckDocumentView.html'),
@@ -21,16 +27,10 @@ export class CheckDocumentView extends Vue {
 
     private validationResult: IGpgValidationResult | null = null;
     private documents: IDocument[] | null = null;
+    private options: IOption[] = [];
 
     protected mounted() {
-        this.apiClient.getDocuments().then((documents) => {
-            this.documents = documents;
-        });
-    }
-
-    protected onFileSelected(e: Event) {
-        const inputField = (e.target as any);
-        this.form.document = inputField.files[0];
+        this.loadData();
     }
 
     protected onSubmit() {
@@ -51,4 +51,16 @@ export class CheckDocumentView extends Vue {
 
     }
 
+    private loadData() {
+        this.apiClient.getDocuments().then((documents) => {
+            this.documents = documents;
+            this.documentsToOptions();
+        });
+    }
+
+    private documentsToOptions() {
+        this.options = _.map(this.documents, (doc: IDocument) => {
+            return {value: doc.id, text: doc.name}
+        });
+    };
 }

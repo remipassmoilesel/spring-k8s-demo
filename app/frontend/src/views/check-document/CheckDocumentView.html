@@ -2,25 +2,28 @@
 
     <h1>Check a document signature</h1>
 
-    <div v-if="documents">
+    <b-alert show>
+        <span class="fa fa-info-circle"></span>
+        Here you can check a document signature. You have to upload documents first on "NEW" tab.
+    </b-alert>
+
+    <div v-if="documents && documents.length > 0">
         <b-form>
 
-            <b-form-group label="Original document"
+            <b-form-group label="Please select the original document you want to use"
                           label-for="originalDocument"
                           description="Select a document to compare to.">
-                <select id="originalDocument" v-model="form.originalDocument" required>
-                    <option v-for="doc in documents" :value="doc.id">{{ doc.name }}</option>
-                </select>
+
+                <b-form-select v-model="form.originalDocument" :options="options" class="mb-3"
+                               id="originalDocument" required/>
+
             </b-form-group>
 
             <b-form-group label="Document to compare"
                           label-for="checkDocumentInput1"
-                          description="Select a document to send on server and check it.">
-                <input id="checkDocumentInput1"
-                       type="file"
-                       @change="onFileSelected"
-                       required
-                       placeholder="Click here">
+                          description="Select a document to upload on server and check it.">
+                <b-form-file v-model="form.document" :state="Boolean(form.document)"
+                             placeholder="Click here to select a file to upload"></b-form-file>
                 </input>
             </b-form-group>
 
@@ -30,10 +33,12 @@
 
         <validation-result v-if="validationResult" :result="validationResult"></validation-result>
 
+        <div class="please-select" v-else>Please select a document and verify it.</div>
+
     </div>
 
-    <div v-else>
-        Please wait ...
+    <div class="no-docs-found" v-else>
+        No documents found !
     </div>
 
 </b-container>

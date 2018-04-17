@@ -16,11 +16,6 @@ export class NewDocumentView extends Vue {
         document: '' as any,
     };
 
-    protected onFileSelected(e: Event) {
-        const inputField = (e.target as any);
-        this.form.document = inputField.files[0];
-    }
-
     protected onSubmit() {
         this.logger.info('onSubmit');
 
