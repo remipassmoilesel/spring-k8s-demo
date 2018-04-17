@@ -2,17 +2,21 @@
 
     <h1>Upload and sign a document</h1>
 
+    <b-alert show>
+        <span class="fa fa-info-circle"></span>
+        You can select a file and upload it to the remote server. It will be signed by a GPG key,
+        and you will be able to check it against other files in "Check" tab.
+    </b-alert>
+
     <b-form>
 
-        <b-form-group label="Document"
+        <b-form-group label="Document to sign"
                       label-for="documentInput1"
                       description="Select a document to send on server and sign it.">
-            <input id="documentInput1"
-                   type="file"
-                   @change="onFileSelected"
-                   required
-                   placeholder="Click here">
-            </input>
+
+            <b-form-file v-model="form.document" :state="Boolean(form.document)"
+                         placeholder="Click here to select a file to upload"></b-form-file>
+
         </b-form-group>
 
         <b-button @click="onSubmit" type="button" variant="primary">Submit</b-button>

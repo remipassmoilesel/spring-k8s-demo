@@ -1,7 +1,8 @@
 <div class="app-identity">
 
     <div v-if="appIdentity">
-        <h2>Hostname: {{ appIdentity.hostname }}</h2>
+
+        <h1>Hostname: {{ appIdentity.hostname }}</h1>
 
         <b-alert show>
             <span class="fa fa-info-circle"></span>
@@ -9,7 +10,7 @@
             due to load balancing.
         </b-alert>
 
-        <h3>Host variables:</h3>
+        <h2>Host variables:</h2>
 
         <table>
             <tr v-for="(value, name) in appIdentity.envVars">
@@ -17,6 +18,7 @@
                 <td class="var-value">{{ limitLength(value) }}</td>
             </tr>
         </table>
+
     </div>
 
     <div v-else>
