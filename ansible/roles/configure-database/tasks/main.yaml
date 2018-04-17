@@ -1,0 +1,11 @@
+- name: "Create database {{ db_name }}"
+  mysql_db:
+    name: "{{ db_name }}"
+    state: present
+
+- name: "Create user {{ db_user }}"
+  mysql_user:
+    name: "{{ db_user }}"
+    host: "{{ db_host }}"
+    password: "{{ db_password }}"
+    state: present

@@ -32,3 +32,6 @@ tomcat-logs
 
 src/main/resources/static/*
 !src/main/resources/static/.gitkeep
+
+inventory-prod.cfg
+*.retry
