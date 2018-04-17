@@ -1,7 +1,15 @@
 <div class="app-identity">
 
     <div v-if="appIdentity">
-        <h2>{{ appIdentity.hostname }}</h2>
+        <h2>Hostname: {{ appIdentity.hostname }}</h2>
+
+        <b-alert show>
+            <span class="fa fa-info-circle"></span>
+            You can refresh this page several times to see that host change
+            due to load balancing.
+        </b-alert>
+
+        <h3>Host variables:</h3>
 
         <table>
             <tr v-for="(value, name) in appIdentity.envVars">
