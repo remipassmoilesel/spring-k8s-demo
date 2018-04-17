@@ -81,6 +81,7 @@ public class ApiController {
 
     }
 
+    @ResponseBody
     @RequestMapping(
             path = Routes.DOCUMENTS,
             method = RequestMethod.DELETE

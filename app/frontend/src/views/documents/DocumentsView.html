@@ -12,7 +12,7 @@
         <document v-for="doc in documents" :document="doc" :onDelete="onDelete"></document>
     </div>
 
-    <div v-else>
+    <div class="no-docs-found" v-else>
         No documents found.
     </div>
 

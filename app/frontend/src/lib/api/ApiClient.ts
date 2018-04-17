@@ -7,7 +7,7 @@ import {Logger} from '../util/Logger';
 import {IDocument} from '../entities/IDocument';
 import {IGpgValidationResult} from '../entities/IGpgValidationResult';
 
-declare type HttpMethod = 'GET' | 'POST';
+declare type HttpMethod = 'GET' | 'POST' | 'DELETE';
 
 export class ApiClient {
     private logger = new Logger('ApiClient');
@@ -34,8 +34,8 @@ export class ApiClient {
         return this.request('POST', this.routes.docSignature(), data);
     }
 
-    public deleteComponent(documentId: number) {
-        return Promise.resolve();
+    public deleteDocument(documentId: number) {
+        return this.request('DELETE', `${this.routes.documents()}?documentId=${documentId}`);
     }
 
     private request(method: HttpMethod, url: string, body?: any): Promise<any> {

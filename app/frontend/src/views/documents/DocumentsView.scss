@@ -1,7 +1,15 @@
 @import "../../sass/variables";
 
 .documents-view {
+
   .document {
     margin-bottom: 3em;
   }
+
+  .no-docs-found {
+    margin: 5em;
+    text-align: center;
+    font-weight: bolder;
+  }
+
 }
