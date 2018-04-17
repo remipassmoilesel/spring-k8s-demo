@@ -3,7 +3,7 @@
 ## Purpose
 
 This is a small application built with Spring Boot and VueJS, intended to be deployed on a Kubernetes cluster. 
-With this application, you can upload documents, sign them then check them with a GPG key. 
+With this application, you can upload documents, sign them then check them with a PGP key. 
 
 A living demo on a Kubernetes cluster is available here: [spring-demo.remi-pace.fr](https://spring-demo.remi-pace.fr) 
  - sorry for the self-signed certificate, I have done too many experiments with Let's Encrypt :)

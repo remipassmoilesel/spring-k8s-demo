@@ -34,6 +34,10 @@ export class ApiClient {
         return this.request('POST', this.routes.docSignature(), data);
     }
 
+    public deleteComponent(documentId: number) {
+        return Promise.resolve();
+    }
+
     private request(method: HttpMethod, url: string, body?: any): Promise<any> {
         const requestConfig: AxiosRequestConfig = {
             method,

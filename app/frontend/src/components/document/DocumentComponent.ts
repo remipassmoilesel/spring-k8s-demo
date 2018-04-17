@@ -19,6 +19,13 @@ export class DocumentComponent extends AbstractUiComponent {
     @Prop()
     private document: IDocument;
 
+    @Prop()
+    private onDelete: (id: number) => any;
+
+    private deleteDocument() {
+        this.onDelete(this.document.id);
+    }
+
     private getReadableDate() {
         return moment(this.document.date).format('dddd, MMMM Do YYYY, h:mm:ss a');
     }
