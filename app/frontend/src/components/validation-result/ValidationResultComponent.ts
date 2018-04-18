@@ -1,4 +1,4 @@
-import * as moment from "moment";
+import * as moment from 'moment';
 import {Component, Prop} from 'vue-property-decorator';
 import {Logger} from '../../lib/util/Logger';
 import {AbstractUiComponent} from '../AbstractUiComponent';

@@ -2,9 +2,9 @@ import {Component, Vue} from 'vue-property-decorator';
 import {Logger} from '../../lib/util/Logger';
 import {ApiClient} from '../../lib/api/ApiClient';
 import {IDocument} from '../../lib/entities/IDocument';
+import {Toaster} from '../../lib/Toaster';
 
 import './DocumentsView.scss';
-import {Toaster} from "../../lib/Toaster";
 
 @Component({
     template: require('./DocumentsView.html'),
@@ -21,14 +21,14 @@ export class DocumentsView extends Vue {
 
     protected onDelete(documentId: number) {
 
-        console.log('protected onDelete(documentId: number) {')
+        console.log('protected onDelete(documentId: number) {');
 
         this.apiClient.deleteDocument(documentId).then(() => {
-            Toaster.info("Document have been deleted !");
+            Toaster.info('Document have been deleted !');
             this.loadData();
         }).catch(() => {
             this.loadData();
-        })
+        });
 
     }
 

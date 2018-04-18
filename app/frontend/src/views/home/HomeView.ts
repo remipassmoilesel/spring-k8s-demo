@@ -1,9 +1,9 @@
 import {Component, Vue} from 'vue-property-decorator';
 import {Logger} from '../../lib/util/Logger';
+import {IAppIdentity} from '../../lib/entities/IAppIdentity';
+import {ApiClient} from '../../lib/api/ApiClient';
 
 import './HomeView.scss';
-import {IAppIdentity} from "../../lib/entities/IAppIdentity";
-import {ApiClient} from "../../lib/api/ApiClient";
 
 @Component({
     template: require('./HomeView.html'),

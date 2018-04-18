@@ -4,9 +4,9 @@ import {Logger} from '../../lib/util/Logger';
 import {ApiClient} from '../../lib/api/ApiClient';
 import {Toaster} from '../../lib/Toaster';
 import {IDocument} from '../../lib/entities/IDocument';
+import {IGpgValidationResult} from '../../lib/entities/IGpgValidationResult';
 
 import './CheckDocumentView.scss';
-import {IGpgValidationResult} from '../../lib/entities/IGpgValidationResult';
 
 interface IOption {
     value: string;
@@ -60,7 +60,7 @@ export class CheckDocumentView extends Vue {
 
     private documentsToOptions() {
         this.options = _.map(this.documents, (doc: IDocument) => {
-            return {value: doc.id, text: doc.name}
+            return {value: doc.id, text: doc.name};
         });
-    };
+    }
 }
