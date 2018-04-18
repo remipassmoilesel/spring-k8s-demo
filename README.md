@@ -12,8 +12,8 @@ sorry for the self-signed certificate, I have done too many experiments with Let
 
 Kubernetes offer many advantages:
 
-- With kubernetes and Docker, deploying an application is really easy
-- You can deploy any type of technology, including technologies that are not normally incompatible with each other
+- With Kubernetes and Docker, deploying an application is really easy
+- You can deploy any type of technology, including technologies that are normally incompatible with each other
 - Applications are monitored and responsive: they heal themselves, and they can scale automatically according to their activities
 - The use of servers is optimized: no RAM or CPU that sleep and cost money
 
@@ -40,6 +40,12 @@ Then build and run the application locally:
 
 ```
     $ ./scripts/package-and-launch.sh
+```
+
+To launch tests, you will need to enable the database:
+
+```
+    $ ./scripts/launch-tests.sh
 ```
 
 ## Deploy on a Kubernetes cluster
