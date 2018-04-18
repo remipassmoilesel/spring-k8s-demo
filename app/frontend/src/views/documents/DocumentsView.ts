@@ -21,8 +21,6 @@ export class DocumentsView extends Vue {
 
     protected onDelete(documentId: number) {
 
-        console.log('protected onDelete(documentId: number) {');
-
         this.apiClient.deleteDocument(documentId).then(() => {
             Toaster.info('Document have been deleted !');
             this.loadData();
