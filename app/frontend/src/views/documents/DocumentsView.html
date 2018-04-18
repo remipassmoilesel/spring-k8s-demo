@@ -9,7 +9,7 @@
     </b-alert>
 
     <div v-if="documents && documents.length">
-        <document v-for="doc in documents" :document="doc" :onDelete="onDelete"></document>
+        <document v-for="doc in documents" :key="doc.id" :document="doc" :onDelete="onDelete"></document>
     </div>
 
     <div class="no-docs-found" v-else>
