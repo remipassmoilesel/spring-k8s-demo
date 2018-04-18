@@ -17,7 +17,7 @@
     "update-static-dir": "npm run build && npm run sync-build",
     "dev": "webpack-dev-server --config config/webpack.config.dev.js --hot --inline",
     "lint": "tslint src/**/*.ts*",
-    "lint-fix": "tslint src/**/*.ts* --fix",
+    "lint-fix": "tslint src/**/*.ts* --force --fix",
     "serve": "http-server dist/ -g -o",
     "test": "cross-env NODE_ENV=development karma start config/karma.unit.js",
     "test:debug": "cross-env NODE_ENV=development karma start config/karma.debug.js",

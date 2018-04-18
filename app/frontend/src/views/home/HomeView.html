@@ -1,16 +1,24 @@
 <b-container class="home-view">
 
+    <h1>Welcome !</h1>
+
+    <div class="introduction">
+        If You don't know where you are, and what is the purpose of this application,
+        please take the time to read this document:
+        <a href="https://github.com/remipassmoilesel/spring-k8s-demo">README.md</a>
+    </div>
+
+    <b-alert show>
+        <span class="fa fa-info-circle"></span>
+        You can refresh this page several times to see that host change
+        due to load balancing.
+    </b-alert>
+
     <div v-if="appIdentity">
 
-        <h1>Hostname: {{ appIdentity.hostname }}</h1>
+        <h3>Hostname: {{ appIdentity.hostname }}</h3>
 
-        <b-alert show>
-            <span class="fa fa-info-circle"></span>
-            You can refresh this page several times to see that host change
-            due to load balancing.
-        </b-alert>
-
-        <h2>Host variables:</h2>
+        <h5>Host variables:</h5>
 
         <table>
             <tr v-for="(value, name) in appIdentity.envVars">
