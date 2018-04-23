@@ -1,4 +1,7 @@
 version: '3'
+
+# TODO: add container and volume for spring-boot application and sources
+
 services:
   mariadb:
     image: mariadb:10.0
