@@ -17,6 +17,7 @@ services:
       spring-k8s-demo-dev-network:
         aliases:
         - mariadb.docker.net
+
   nats:
     image: nats:1.1.0-linux
     entrypoint: "/gnatsd -DV"
