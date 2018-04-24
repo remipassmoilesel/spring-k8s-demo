@@ -1,0 +1,3 @@
+rootProject.name = 'spring-k8s-demo'
+include 'applications/gateway'
+include 'applications/signature-service'
