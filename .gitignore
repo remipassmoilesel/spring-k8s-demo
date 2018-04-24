@@ -30,8 +30,7 @@ target/
 
 tomcat-logs
 
-app/src/main/resources/static/**/*
-!app/src/main/resources/static/.gitkeep
+applications/gateway/src/main/resources/static/**/*
 
 inventory-prod.cfg
 *.retry
