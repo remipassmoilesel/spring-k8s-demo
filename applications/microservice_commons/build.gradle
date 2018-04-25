@@ -1,0 +1,13 @@
+apply plugin: 'java'
+apply plugin: 'java-library'
+apply plugin: 'maven-publish'
+
+group = 'org.remipassmoilesel'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+dependencies {
+    compile('io.nats:jnats:1.0')
+}
+
+build.finalizedBy(publishToMavenLocal)

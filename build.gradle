@@ -1,10 +1,13 @@
 allprojects {
+
     repositories {
+        mavenLocal()
         jcenter()
         mavenCentral()
     }
 
     apply plugin: 'idea'
+
     idea {
         module {
             downloadJavadoc = true

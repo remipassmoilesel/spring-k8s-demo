@@ -4,6 +4,4 @@
 
 . ./scripts/setenv-dev.sh
 
-# TODO: build frontend
-
-./gradlew build -x test -Dorg.gradle.warning.mode=all
+./gradlew -x test -Dorg.gradle.warning.mode=all :microservice_commons:build

@@ -1,9 +1,0 @@
-apply plugin: 'java'
-
-group = 'org.remipassmoilesel'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
-
-dependencies {
-    compile group: 'io.nats', name: 'jnats', version: '1.0'
-}
