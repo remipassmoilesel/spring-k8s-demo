@@ -21,17 +21,4 @@ public class Application {
         springApp.run(args);
     }
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            public void addCorsMappings(CorsRegistry registry) {
-                if (activeProfile.equals(Application.DEV_PROFILE)) {
-                    registry.addMapping("/**")
-                            .allowedOrigins("*")
-                            .allowedMethods("*")
-                            .allowedHeaders("*");
-                }
-            }
-        };
-    }
 }

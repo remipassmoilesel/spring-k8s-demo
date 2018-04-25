@@ -1,55 +1,26 @@
 package org.remipassmoilesel.k8sdemo.controllers;
 
 import org.apache.commons.io.IOUtils;
-import org.remipassmoilesel.k8sdemo.Routes;
-import org.remipassmoilesel.k8sdemo.app_identity.AppIdentity;
-import org.remipassmoilesel.k8sdemo.app_identity.AppIdentityProvider;
 import org.remipassmoilesel.k8sdemo.document.Document;
 import org.remipassmoilesel.k8sdemo.document.DocumentManager;
 import org.remipassmoilesel.k8sdemo.gpg.GpgValidationResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-@Controller
+@Component
 public class ApiController {
     private static final Logger logger = LoggerFactory.getLogger(ApiController.class);
 
     @Autowired
     private DocumentManager documentManager;
 
-    @Autowired
-    private AppIdentityProvider appIdentityProvider;
-
-    @ResponseBody
-    @RequestMapping(
-            path = Routes.APP_IDENTITY,
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
-    )
-    public AppIdentity getAppIdentity() {
-
-        return appIdentityProvider.getAppIdentity();
-
-    }
-
-    @ResponseBody
-    @RequestMapping(
-            path = Routes.DOCUMENTS,
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
-    )
     public List<Document> getDocuments() throws IOException {
 
         List<Document> documents = documentManager.getDocuments();
@@ -60,14 +31,7 @@ public class ApiController {
 
     }
 
-    @ResponseBody
-    @RequestMapping(
-            path = Routes.DOCUMENTS,
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
-    )
-    public Document uploadAndSignDocument(
-            @RequestParam("document") MultipartFile sentDocument) throws IOException {
+    public Document uploadAndSignDocument(MultipartFile sentDocument) throws IOException {
 
         InputStream docInputStream = sentDocument.getInputStream();
         String documentName = sentDocument.getOriginalFilename();
@@ -81,24 +45,11 @@ public class ApiController {
 
     }
 
-    @ResponseBody
-    @RequestMapping(
-            path = Routes.DOCUMENTS,
-            method = RequestMethod.DELETE
-    )
-    public void deleteDocument(@RequestParam("documentId") Long documentId) {
+    public void deleteDocument(Long documentId) {
         documentManager.deleteDocument(documentId);
     }
 
-    @ResponseBody
-    @RequestMapping(
-            path = Routes.DOC_SIGNATURE,
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
-    )
-    public GpgValidationResult checkIfDocumentValid(
-            @RequestParam("candidate") MultipartFile sentCandidate,
-            @RequestParam("documentId") Long documentId) throws IOException {
+    public GpgValidationResult checkIfDocumentValid(MultipartFile sentCandidate, Long documentId) throws IOException {
 
         InputStream docInputStream = sentCandidate.getInputStream();
         byte[] documentContent = IOUtils.toByteArray(docInputStream);
