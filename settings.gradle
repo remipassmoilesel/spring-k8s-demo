@@ -1,3 +1,6 @@
 rootProject.name = 'spring-k8s-demo'
-include 'applications/gateway'
-include 'applications/signature-service'
+include ':gateway'
+project(':gateway').projectDir = new File('./applications/gateway')
+
+include ':signature-service'
+project(':signature-service').projectDir = new File('./applications/signature-service')
