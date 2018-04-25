@@ -1,4 +1,5 @@
 rootProject.name = 'spring-k8s-demo'
+
 include ':gateway'
 project(':gateway').projectDir = new File('./applications/gateway')
 

@@ -4,5 +4,6 @@
 
 . ./scripts/setenv-dev.sh
 
-./gradlew bootRun
+# TODO: build frontend
 
+./gradlew build -x test -Dorg.gradle.warning.mode=all
