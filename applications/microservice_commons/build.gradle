@@ -10,4 +10,12 @@ dependencies {
     compile('io.nats:jnats:1.0')
 }
 
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
 build.finalizedBy(publishToMavenLocal)
