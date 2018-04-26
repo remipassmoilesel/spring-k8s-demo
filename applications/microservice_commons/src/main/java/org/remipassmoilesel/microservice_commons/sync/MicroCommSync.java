@@ -34,15 +34,14 @@ public class MicroCommSync {
 
             try {
                 Object[] deserialized = (Object[]) Serializer.deserialize(natsMessage.getData());
-                Object response = handler.handle(subject, deserialized);
-                if (response != null) {
-                    this.connection.publish(natsMessage.getReplyTo(), Serializer.serialize(response));
-                    System.out.println("Response sent !");
+                Object handlingResult = handler.handle(subject, deserialized);
+                byte[] reply;
+                if (handlingResult != null) {
+                    reply = Serializer.serialize(handlingResult);
                 } else {
-                    // response message is mandatory, even if response is empty
-                    this.connection.publish(natsMessage.getReplyTo(), new byte[]{});
-                    System.out.println("No response to send");
+                    reply = new byte[]{};
                 }
+                this.connection.publish(natsMessage.getReplyTo(), reply);
             } catch (Exception e) {
                 // TODO: better exception handling
                 e.printStackTrace();
