@@ -8,4 +8,7 @@ public class Helpers {
         }
     }
 
+    public static RemoteException wrapException(Exception e) {
+        return new RemoteException(e);
+    }
 }

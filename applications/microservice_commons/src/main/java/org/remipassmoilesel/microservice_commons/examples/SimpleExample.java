@@ -1,6 +1,7 @@
 package org.remipassmoilesel.microservice_commons.examples;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.remipassmoilesel.microservice_commons.common.RemoteException;
 import org.remipassmoilesel.microservice_commons.sync.MicroCommSync;
 import org.remipassmoilesel.microservice_commons.sync.MicroCommSyncConfig;
 
@@ -29,7 +30,7 @@ public class SimpleExample {
             System.out.println("Receiving request: " + ReflectionToStringBuilder.toString(messageArgs));
             int arg1 = (int) messageArgs[0];
             int arg2 = (int) messageArgs[1];
-            return arg1 + arg2;
+            return new Serializable[]{arg1 + arg2};
         });
         System.out.println("Subscribed");
 
@@ -44,7 +45,7 @@ public class SimpleExample {
                     System.out.println("Message sent. Response: " + responseStr);
                     System.out.println();
 
-                } catch (IOException e) {
+                } catch (RemoteException e) {
                     e.printStackTrace();
                 }
             }

@@ -1,5 +1,7 @@
 package org.remipassmoilesel.microservice_commons.sync;
 
+import java.io.Serializable;
+
 public interface SyncHandler {
-    public Object handle(String subject, Object[] args);
+    public Serializable[] handle(String subject, Serializable[] args);
 }
