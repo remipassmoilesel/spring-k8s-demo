@@ -10,6 +10,8 @@ dependencies {
     compile('io.nats:jnats:1.0')
     compile('com.fasterxml.jackson.core:jackson-databind:2.9.5')
     compile('org.apache.commons:commons-lang3:3.7')
+
+    testCompile('junit:junit:4.12')
 }
 
 publishing {

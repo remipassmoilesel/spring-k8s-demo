@@ -3,6 +3,7 @@ package org.remipassmoilesel.microservice_commons.sync;
 import io.nats.client.*;
 import org.remipassmoilesel.microservice_commons.common.Helpers;
 import org.remipassmoilesel.microservice_commons.common.RemoteException;
+import org.remipassmoilesel.microservice_commons.common.Response;
 import org.remipassmoilesel.microservice_commons.common.Serializer;
 
 import java.io.IOException;
@@ -40,7 +41,10 @@ public class MicroCommSync {
         Helpers.checkSubjectString(subject);
 
         try {
-            Message rawResponse = this.connection.request(this.getCompleteSubjectFrom(subject), Serializer.serialize(args));
+            Message rawResponse = this.connection.request(
+                    this.getCompleteSubjectFrom(subject),
+                    Serializer.serialize(args)
+            );
             return this.handleRemoteResponse(rawResponse);
         } catch (RemoteException e) {
             throw e;
@@ -63,10 +67,14 @@ public class MicroCommSync {
         return this.config.getContext() + "." + subject;
     }
 
-    private Serializable[] handleRemoteResponse(Message rawResponse) throws RemoteException {
-        Serializable[] deserializedResp = Serializer.deserialize(rawResponse.getData());
+    private Serializable[] handleRemoteResponse(Message rawResponse) throws Exception {
+        byte[] data = rawResponse.getData();
+        if(data == null){
+            return Response.EMPTY;
+        }
 
-        if (deserializedResp != null && deserializedResp.length > 0) {
+        Serializable[] deserializedResp = Serializer.deserialize(data);
+        if (deserializedResp.length > 0) {
             Serializable maybeError = deserializedResp[0];
             if (maybeError instanceof RemoteException) {
                 throw (RemoteException) maybeError;
