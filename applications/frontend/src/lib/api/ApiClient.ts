@@ -50,7 +50,7 @@ export class ApiClient {
                 return response.data;
             }).catch((e) => {
                 this.logger.error('Api request error: ', e);
-                Toaster.error(e.message);
+                Toaster.error(e.MCMessage);
                 return Promise.reject(e);
             });
 

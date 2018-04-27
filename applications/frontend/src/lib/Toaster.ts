@@ -5,7 +5,7 @@ import Toasted from 'vue-toasted';
 Vue.use(Toasted);
 
 interface IVueToasted {
-    show(message: string, options: IToastOptions);
+    show(MCMessage: string, options: IToastOptions);
 }
 const VueToasted: IVueToasted = (Vue as any).toasted;
 
@@ -22,27 +22,27 @@ const defaultOptions = {
 
 export class Toaster {
 
-    public static info(message: string) {
-        this.show(message, {
+    public static info(MCMessage: string) {
+        this.show(MCMessage, {
             type: 'info',
         });
     }
 
-    public static success(message: string) {
-        this.show(message, {
+    public static success(MCMessage: string) {
+        this.show(MCMessage, {
             type: 'success',
         });
     }
 
-    public static error(message: string) {
-        this.show(message, {
+    public static error(MCMessage: string) {
+        this.show(MCMessage, {
             type: 'error',
         });
     }
 
-    private static show(message: string, options){
+    private static show(MCMessage: string, options){
         const toastOptions = _.defaultsDeep({}, defaultOptions, options);
-        VueToasted.show(message, toastOptions);
+        VueToasted.show(MCMessage, toastOptions);
     }
 
 }

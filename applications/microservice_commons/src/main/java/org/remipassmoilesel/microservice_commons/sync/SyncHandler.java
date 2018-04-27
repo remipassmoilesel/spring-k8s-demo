@@ -1,7 +1,7 @@
 package org.remipassmoilesel.microservice_commons.sync;
 
-import java.io.Serializable;
+import org.remipassmoilesel.microservice_commons.common.MCMessage;
 
 public interface SyncHandler {
-    public Serializable[] handle(String subject, Serializable[] args);
+    public MCMessage handle(String subject, MCMessage message);
 }
