@@ -12,8 +12,11 @@ import org.remipassmoilesel.microservice_commons.common.Serializer;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class MicroCommSync {
+
+    private Logger logger;
 
     private final MicroCommSyncConfig config;
     private final Scheduler scheduler = Schedulers.computation();
@@ -23,13 +26,23 @@ public class MicroCommSync {
     public MicroCommSync(MicroCommSyncConfig config) {
         this.config = config;
         this.subscriptions = new HashMap<>();
+        this.initLogger();
+        this.logger.fine(String.format("Initialized with configuration: %s", config));
+    }
+
+    private void initLogger() {
+        logger = Logger.getLogger(MicroCommSync.class.getSimpleName());
+        logger.setLevel(config.getLogLevel());
     }
 
     public void connect() throws IOException {
+        this.logger.fine(String.format("Connecting to %s", config.getUrl()));
         this.connection = Nats.connect(config.getUrl());
     }
 
     public void handle(String subject, SyncHandler handler) {
+        this.logger.fine(String.format("Registering handler on subject %s", subject));
+
         Helpers.checkSubjectString(subject);
 
         AsyncSubscription subscription = this.connection.subscribe(
@@ -41,6 +54,8 @@ public class MicroCommSync {
     }
 
     public Single<MCMessage> request(String subject, MCMessage mcMessage) {
+        this.logger.fine(String.format("Sending request on subject %s", subject));
+
         Helpers.checkSubjectString(subject);
 
         return Single.fromCallable(() -> {
@@ -54,6 +69,8 @@ public class MicroCommSync {
     }
 
     public void unsubscribe(String subject) throws IOException {
+        this.logger.fine(String.format("Unsubscribing from subject %s", subject));
+
         Helpers.checkSubjectString(subject);
 
         AsyncSubscription sub = this.subscriptions.get(subject);
@@ -83,7 +100,7 @@ public class MicroCommSync {
 
     private MessageHandler createHandler(String subject, SyncHandler handler) {
         return (Message natsMessage) -> {
-            System.out.println("Received a message on subject: " + subject);
+            this.logger.fine(String.format("Received a message on subject: %s", subject));
 
             try {
                 MCMessage deserialized = (MCMessage) Serializer.deserialize(natsMessage.getData());
@@ -109,7 +126,8 @@ public class MicroCommSync {
         try {
             this.connection.publish(replyTo, MCMessage.fromError(remoteException).serialize());
         } catch (Exception e1) {
-            e1.printStackTrace();
+            this.logger.severe(String.format("Error while replying error: %s", e1.getMessage()));
+            e.printStackTrace();
         }
     }
 

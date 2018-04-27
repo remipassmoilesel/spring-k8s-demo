@@ -8,17 +8,20 @@ import org.remipassmoilesel.microservice_commons.sync.MicroCommSyncConfig;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Logger;
 
-public class SimpleExample {
+public class CommSimpleExample {
+
+    private final static Logger logger = Logger.getLogger(CommSimpleExample.class.getSimpleName());
 
     public static void main(String[] args) throws IOException {
 
-        System.out.println("Starting example ...");
+        logger.info("Starting example ...");
         MicroCommSync comm = connect();
 
         String subject = "example_subject";
         comm.handle(subject, (useSubject, message) -> {
-            System.out.println("Receiving request: " + ReflectionToStringBuilder.toString(message));
+            logger.info("Receiving request: " + ReflectionToStringBuilder.toString(message.getContent()));
 
             int arg1 = message.getAsInt(0);
             int arg2 = message.getAsInt(1);
@@ -31,8 +34,8 @@ public class SimpleExample {
                 i[0]++;
                 comm.request(subject, MCMessage.fromObjects(2, i[0]))
                         .subscribe((message) -> {
-                            System.out.println("MCMessage sent. Response: " + message.getAsInt(0));
-                            System.out.println();
+                            Integer result = message.getAsInt(0);
+                            logger.info(String.format("MCMessage sent. Response: %s \n", result));
                         });
             }
         };
