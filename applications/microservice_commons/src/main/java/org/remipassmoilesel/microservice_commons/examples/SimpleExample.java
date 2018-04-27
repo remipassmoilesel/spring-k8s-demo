@@ -25,9 +25,11 @@ public class SimpleExample {
             return MCMessage.fromObject(arg1 + arg2);
         });
 
+        final int[] i = {0};
         TimerTask repeatedTask = new TimerTask() {
             public void run() {
-                comm.request(subject, MCMessage.fromObjects(2, 3))
+                i[0]++;
+                comm.request(subject, MCMessage.fromObjects(2, i[0]))
                         .subscribe((message) -> {
                             System.out.println("MCMessage sent. Response: " + message.getAsInt(0));
                             System.out.println();

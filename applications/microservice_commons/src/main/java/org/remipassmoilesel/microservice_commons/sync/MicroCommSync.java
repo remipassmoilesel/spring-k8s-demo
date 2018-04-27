@@ -16,10 +16,10 @@ import java.util.Map;
 
 public class MicroCommSync {
 
-    private final Scheduler scheduler = Schedulers.io();
     private final MicroCommSyncConfig config;
+    private final Scheduler scheduler = Schedulers.computation();
     private Connection connection;
-    private Map<String, AsyncSubscription> subscriptions;
+    private final Map<String, AsyncSubscription> subscriptions;
 
     public MicroCommSync(MicroCommSyncConfig config) {
         this.config = config;
@@ -50,7 +50,7 @@ public class MicroCommSync {
                     mcMessage.serialize()
             );
             return this.handleRemoteResponse(rawResponse);
-        });
+        }).observeOn(this.scheduler);
 
     }
 

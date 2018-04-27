@@ -1,11 +1,5 @@
 allprojects {
 
-    repositories {
-        mavenLocal()
-        jcenter()
-        mavenCentral()
-    }
-
     apply plugin: 'idea'
 
     idea {
@@ -14,4 +8,11 @@ allprojects {
             downloadSources = true
         }
     }
+
+    repositories {
+        mavenLocal()
+        jcenter()
+        mavenCentral()
+    }
+
 }

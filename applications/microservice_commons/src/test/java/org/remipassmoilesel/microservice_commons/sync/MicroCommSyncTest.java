@@ -1,35 +1,42 @@
-//package org.remipassmoilesel.microservice_commons.sync;
-//
-//import org.junit.Before;
-//import org.junit.Test;
-//import org.remipassmoilesel.microservice_commons.common.Response;
-//
-//import java.io.IOException;
-//import java.io.Serializable;
-//
-//import static org.junit.Assert.assertArrayEquals;
-//
-//public class MicroCommSyncTest {
-//
-//    private MicroCommSync microComm;
-//
-//    @Before
-//    public void testSetup() throws IOException {
-//        microComm = TestHelpers.newSync();
-//    }
-//
-//    // FIXME: not functionnal, try with rxjava ?
-//    @Test
-//    public void messageShouldBeWellReceived() {
-//        String subject = TestHelpers.getRandomSubject("testsubject");
-//        Serializable[] testMessage = new Serializable[]{"test-message"};
-//
-//        microComm.handle(subject, (String subj, Serializable[] args) -> {
-//            assertArrayEquals(args, testMessage);
-//            return Response.EMPTY;
-//        });
-//
-//        microComm.request(subject, testMessage);
-//    }
-//
-//}
+package org.remipassmoilesel.microservice_commons.sync;
+
+import io.reactivex.Single;
+import io.reactivex.observers.TestObserver;
+import org.junit.Before;
+import org.junit.Test;
+import org.remipassmoilesel.microservice_commons.common.MCMessage;
+
+import java.io.IOException;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
+
+public class MicroCommSyncTest {
+
+    private MicroCommSync microComm;
+
+    @Before
+    public void testSetup() throws IOException {
+        microComm = TestHelpers.newSync();
+    }
+
+    @Test
+    public void messageShouldBeWellReceived() {
+        String subject = TestHelpers.getRandomSubject("testsubject");
+        MCMessage requestMessage = MCMessage.fromObject("test-message-sent");
+        MCMessage replyMessage = MCMessage.fromObject("test-message-replied");
+
+        microComm.handle(subject, (String subj, MCMessage message) -> {
+            assertThat(message, equalTo(requestMessage));
+            return replyMessage;
+        });
+
+        Single<MCMessage> reply = microComm.request(subject, requestMessage);
+        TestObserver<MCMessage> test = reply.test();
+        reply.blockingGet();
+
+        test.assertComplete();
+        test.assertValue(replyMessage);
+    }
+
+}
