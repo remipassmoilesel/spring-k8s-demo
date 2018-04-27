@@ -1,5 +1,6 @@
 package org.remipassmoilesel.microservice_commons.sync;
 
+import io.reactivex.Completable;
 import org.junit.Before;
 import org.junit.Test;
 import org.remipassmoilesel.microservice_commons.common.Response;
