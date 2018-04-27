@@ -3,10 +3,15 @@ package org.remipassmoilesel.microservice_commons.common;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class MCMessage implements Serializable {
 
     public static final MCMessage EMPTY = new MCMessage();
+
+    public static MCMessage fromError(Exception error) {
+        return new MCMessage(error);
+    }
 
     public static MCMessage fromObject(Serializable content) {
         return new MCMessage(new Serializable[]{content});
@@ -25,6 +30,7 @@ public class MCMessage implements Serializable {
     }
 
     private Serializable[] content;
+    private Exception error;
 
     public MCMessage() {
         this.content = new Serializable[]{};
@@ -32,6 +38,22 @@ public class MCMessage implements Serializable {
 
     public MCMessage(Serializable[] content) {
         this.setContent(content);
+    }
+
+    public byte[] serialize() throws IOException {
+        return Serializer.serialize(this);
+    }
+
+    public MCMessage(Exception error) {
+        this.setError(error);
+    }
+
+    public Exception getError() {
+        return error;
+    }
+
+    public void setError(Exception error) {
+        this.error = error;
     }
 
     public Serializable[] getContent() {
@@ -54,6 +76,7 @@ public class MCMessage implements Serializable {
     public String toString() {
         return "MCMessage{" +
                 "content=" + Arrays.toString(content) +
+                ", error=" + error +
                 '}';
     }
 
@@ -62,15 +85,15 @@ public class MCMessage implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MCMessage mcMessage = (MCMessage) o;
-        return Arrays.equals(content, mcMessage.content);
+        return Arrays.equals(content, mcMessage.content) &&
+                Objects.equals(error, mcMessage.error);
     }
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(content);
-    }
 
-    public byte[] serialize() throws IOException {
-        return Serializer.serialize(this);
+        int result = Objects.hash(error);
+        result = 31 * result + Arrays.hashCode(content);
+        return result;
     }
 }

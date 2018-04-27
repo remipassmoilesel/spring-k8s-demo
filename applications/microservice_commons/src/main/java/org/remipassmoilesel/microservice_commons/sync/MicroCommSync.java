@@ -10,7 +10,6 @@ import org.remipassmoilesel.microservice_commons.common.RemoteException;
 import org.remipassmoilesel.microservice_commons.common.Serializer;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,12 +73,12 @@ public class MicroCommSync {
             return MCMessage.EMPTY;
         }
 
-        Serializable deserializedResp = Serializer.deserialize(data);
-        if (deserializedResp instanceof RemoteException) {
-            throw (RemoteException) deserializedResp;
+        MCMessage deserializedResp = (MCMessage) Serializer.deserialize(data);
+        if (deserializedResp.getError() != null) {
+            throw deserializedResp.getError();
         }
 
-        return (MCMessage) deserializedResp;
+        return deserializedResp;
     }
 
     private MessageHandler createHandler(String subject, SyncHandler handler) {
@@ -99,17 +98,17 @@ public class MicroCommSync {
 
                 this.connection.publish(natsMessage.getReplyTo(), reply);
             } catch (Exception e) {
-                this.handleRemoteException(natsMessage.getReplyTo(), e);
+                this.sendHandlerException(natsMessage.getReplyTo(), e);
             }
         };
     }
 
-    private void handleRemoteException(String replyTo, Exception e) {
-        RemoteException remoteException = Helpers.wrapException(e);
+    private void sendHandlerException(String replyTo, Exception e) {
+        RemoteException remoteException = RemoteException.wrap(e);
+
         try {
-            this.connection.publish(replyTo, Serializer.serialize(new Serializable[]{remoteException}));
+            this.connection.publish(replyTo, MCMessage.fromError(remoteException).serialize());
         } catch (Exception e1) {
-            // TODO: Add better logging
             e1.printStackTrace();
         }
     }
