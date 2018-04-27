@@ -45,7 +45,6 @@ public class MicroCommSyncTest {
     public void errorsShouldBeWellReceived() {
         String subject = TestHelpers.getRandomSubject("testsubject");
         MCMessage requestMessage = MCMessage.fromObject("test-message-sent");
-        MCMessage replyMessage = MCMessage.fromObject("test-message-replied");
 
         microComm.handle(subject, (String subj, MCMessage message) -> {
             throw new NullPointerException("You tried to forgot me ??? I'm back !");
