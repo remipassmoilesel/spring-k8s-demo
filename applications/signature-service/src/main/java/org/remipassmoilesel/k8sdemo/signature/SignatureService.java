@@ -1,7 +1,7 @@
 package org.remipassmoilesel.k8sdemo.signature;
 
 import org.apache.commons.io.IOUtils;
-import org.remipassmoilesel.k8sdemo.signature.document.Document;
+import org.remipassmoilesel.k8sdemo.signature.document.SignedDocument;
 import org.remipassmoilesel.k8sdemo.signature.document.DocumentManager;
 import org.remipassmoilesel.k8sdemo.signature.gpg.GpgValidationResult;
 import org.slf4j.Logger;
@@ -21,9 +21,9 @@ public class SignatureService {
     @Autowired
     private DocumentManager documentManager;
 
-    public List<Document> getDocuments() throws IOException {
+    public List<SignedDocument> getDocuments() throws IOException {
 
-        List<Document> documents = documentManager.getDocuments();
+        List<SignedDocument> documents = documentManager.getDocuments();
 
         // do not send document content
         documents.stream().forEach(doc -> doc.setContent(null));
@@ -31,13 +31,13 @@ public class SignatureService {
 
     }
 
-    public Document uploadAndSignDocument(MultipartFile sentDocument) throws IOException {
+    public SignedDocument uploadAndSignDocument(MultipartFile sentDocument) throws IOException {
 
         InputStream docInputStream = sentDocument.getInputStream();
         String documentName = sentDocument.getOriginalFilename();
         byte[] documentContent = IOUtils.toByteArray(docInputStream);
 
-        Document document = documentManager.persistDocument(documentName, documentContent);
+        SignedDocument document = documentManager.persistDocument(documentName, documentContent);
 
         // do not send document content
         document.setContent(null);
@@ -45,11 +45,11 @@ public class SignatureService {
 
     }
 
-    public void deleteDocument(Long documentId) {
+    public void deleteDocument(String documentId) {
         documentManager.deleteDocument(documentId);
     }
 
-    public GpgValidationResult checkIfDocumentValid(MultipartFile sentCandidate, Long documentId) throws IOException {
+    public GpgValidationResult checkIfDocumentValid(MultipartFile sentCandidate, String documentId) throws IOException {
 
         InputStream docInputStream = sentCandidate.getInputStream();
         byte[] documentContent = IOUtils.toByteArray(docInputStream);

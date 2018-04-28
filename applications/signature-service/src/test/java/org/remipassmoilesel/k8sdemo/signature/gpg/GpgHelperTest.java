@@ -1,7 +1,7 @@
 package org.remipassmoilesel.k8sdemo.signature.gpg;
 
 import org.junit.Test;
-import org.remipassmoilesel.k8sdemo.signature.document.Document;
+import org.remipassmoilesel.k8sdemo.signature.document.SignedDocument;
 import org.remipassmoilesel.k8sdemo.signature.test_helpers.TestHelpers;
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ public class GpgHelperTest {
     @Test
     public void signDocumentShouldSucceed() throws IOException {
         GpgKey key = TestHelpers.getTestGpgKey();
-        Document doc = TestHelpers.getTestDocument(1);
+        SignedDocument doc = TestHelpers.getTestDocument(1);
 
         String sign = gpgHelper.signDocument(doc, key);
         assertThat(sign, containsString("-BEGIN PGP SIGNATURE-"));
@@ -25,7 +25,7 @@ public class GpgHelperTest {
     @Test
     public void verifyDocumentShouldSucceedIfDocumentIsValid() throws Exception {
         GpgKey key = TestHelpers.getTestGpgKey();
-        Document doc1 = TestHelpers.getTestDocument(1);
+        SignedDocument doc1 = TestHelpers.getTestDocument(1);
 
         String sign = gpgHelper.signDocument(doc1, key);
         doc1.setSignature(sign);
@@ -37,8 +37,8 @@ public class GpgHelperTest {
     @Test()
     public void verifyDocumentShouldThrowIfDocumentIsInvalid() throws Exception {
         GpgKey key = TestHelpers.getTestGpgKey();
-        Document doc1 = TestHelpers.getTestDocument(1);
-        Document doc2 = TestHelpers.getTestDocument(2);
+        SignedDocument doc1 = TestHelpers.getTestDocument(1);
+        SignedDocument doc2 = TestHelpers.getTestDocument(2);
 
         String sign = gpgHelper.signDocument(doc1, key);
         doc2.setSignature(sign);

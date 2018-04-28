@@ -18,12 +18,20 @@ public class DocumentManager {
 
     private GpgHelper gpgHelper = new GpgHelper();
 
-    public List<Document> getDocuments() {
+    public List<SignedDocument> getDocuments() {
         return documentRepository.findAll();
     }
 
-    public Document persistDocument(String documentName, byte[] documentContent) throws IOException {
-        Document document = new Document(documentName, documentContent, new Date());
+    public SignedDocument getDocumentById(String id) {
+        Optional<SignedDocument> optionnal = documentRepository.findById(id);
+        if (!optionnal.isPresent()) {
+            throw new NullPointerException("Document not found: " + id);
+        }
+        return optionnal.get();
+    }
+
+    public SignedDocument persistDocument(String documentName, byte[] documentContent) throws IOException {
+        SignedDocument document = new SignedDocument(documentName, documentContent, new Date());
 
         String sign = gpgHelper.signDocument(document, gpgHelper.getDefaultGpgKeys());
         document.setSignature(sign);
@@ -32,18 +40,18 @@ public class DocumentManager {
         return document;
     }
 
-    public void deleteDocument(Long documentId) {
+    public void deleteDocument(String documentId) {
         documentRepository.deleteById(documentId);
     }
 
-    public GpgValidationResult verifyDocument(byte[] documentContent, Long originalDocumentId) throws IOException {
+    public GpgValidationResult verifyDocument(byte[] documentContent, String originalDocumentId) throws IOException {
 
-        Optional<Document> validDoc = documentRepository.findById(originalDocumentId);
+        Optional<SignedDocument> validDoc = documentRepository.findById(originalDocumentId);
         if (!validDoc.isPresent()) {
             throw new NullPointerException("Document not found: " + originalDocumentId);
         }
 
-        Document candidateDocument = new Document(
+        SignedDocument candidateDocument = new SignedDocument(
                 validDoc.get().getName(),
                 documentContent,
                 validDoc.get().getDate()

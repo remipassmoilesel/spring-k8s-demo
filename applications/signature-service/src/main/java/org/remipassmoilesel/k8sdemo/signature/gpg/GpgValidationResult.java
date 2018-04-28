@@ -1,15 +1,15 @@
 package org.remipassmoilesel.k8sdemo.signature.gpg;
 
-import org.remipassmoilesel.k8sdemo.signature.document.Document;
+import org.remipassmoilesel.k8sdemo.signature.document.SignedDocument;
 
 import java.util.Objects;
 
 public class GpgValidationResult {
 
     private boolean isValid;
-    private Document document;
+    private SignedDocument document;
 
-    public GpgValidationResult(Document document, boolean isValid) {
+    public GpgValidationResult(SignedDocument document, boolean isValid) {
         this.document = document;
         this.isValid = isValid;
     }
@@ -22,11 +22,11 @@ public class GpgValidationResult {
         isValid = valid;
     }
 
-    public Document getDocument() {
+    public SignedDocument getDocument() {
         return document;
     }
 
-    public void setDocument(Document document) {
+    public void setDocument(SignedDocument document) {
         this.document = document;
     }
 

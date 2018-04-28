@@ -1,15 +1,17 @@
 package org.remipassmoilesel.k8sdemo.signature.document;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
-public class Document {
+@Document(collection = "signed_documents")
+public class SignedDocument {
 
     @Id
-    private Long id;
+    private String id;
 
     private String name;
 
@@ -19,10 +21,10 @@ public class Document {
 
     private String signature;
 
-    public Document() {
+    public SignedDocument() {
     }
 
-    public Document(String name, byte[] content, Date date) {
+    public SignedDocument(String name, byte[] content, Date date) {
         this.name = name;
         this.date = date;
         this.content = content;
@@ -60,39 +62,29 @@ public class Document {
         this.signature = signature;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return "Document{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", date=" + date +
-                ", content=" + Arrays.toString(content) +
-                ", signature=" + signature +
-                '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Document document = (Document) o;
-        return Objects.equals(id, document.id) &&
-                Objects.equals(name, document.name) &&
-                Objects.equals(date, document.date) &&
-                Arrays.equals(content, document.content) &&
-                Objects.equals(signature, document.signature);
+        SignedDocument that = (SignedDocument) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(date, that.date) &&
+                Arrays.equals(content, that.content) &&
+                Objects.equals(signature, that.signature);
     }
 
     @Override
     public int hashCode() {
+
         int result = Objects.hash(id, name, date, signature);
         result = 31 * result + Arrays.hashCode(content);
         return result;

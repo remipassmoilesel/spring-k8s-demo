@@ -1,6 +1,6 @@
 package org.remipassmoilesel.k8sdemo.signature.test_helpers;
 
-import org.remipassmoilesel.k8sdemo.signature.document.Document;
+import org.remipassmoilesel.k8sdemo.signature.document.SignedDocument;
 import org.remipassmoilesel.k8sdemo.signature.gpg.GpgKey;
 import org.remipassmoilesel.k8sdemo.signature.utils.FileUtils;
 
@@ -21,8 +21,8 @@ public class TestHelpers {
         return key;
     }
 
-    public static Document getTestDocument(int documentId) throws IOException {
-        Document doc = new Document();
+    public static SignedDocument getTestDocument(int documentId) throws IOException {
+        SignedDocument doc = new SignedDocument();
         doc.setName("Test document " + documentId);
         doc.setDate(new Date());
         doc.setContent(FileUtils.loadTestFileAsByteArray("test-documents/document" + documentId + ".odt"));

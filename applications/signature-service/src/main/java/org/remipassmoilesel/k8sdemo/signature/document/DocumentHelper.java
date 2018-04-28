@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class DocumentHelper {
 
-    public Path persistDocContentTemporary(Document document) throws IOException {
+    public Path persistDocContentTemporary(SignedDocument document) throws IOException {
         this.checkDocumentContent(document);
 
         Path tempPath = this.getTempPath();
@@ -19,7 +19,7 @@ public class DocumentHelper {
         return tempPath;
     }
 
-    public Path persistDocSignatureTemporary(Document document) throws IOException {
+    public Path persistDocSignatureTemporary(SignedDocument document) throws IOException {
         this.checkDocumentSignature(document);
 
         Path tempPath = this.getTempPath();
@@ -36,13 +36,13 @@ public class DocumentHelper {
         Files.delete(tempPath);
     }
 
-    public void checkDocumentContent(Document document) {
+    public void checkDocumentContent(SignedDocument document) {
         if (document.getContent() == null) {
             throw new Error("Document content is null");
         }
     }
 
-    public void checkDocumentSignature(Document document) {
+    public void checkDocumentSignature(SignedDocument document) {
         if (document.getSignature() == null) {
             throw new Error("Document signature is null");
         }
