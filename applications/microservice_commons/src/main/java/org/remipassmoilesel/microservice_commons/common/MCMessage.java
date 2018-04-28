@@ -72,6 +72,10 @@ public class MCMessage implements Serializable {
         return (Integer) this.content[index];
     }
 
+    public Long getAsLong(int index) {
+        return (Long) this.content[index];
+    }
+
     @Override
     public String toString() {
         return "MCMessage{" +
