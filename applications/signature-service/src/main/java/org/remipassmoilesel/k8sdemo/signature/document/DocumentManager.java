@@ -25,7 +25,7 @@ public class DocumentManager {
     public SignedDocument getDocumentById(String id) {
         Optional<SignedDocument> optionnal = documentRepository.findById(id);
         if (!optionnal.isPresent()) {
-            throw new NullPointerException("Document not found: " + id);
+            throw new DocumentNotFoundException(id);
         }
         return optionnal.get();
     }
@@ -46,17 +46,13 @@ public class DocumentManager {
 
     public GpgValidationResult verifyDocument(byte[] documentContent, String originalDocumentId) throws IOException {
 
-        Optional<SignedDocument> validDoc = documentRepository.findById(originalDocumentId);
-        if (!validDoc.isPresent()) {
-            throw new NullPointerException("Document not found: " + originalDocumentId);
-        }
-
+        SignedDocument validDoc = this.getDocumentById(originalDocumentId);
         SignedDocument candidateDocument = new SignedDocument(
-                validDoc.get().getName(),
+                validDoc.getName(),
                 documentContent,
-                validDoc.get().getDate()
+                validDoc.getDate()
         );
-        candidateDocument.setSignature(validDoc.get().getSignature());
+        candidateDocument.setSignature(validDoc.getSignature());
 
         GpgValidationResult validationResult = gpgHelper.verifyDocument(
                 candidateDocument,
