@@ -1,4 +1,4 @@
-package org.remipassmoilesel.k8sdemo.utils;
+package org.remipassmoilesel.k8sdemo.signature.utils;
 
 import org.apache.commons.io.IOUtils;
 
