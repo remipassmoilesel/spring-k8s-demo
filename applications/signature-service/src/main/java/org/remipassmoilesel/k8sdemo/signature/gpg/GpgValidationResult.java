@@ -2,9 +2,10 @@ package org.remipassmoilesel.k8sdemo.signature.gpg;
 
 import org.remipassmoilesel.k8sdemo.signature.document.SignedDocument;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class GpgValidationResult {
+public class GpgValidationResult implements Serializable {
 
     private boolean isValid;
     private SignedDocument document;

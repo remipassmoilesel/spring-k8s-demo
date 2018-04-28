@@ -3,12 +3,13 @@ package org.remipassmoilesel.k8sdemo.signature.document;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
 @Document(collection = "signed_documents")
-public class SignedDocument {
+public class SignedDocument implements Serializable {
 
     @Id
     private String id;

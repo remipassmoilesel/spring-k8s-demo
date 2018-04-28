@@ -11,6 +11,7 @@
 - Remplacer MySQL par Mongodb
 - Créer un serveur pour signature
 - Créer un paquet de clients
+- Mise en place health check
 
 1 - Trouver un moyen convenable de configuration par environement (Chart Helm ?)
 1 - Monter un pipeline CI / CD
