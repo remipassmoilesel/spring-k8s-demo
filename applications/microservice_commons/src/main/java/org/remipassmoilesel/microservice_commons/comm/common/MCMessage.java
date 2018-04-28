@@ -1,4 +1,4 @@
-package org.remipassmoilesel.microservice_commons.common;
+package org.remipassmoilesel.microservice_commons.comm.common;
 
 import java.io.IOException;
 import java.io.Serializable;

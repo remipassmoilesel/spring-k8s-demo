@@ -1,4 +1,4 @@
-package org.remipassmoilesel.microservice_commons.sync;
+package org.remipassmoilesel.microservice_commons.comm.sync;
 
 import java.io.IOException;
 import java.util.UUID;

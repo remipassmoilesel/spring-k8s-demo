@@ -1,9 +1,8 @@
-package org.remipassmoilesel.microservice_commons.sync;
+package org.remipassmoilesel.microservice_commons.comm.sync;
 
-import org.remipassmoilesel.microservice_commons.common.Helpers;
+import org.remipassmoilesel.microservice_commons.comm.common.Helpers;
 
 import java.util.Objects;
-import java.util.logging.Level;
 
 public class MicroCommSyncConfig {
 
