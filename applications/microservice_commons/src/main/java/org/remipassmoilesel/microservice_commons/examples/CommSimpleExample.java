@@ -1,38 +1,37 @@
 package org.remipassmoilesel.microservice_commons.examples;
 
 import io.reactivex.Observable;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.pmw.tinylog.Level;
+import org.pmw.tinylog.Logger;
+import org.remipassmoilesel.microservice_commons.LoggerConfig;
 import org.remipassmoilesel.microservice_commons.common.MCMessage;
 import org.remipassmoilesel.microservice_commons.sync.MicroCommSync;
 import org.remipassmoilesel.microservice_commons.sync.MicroCommSyncConfig;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 public class CommSimpleExample {
 
-    private final static Logger logger = Logger.getLogger(CommSimpleExample.class.getSimpleName());
-
     public static void main(String[] args) throws IOException {
+        LoggerConfig.configureLog(Level.INFO);
 
-        logger.info("Starting example ...");
+        Logger.info("Starting example ...");
         MicroCommSync comm = connect();
 
         String subject = "example_subject";
         comm.handle(subject, (useSubject, message) -> {
-            int arg1 = message.getAsInt(0);
+            Long arg1 = message.getAsLong(0);
             Long arg2 = message.getAsLong(1);
 
-            logger.info(String.format("Receiving request: %s  %s", arg1, arg2));
-
+            Logger.info("Receiving request: {} + {}", arg1, arg2);
             return MCMessage.fromObject(arg1 + arg2);
         });
 
         Observable.interval(2, TimeUnit.SECONDS)
-                .flatMapSingle((tick) -> comm.request(subject, MCMessage.fromObjects(2, tick)))
+                .flatMapSingle((tick) -> comm.request(subject, MCMessage.fromObjects(2L, tick)))
                 .subscribe((message) -> {
-                    logger.info("Result: " + message.getAsLong(0));
+                    Logger.info("Result: {}", message.getAsLong(0));
                 });
     }
 
