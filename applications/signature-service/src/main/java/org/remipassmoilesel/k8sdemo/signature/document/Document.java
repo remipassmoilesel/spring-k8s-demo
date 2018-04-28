@@ -1,25 +1,22 @@
-package org.remipassmoilesel.k8sdemo.document;
+package org.remipassmoilesel.k8sdemo.signature.document;
 
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
-@Entity
 public class Document {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;
 
     private Date date;
 
-    @Column(columnDefinition = "LONGBLOB")
     private byte[] content;
 
-    @Column(columnDefinition = "TEXT")
     private String signature;
 
     public Document() {

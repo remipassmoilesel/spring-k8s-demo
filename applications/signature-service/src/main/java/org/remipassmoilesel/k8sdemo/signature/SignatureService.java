@@ -1,9 +1,9 @@
-package org.remipassmoilesel.k8sdemo.controllers;
+package org.remipassmoilesel.k8sdemo.signature;
 
 import org.apache.commons.io.IOUtils;
-import org.remipassmoilesel.k8sdemo.document.Document;
-import org.remipassmoilesel.k8sdemo.document.DocumentManager;
-import org.remipassmoilesel.k8sdemo.gpg.GpgValidationResult;
+import org.remipassmoilesel.k8sdemo.signature.document.Document;
+import org.remipassmoilesel.k8sdemo.signature.document.DocumentManager;
+import org.remipassmoilesel.k8sdemo.signature.gpg.GpgValidationResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +15,8 @@ import java.io.InputStream;
 import java.util.List;
 
 @Component
-public class ApiController {
-    private static final Logger logger = LoggerFactory.getLogger(ApiController.class);
+public class SignatureService {
+    private static final Logger logger = LoggerFactory.getLogger(SignatureService.class);
 
     @Autowired
     private DocumentManager documentManager;

@@ -1,14 +1,14 @@
-package org.remipassmoilesel.k8sdemo.document;
+package org.remipassmoilesel.k8sdemo.signature.document;
 
-import org.remipassmoilesel.k8sdemo.gpg.GpgHelper;
-import org.remipassmoilesel.k8sdemo.gpg.GpgValidationResult;
+import org.remipassmoilesel.k8sdemo.signature.gpg.GpgHelper;
+import org.remipassmoilesel.k8sdemo.signature.gpg.GpgValidationResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class DocumentManager {
@@ -36,15 +36,24 @@ public class DocumentManager {
         documentRepository.deleteById(documentId);
     }
 
-    @Transactional
     public GpgValidationResult verifyDocument(byte[] documentContent, Long originalDocumentId) throws IOException {
 
-        Document validDoc = documentRepository.getOne(originalDocumentId);
+        Optional<Document> validDoc = documentRepository.findById(originalDocumentId);
+        if (!validDoc.isPresent()) {
+            throw new NullPointerException("Document not found: " + originalDocumentId);
+        }
 
-        Document candidateDocument = new Document(validDoc.getName(), documentContent, validDoc.getDate());
-        candidateDocument.setSignature(validDoc.getSignature());
+        Document candidateDocument = new Document(
+                validDoc.get().getName(),
+                documentContent,
+                validDoc.get().getDate()
+        );
+        candidateDocument.setSignature(validDoc.get().getSignature());
 
-        GpgValidationResult validationResult = gpgHelper.verifyDocument(candidateDocument, gpgHelper.getDefaultGpgKeys());
+        GpgValidationResult validationResult = gpgHelper.verifyDocument(
+                candidateDocument,
+                gpgHelper.getDefaultGpgKeys()
+        );
 
         return validationResult;
     }

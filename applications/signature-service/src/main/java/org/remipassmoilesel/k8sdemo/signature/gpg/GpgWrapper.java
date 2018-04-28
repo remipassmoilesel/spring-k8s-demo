@@ -1,4 +1,4 @@
-package org.remipassmoilesel.k8sdemo.gpg;
+package org.remipassmoilesel.k8sdemo.signature.gpg;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
