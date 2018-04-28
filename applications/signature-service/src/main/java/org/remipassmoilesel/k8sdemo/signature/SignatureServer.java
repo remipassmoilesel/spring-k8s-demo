@@ -14,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import java.io.IOException;
 import java.util.List;
 
+// TODO: implement AbstractSyncServer
+
 @Controller
 public class SignatureServer implements InitializingBean {
 

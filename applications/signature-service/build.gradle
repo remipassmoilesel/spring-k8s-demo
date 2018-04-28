@@ -1,15 +1,3 @@
-buildscript {
-    ext {
-        springBootVersion = '2.0.1.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
-}
-
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
@@ -28,7 +16,20 @@ dependencies {
     compile('org.apache.commons:commons-io:1.3.2')
     compile('org.apache.commons:commons-exec:1.3')
 
-    compile('org.remipassmoilesel:microservice-commons:0.0.1-SNAPSHOT')
+    compile('org.remipassmoilesel:microservice:0.0.1-SNAPSHOT')
+    compile('org.remipassmoilesel:signature-client:0.0.1-SNAPSHOT')
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+buildscript {
+    ext {
+        springBootVersion = '2.0.1.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
 }
