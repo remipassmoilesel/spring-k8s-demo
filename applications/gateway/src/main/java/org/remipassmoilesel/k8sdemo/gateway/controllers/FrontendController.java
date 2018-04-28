@@ -1,16 +1,14 @@
-package org.remipassmoilesel.k8sdemo.controllers;
+package org.remipassmoilesel.k8sdemo.gateway.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.remipassmoilesel.k8sdemo.FrontendConfig;
-import org.remipassmoilesel.k8sdemo.Routes;
+import org.remipassmoilesel.k8sdemo.gateway.FrontendConfig;
+import org.remipassmoilesel.k8sdemo.gateway.Routes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class FrontendController {

@@ -1,12 +1,13 @@
-package org.remipassmoilesel.k8sdemo.controllers;
+package org.remipassmoilesel.k8sdemo.gateway.controllers;
 
+import io.reactivex.Single;
 import org.apache.commons.io.IOUtils;
-import org.remipassmoilesel.k8sdemo.Routes;
-import org.remipassmoilesel.k8sdemo.app_identity.AppIdentity;
-import org.remipassmoilesel.k8sdemo.app_identity.AppIdentityProvider;
-import org.remipassmoilesel.k8sdemo.signature.document.Document;
-import org.remipassmoilesel.k8sdemo.signature.document.DocumentManager;
-import org.remipassmoilesel.k8sdemo.signature.gpg.GpgValidationResult;
+import org.remipassmoilesel.k8sdemo.clients.signature.GpgValidationResult;
+import org.remipassmoilesel.k8sdemo.clients.signature.SignatureClient;
+import org.remipassmoilesel.k8sdemo.clients.signature.SignedDocument;
+import org.remipassmoilesel.k8sdemo.gateway.Routes;
+import org.remipassmoilesel.k8sdemo.gateway.app_identity.GatewayIdentity;
+import org.remipassmoilesel.k8sdemo.gateway.app_identity.GatewayIdentityProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +28,10 @@ public class ApiController {
     private static final Logger logger = LoggerFactory.getLogger(ApiController.class);
 
     @Autowired
-    private DocumentManager documentManager;
+    private SignatureClient signatureClient;
 
     @Autowired
-    private AppIdentityProvider appIdentityProvider;
+    private GatewayIdentityProvider gatewayIdentityProvider;
 
     @ResponseBody
     @RequestMapping(
@@ -38,9 +39,9 @@ public class ApiController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public AppIdentity getAppIdentity() {
+    public GatewayIdentity getAppIdentity() {
 
-        return appIdentityProvider.getAppIdentity();
+        return gatewayIdentityProvider.getGatewayIdentity();
 
     }
 
@@ -50,14 +51,13 @@ public class ApiController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public List<Document> getDocuments() throws IOException {
-
-        List<Document> documents = documentManager.getDocuments();
-
-        // do not send document content
-        documents.stream().forEach(doc -> doc.setContent(null));
-        return documents;
-
+    public Single<List<SignedDocument>> getDocuments() {
+        return signatureClient.getDocuments()
+                .map((list) -> {
+                    // do not send document content as it is binary
+                    list.forEach(doc -> doc.setContent(null));
+                    return list;
+                });
     }
 
     @ResponseBody
@@ -66,19 +66,18 @@ public class ApiController {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public Document uploadAndSignDocument(
+    public Single<SignedDocument> uploadAndSignDocument(
             @RequestParam("document") MultipartFile sentDocument) throws IOException {
 
         InputStream docInputStream = sentDocument.getInputStream();
         String documentName = sentDocument.getOriginalFilename();
         byte[] documentContent = IOUtils.toByteArray(docInputStream);
 
-        Document document = documentManager.persistDocument(documentName, documentContent);
+        SignedDocument document = new SignedDocument();
+        document.setName(documentName);
+        document.setContent(documentContent);
 
-        // do not send document content
-        document.setContent(null);
-        return document;
-
+        return signatureClient.persistAndSignDocument(document);
     }
 
     @ResponseBody
@@ -86,8 +85,8 @@ public class ApiController {
             path = Routes.DOCUMENTS,
             method = RequestMethod.DELETE
     )
-    public void deleteDocument(@RequestParam("documentId") Long documentId) {
-        documentManager.deleteDocument(documentId);
+    public void deleteDocument(@RequestParam("documentId") String documentId) {
+        signatureClient.deleteDocument(documentId);
     }
 
     @ResponseBody
@@ -96,18 +95,22 @@ public class ApiController {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public GpgValidationResult checkIfDocumentValid(
+    public Single<GpgValidationResult> checkIfDocumentValid(
             @RequestParam("candidate") MultipartFile sentCandidate,
-            @RequestParam("documentId") Long documentId) throws IOException {
+            @RequestParam("documentId") String documentId) throws IOException {
 
         InputStream docInputStream = sentCandidate.getInputStream();
         byte[] documentContent = IOUtils.toByteArray(docInputStream);
 
-        GpgValidationResult validationResult = documentManager.verifyDocument(documentContent, documentId);
+        SignedDocument document = new SignedDocument();
+        document.setContent(documentContent);
 
-        // do not send document content
-        validationResult.getDocument().setContent(null);
-        return validationResult;
+        return signatureClient.checkDocument(document, documentId)
+                .map((result) -> {
+                    // do not send document content as it is binary
+                    result.getDocument().setContent(null);
+                    return result;
+                });
 
     }
 }

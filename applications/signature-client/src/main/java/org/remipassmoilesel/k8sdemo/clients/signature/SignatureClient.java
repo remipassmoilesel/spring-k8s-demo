@@ -32,8 +32,8 @@ public class SignatureClient extends AbstractSyncClient {
         return microCommSync.request("deleteDocument", MCMessage.fromObject(documentId));
     }
 
-    public Single<GpgValidationResult> checkDocument(SignedDocument document) {
-        return microCommSync.request("checkDocument", MCMessage.fromObject(document))
+    public Single<GpgValidationResult> checkDocument(SignedDocument document, String documentId) {
+        return microCommSync.request("checkDocument", MCMessage.fromObjects(document, documentId))
                 .map(message -> (GpgValidationResult) message.getContent()[0]);
     }
 }

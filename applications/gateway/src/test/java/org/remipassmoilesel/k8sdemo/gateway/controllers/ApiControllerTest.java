@@ -1,10 +1,10 @@
-package org.remipassmoilesel.k8sdemo.controllers;
+package org.remipassmoilesel.k8sdemo.gateway.controllers;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.remipassmoilesel.k8sdemo.Application;
-import org.remipassmoilesel.k8sdemo.Routes;
+import org.remipassmoilesel.k8sdemo.gateway.Application;
+import org.remipassmoilesel.k8sdemo.gateway.Routes;
 import org.remipassmoilesel.k8sdemo.signature.document.Document;
 import org.remipassmoilesel.k8sdemo.signature.document.DocumentManager;
 import org.remipassmoilesel.k8sdemo.signature.test_helpers.TestHelpers;

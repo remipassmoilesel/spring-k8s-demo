@@ -1,4 +1,4 @@
-package org.remipassmoilesel.k8sdemo.app_identity;
+package org.remipassmoilesel.k8sdemo.gateway.app_identity;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,13 +7,13 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Map;
 
-public class AppIdentity {
-    private static final Logger logger = LoggerFactory.getLogger(AppIdentity.class);
+public class GatewayIdentity {
+    private static final Logger logger = LoggerFactory.getLogger(GatewayIdentity.class);
 
     private String hostname;
     private Map<String, String> envVars;
 
-    public AppIdentity() {
+    public GatewayIdentity() {
         this.hostname = this.findHostName();
         this.envVars = System.getenv();
     }

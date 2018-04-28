@@ -1,4 +1,4 @@
-package org.remipassmoilesel.k8sdemo;
+package org.remipassmoilesel.k8sdemo.gateway;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
