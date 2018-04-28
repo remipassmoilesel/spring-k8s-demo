@@ -5,6 +5,7 @@ import org.remipassmoilesel.k8sdemo.commons.comm.utils.Serializer;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class MCMessage implements Serializable {
@@ -25,6 +26,10 @@ public class MCMessage implements Serializable {
 
     public static MCMessage fromArray(Serializable[] content) {
         return new MCMessage(content);
+    }
+
+    public static MCMessage fromList(List<? extends Serializable> content) {
+        return new MCMessage(content.toArray(new Serializable[]{}));
     }
 
     public static MCMessage deserialize(byte[] serialized) throws IOException, ClassNotFoundException {
