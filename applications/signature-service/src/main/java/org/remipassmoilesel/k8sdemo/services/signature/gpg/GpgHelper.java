@@ -3,8 +3,8 @@ package org.remipassmoilesel.k8sdemo.services.signature.gpg;
 import org.apache.commons.exec.ExecuteException;
 import org.remipassmoilesel.k8sdemo.clients.signature.GpgValidationResult;
 import org.remipassmoilesel.k8sdemo.clients.signature.SignedDocument;
+import org.remipassmoilesel.k8sdemo.commons.utils.FileUtils;
 import org.remipassmoilesel.k8sdemo.services.signature.document.DocumentHelper;
-import org.remipassmoilesel.k8sdemo.services.signature.utils.FileUtils;
 
 import java.io.IOException;
 import java.nio.file.Path;

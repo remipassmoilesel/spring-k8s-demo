@@ -4,7 +4,7 @@ package org.remipassmoilesel.k8sdemo.commons.examples;
 import io.reactivex.Observable;
 import org.pmw.tinylog.Level;
 import org.pmw.tinylog.Logger;
-import org.remipassmoilesel.k8sdemo.commons.LoggerConfig;
+import org.remipassmoilesel.k8sdemo.commons.utils.LoggerConfig;
 import org.remipassmoilesel.k8sdemo.commons.comm.MCMessage;
 import org.remipassmoilesel.k8sdemo.commons.comm.sync.MicroCommSync;
 import org.remipassmoilesel.k8sdemo.commons.comm.sync.MicroCommSyncConfig;

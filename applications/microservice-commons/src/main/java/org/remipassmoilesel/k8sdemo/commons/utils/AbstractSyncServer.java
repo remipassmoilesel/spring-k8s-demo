@@ -1,4 +1,4 @@
-package org.remipassmoilesel.k8sdemo.commons;
+package org.remipassmoilesel.k8sdemo.commons.utils;
 
 import org.remipassmoilesel.k8sdemo.commons.comm.sync.MicroCommSync;
 
