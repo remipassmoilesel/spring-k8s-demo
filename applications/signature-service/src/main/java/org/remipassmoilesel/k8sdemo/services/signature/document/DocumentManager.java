@@ -1,7 +1,8 @@
 package org.remipassmoilesel.k8sdemo.services.signature.document;
 
+import org.remipassmoilesel.k8sdemo.clients.signature.GpgValidationResult;
+import org.remipassmoilesel.k8sdemo.clients.signature.SignedDocument;
 import org.remipassmoilesel.k8sdemo.services.signature.gpg.GpgHelper;
-import org.remipassmoilesel.k8sdemo.services.signature.gpg.GpgValidationResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

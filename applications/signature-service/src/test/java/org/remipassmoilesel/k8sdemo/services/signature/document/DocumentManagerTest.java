@@ -2,8 +2,9 @@ package org.remipassmoilesel.k8sdemo.services.signature.document;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.remipassmoilesel.k8sdemo.signature.Application;
-import org.remipassmoilesel.k8sdemo.signature.gpg.GpgValidationResult;
+import org.remipassmoilesel.k8sdemo.clients.signature.GpgValidationResult;
+import org.remipassmoilesel.k8sdemo.clients.signature.SignedDocument;
+import org.remipassmoilesel.k8sdemo.services.signature.Application;
 import org.remipassmoilesel.k8sdemo.services.signature.test_helpers.TestHelpers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,6 +1,7 @@
 package org.remipassmoilesel.k8sdemo.services.signature.document;
 
 import org.apache.commons.io.FileUtils;
+import org.remipassmoilesel.k8sdemo.clients.signature.SignedDocument;
 
 import java.io.IOException;
 import java.nio.file.Files;

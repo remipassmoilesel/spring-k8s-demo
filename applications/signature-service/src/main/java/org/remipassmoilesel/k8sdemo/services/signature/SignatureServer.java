@@ -1,10 +1,10 @@
 package org.remipassmoilesel.k8sdemo.services.signature;
 
+import org.remipassmoilesel.k8sdemo.clients.signature.GpgValidationResult;
+import org.remipassmoilesel.k8sdemo.clients.signature.SignedDocument;
 import org.remipassmoilesel.k8sdemo.commons.comm.MCMessage;
 import org.remipassmoilesel.k8sdemo.commons.comm.sync.MicroCommSync;
 import org.remipassmoilesel.k8sdemo.services.signature.document.DocumentManager;
-import org.remipassmoilesel.k8sdemo.services.signature.document.SignedDocument;
-import org.remipassmoilesel.k8sdemo.services.signature.gpg.GpgValidationResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
