@@ -1,4 +1,4 @@
-package org.remipassmoilesel.microservice_commons.comm.common;
+package org.remipassmoilesel.k8sdemo.commons.comm.utils;
 
 public class RemoteException extends RuntimeException {
 

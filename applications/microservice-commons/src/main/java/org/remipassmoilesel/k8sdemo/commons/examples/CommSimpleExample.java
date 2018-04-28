@@ -1,12 +1,13 @@
-package org.remipassmoilesel.microservice_commons.examples;
+package org.remipassmoilesel.k8sdemo.commons.examples;
+
 
 import io.reactivex.Observable;
 import org.pmw.tinylog.Level;
 import org.pmw.tinylog.Logger;
-import org.remipassmoilesel.microservice_commons.LoggerConfig;
-import org.remipassmoilesel.microservice_commons.comm.common.MCMessage;
-import org.remipassmoilesel.microservice_commons.comm.sync.MicroCommSync;
-import org.remipassmoilesel.microservice_commons.comm.sync.MicroCommSyncConfig;
+import org.remipassmoilesel.k8sdemo.commons.LoggerConfig;
+import org.remipassmoilesel.k8sdemo.commons.comm.MCMessage;
+import org.remipassmoilesel.k8sdemo.commons.comm.sync.MicroCommSync;
+import org.remipassmoilesel.k8sdemo.commons.comm.sync.MicroCommSyncConfig;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;

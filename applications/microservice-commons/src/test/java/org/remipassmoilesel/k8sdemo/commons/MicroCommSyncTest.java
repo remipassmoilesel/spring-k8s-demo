@@ -1,11 +1,12 @@
-package org.remipassmoilesel.microservice_commons.comm.sync;
+package org.remipassmoilesel.k8sdemo.commons;
 
 import io.reactivex.Single;
 import io.reactivex.observers.TestObserver;
 import org.junit.Before;
 import org.junit.Test;
-import org.remipassmoilesel.microservice_commons.comm.common.MCMessage;
-import org.remipassmoilesel.microservice_commons.comm.common.RemoteException;
+import org.remipassmoilesel.k8sdemo.commons.comm.MCMessage;
+import org.remipassmoilesel.k8sdemo.commons.comm.utils.RemoteException;
+import org.remipassmoilesel.k8sdemo.commons.comm.sync.MicroCommSync;
 
 import java.io.IOException;
 

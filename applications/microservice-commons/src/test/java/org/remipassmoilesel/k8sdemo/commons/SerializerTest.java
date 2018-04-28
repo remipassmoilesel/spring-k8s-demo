@@ -1,8 +1,8 @@
-package org.remipassmoilesel.microservice_commons.comm.sync;
+package org.remipassmoilesel.k8sdemo.commons;
 
 import org.junit.Test;
-import org.remipassmoilesel.microservice_commons.comm.common.MCMessage;
-import org.remipassmoilesel.microservice_commons.comm.common.Serializer;
+import org.remipassmoilesel.k8sdemo.commons.comm.MCMessage;
+import org.remipassmoilesel.k8sdemo.commons.comm.utils.Serializer;
 
 import java.io.IOException;
 import java.io.Serializable;

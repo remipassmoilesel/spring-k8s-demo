@@ -1,4 +1,6 @@
-package org.remipassmoilesel.microservice_commons.comm.common;
+package org.remipassmoilesel.k8sdemo.commons.comm;
+
+import org.remipassmoilesel.k8sdemo.commons.comm.utils.Serializer;
 
 import java.io.IOException;
 import java.io.Serializable;

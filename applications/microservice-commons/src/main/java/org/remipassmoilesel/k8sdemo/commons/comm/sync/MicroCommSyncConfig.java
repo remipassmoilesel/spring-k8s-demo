@@ -1,6 +1,6 @@
-package org.remipassmoilesel.microservice_commons.comm.sync;
+package org.remipassmoilesel.k8sdemo.commons.comm.sync;
 
-import org.remipassmoilesel.microservice_commons.comm.common.Helpers;
+import org.remipassmoilesel.k8sdemo.commons.comm.utils.Helpers;
 
 import java.util.Objects;
 

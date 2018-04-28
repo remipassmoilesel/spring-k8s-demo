@@ -1,14 +1,14 @@
-package org.remipassmoilesel.microservice_commons.comm.sync;
+package org.remipassmoilesel.k8sdemo.commons.comm.sync;
 
 import io.nats.client.*;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import org.pmw.tinylog.Logger;
-import org.remipassmoilesel.microservice_commons.comm.common.Helpers;
-import org.remipassmoilesel.microservice_commons.comm.common.MCMessage;
-import org.remipassmoilesel.microservice_commons.comm.common.RemoteException;
-import org.remipassmoilesel.microservice_commons.comm.common.Serializer;
+import org.remipassmoilesel.k8sdemo.commons.comm.utils.Helpers;
+import org.remipassmoilesel.k8sdemo.commons.comm.MCMessage;
+import org.remipassmoilesel.k8sdemo.commons.comm.utils.RemoteException;
+import org.remipassmoilesel.k8sdemo.commons.comm.utils.Serializer;
 
 import java.io.IOException;
 import java.util.HashMap;

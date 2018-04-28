@@ -1,4 +1,4 @@
-package org.remipassmoilesel.microservice_commons;
+package org.remipassmoilesel.k8sdemo.commons;
 
 import org.pmw.tinylog.Configurator;
 import org.pmw.tinylog.Level;
