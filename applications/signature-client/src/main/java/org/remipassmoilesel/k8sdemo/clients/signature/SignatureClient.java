@@ -1,4 +1,4 @@
-package org.remipassmoilesel.k8sdemo.clients;
+package org.remipassmoilesel.k8sdemo.clients.signature;
 
 import io.reactivex.Single;
 import org.remipassmoilesel.k8sdemo.commons.AbstractSyncClient;

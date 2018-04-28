@@ -1,4 +1,4 @@
-package org.remipassmoilesel.k8sdemo.clients;
+package org.remipassmoilesel.k8sdemo.clients.signature;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
