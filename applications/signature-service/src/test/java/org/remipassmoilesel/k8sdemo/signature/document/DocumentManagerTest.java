@@ -3,6 +3,7 @@ package org.remipassmoilesel.k8sdemo.signature.document;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.remipassmoilesel.k8sdemo.signature.Application;
+import org.remipassmoilesel.k8sdemo.signature.gpg.GpgValidationResult;
 import org.remipassmoilesel.k8sdemo.signature.test_helpers.TestHelpers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,9 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -50,6 +49,36 @@ public class DocumentManagerTest {
 
         documentManager.deleteDocument(persisted.getId());
         documentManager.getDocumentById(persisted.getId());
+    }
+
+    @Test
+    public void checkDocumentShouldValidateDocIfValid() throws Exception {
+
+        SignedDocument testDoc = TestHelpers.getTestDocument(1);
+        SignedDocument persisted = documentManager.persistDocument(
+                testDoc.getName(),
+                testDoc.getContent()
+        );
+
+        GpgValidationResult result = documentManager.verifyDocument(persisted.getContent(), persisted.getId());
+
+        assertThat(result.isValid(), is(true));
+
+    }
+
+    @Test
+    public void checkDocumentShouldInvalidateDocIfInvalid() throws Exception {
+
+        SignedDocument testDoc = TestHelpers.getTestDocument(1);
+        SignedDocument testDoc2 = TestHelpers.getTestDocument(2);
+        SignedDocument persisted = documentManager.persistDocument(
+                testDoc.getName(),
+                testDoc.getContent()
+        );
+
+        GpgValidationResult result = documentManager.verifyDocument(testDoc2.getContent(), persisted.getId());
+
+        assertThat(result.isValid(), is(false));
     }
 
 }
