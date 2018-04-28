@@ -40,8 +40,7 @@ public class MicroCommSyncTest {
         test.assertValue(replyMessage);
     }
 
-    // TODO: improve error handling with rxjava
-    @Test(expected = RemoteException.class)
+    @Test
     public void errorsShouldBeWellReceived() {
         String subject = TestHelpers.getRandomSubject("testsubject");
         MCMessage requestMessage = MCMessage.fromObject("test-message-sent");
@@ -51,7 +50,7 @@ public class MicroCommSyncTest {
         });
 
         Single<MCMessage> reply = microComm.request(subject, requestMessage);
-        reply.blockingGet();
+        reply.test().assertError(RemoteException.class);
     }
 
 }
