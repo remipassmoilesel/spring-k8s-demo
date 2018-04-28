@@ -1,6 +1,6 @@
-package org.remipassmoilesel.k8sdemo.signature.gpg;
+package org.remipassmoilesel.k8sdemo.services.signature.gpg;
 
-import org.remipassmoilesel.k8sdemo.signature.document.SignedDocument;
+import org.remipassmoilesel.k8sdemo.services.signature.document.SignedDocument;
 
 import java.io.Serializable;
 import java.util.Objects;

@@ -1,4 +1,4 @@
-package org.remipassmoilesel.k8sdemo.signature;
+package org.remipassmoilesel.k8sdemo.services.signature;
 
 import org.remipassmoilesel.k8sdemo.commons.comm.sync.MicroCommSync;
 import org.remipassmoilesel.k8sdemo.commons.comm.sync.MicroCommSyncConfig;

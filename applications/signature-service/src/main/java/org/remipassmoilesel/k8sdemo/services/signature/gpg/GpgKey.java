@@ -1,4 +1,4 @@
-package org.remipassmoilesel.k8sdemo.signature.gpg;
+package org.remipassmoilesel.k8sdemo.services.signature.gpg;
 
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package org.remipassmoilesel.k8sdemo.signature.document;
+package org.remipassmoilesel.k8sdemo.services.signature.document;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 

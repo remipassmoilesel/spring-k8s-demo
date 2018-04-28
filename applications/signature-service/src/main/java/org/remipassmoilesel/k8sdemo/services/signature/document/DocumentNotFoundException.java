@@ -1,4 +1,4 @@
-package org.remipassmoilesel.k8sdemo.signature.document;
+package org.remipassmoilesel.k8sdemo.services.signature.document;
 
 public class DocumentNotFoundException extends RuntimeException {
 

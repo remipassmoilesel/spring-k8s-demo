@@ -1,9 +1,9 @@
-package org.remipassmoilesel.k8sdemo.signature.gpg;
+package org.remipassmoilesel.k8sdemo.services.signature.gpg;
 
 import org.apache.commons.exec.ExecuteException;
-import org.remipassmoilesel.k8sdemo.signature.document.SignedDocument;
-import org.remipassmoilesel.k8sdemo.signature.document.DocumentHelper;
-import org.remipassmoilesel.k8sdemo.signature.utils.FileUtils;
+import org.remipassmoilesel.k8sdemo.services.signature.utils.FileUtils;
+import org.remipassmoilesel.k8sdemo.services.signature.document.SignedDocument;
+import org.remipassmoilesel.k8sdemo.services.signature.document.DocumentHelper;
 
 import java.io.IOException;
 import java.nio.file.Path;

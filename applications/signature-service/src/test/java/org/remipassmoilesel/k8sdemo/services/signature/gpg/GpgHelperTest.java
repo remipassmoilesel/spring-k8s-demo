@@ -1,8 +1,8 @@
-package org.remipassmoilesel.k8sdemo.signature.gpg;
+package org.remipassmoilesel.k8sdemo.services.signature.gpg;
 
 import org.junit.Test;
 import org.remipassmoilesel.k8sdemo.signature.document.SignedDocument;
-import org.remipassmoilesel.k8sdemo.signature.test_helpers.TestHelpers;
+import org.remipassmoilesel.k8sdemo.services.signature.test_helpers.TestHelpers;
 
 import java.io.IOException;
 

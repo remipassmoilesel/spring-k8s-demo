@@ -1,4 +1,4 @@
-package org.remipassmoilesel.k8sdemo.signature.test_helpers;
+package org.remipassmoilesel.k8sdemo.services.signature.test_helpers;
 
 import org.remipassmoilesel.k8sdemo.signature.document.SignedDocument;
 import org.remipassmoilesel.k8sdemo.signature.gpg.GpgKey;

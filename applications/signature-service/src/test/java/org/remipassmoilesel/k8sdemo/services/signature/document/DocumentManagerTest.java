@@ -1,22 +1,18 @@
-package org.remipassmoilesel.k8sdemo.signature.document;
+package org.remipassmoilesel.k8sdemo.services.signature.document;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.remipassmoilesel.k8sdemo.signature.Application;
 import org.remipassmoilesel.k8sdemo.signature.gpg.GpgValidationResult;
-import org.remipassmoilesel.k8sdemo.signature.test_helpers.TestHelpers;
+import org.remipassmoilesel.k8sdemo.services.signature.test_helpers.TestHelpers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
