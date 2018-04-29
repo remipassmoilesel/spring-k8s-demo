@@ -35,3 +35,5 @@ applications/gateway/src/main/resources/static/**/*
 inventory-prod.cfg
 *.retry
 *.log
+
+__pycache__
