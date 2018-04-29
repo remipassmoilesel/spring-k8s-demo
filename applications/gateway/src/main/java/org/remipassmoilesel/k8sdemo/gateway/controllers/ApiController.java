@@ -78,9 +78,6 @@ public class ApiController {
         document.setName(documentName);
         document.setContent(documentContent);
 
-        System.out.println("signatureClient.persistAndSignDocument(document)");
-        System.out.println(signatureClient.persistAndSignDocument(document));
-
         return signatureClient.persistAndSignDocument(document)
                 .map(doc -> {
                     // do not send document content as it is binary

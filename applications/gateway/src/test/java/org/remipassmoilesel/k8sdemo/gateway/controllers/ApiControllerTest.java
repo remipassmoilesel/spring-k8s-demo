@@ -2,13 +2,12 @@ package org.remipassmoilesel.k8sdemo.gateway.controllers;
 
 import io.reactivex.Single;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.remipassmoilesel.k8sdemo.TestHelpers;
 import org.remipassmoilesel.k8sdemo.clients.signature.SignatureClient;
 import org.remipassmoilesel.k8sdemo.clients.signature.entities.SignedDocument;
+import org.remipassmoilesel.k8sdemo.commons.comm.MCMessage;
 import org.remipassmoilesel.k8sdemo.gateway.Application;
 import org.remipassmoilesel.k8sdemo.gateway.Routes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +28,10 @@ import java.util.Arrays;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 // TODO: verify values
@@ -73,8 +72,8 @@ public class ApiControllerTest {
 
     @Test
     public void postDocument() throws Exception {
-        when(signatureClient.persistAndSignDocument(any(SignedDocument.class)))
-                .thenReturn(Single.just(testDoc));
+        reset(signatureClient);
+        when(signatureClient.persistAndSignDocument(any(SignedDocument.class))).thenReturn(Single.just(testDoc));
 
         MockMultipartFile testDocument = new MockMultipartFile(
                 "document",
@@ -83,7 +82,9 @@ public class ApiControllerTest {
                 TestHelpers.getTestDocument(1).getContent()
         );
 
-        mockMvc.perform(MockMvcRequestBuilders.multipart(Routes.DOCUMENTS).file(testDocument))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.multipart(Routes.DOCUMENTS).file(testDocument)).andReturn();
+
+        mockMvc.perform(asyncDispatch(result))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.id").exists())
@@ -98,13 +99,13 @@ public class ApiControllerTest {
 
     @Test
     public void getDocuments() throws Exception {
+        reset(signatureClient);
         when(signatureClient.getDocuments()).thenReturn(Single.just(Arrays.asList(testDoc)));
 
-        MvcResult result = mockMvc.perform(get(Routes.DOCUMENTS))
-                .andExpect(status().isOk())
-                .andReturn();
+        MvcResult result = mockMvc.perform(get(Routes.DOCUMENTS)).andReturn();
 
         mockMvc.perform(asyncDispatch(result))
+                .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))))
                 .andExpect(jsonPath("$[0].id").exists())
@@ -117,19 +118,19 @@ public class ApiControllerTest {
         verify(signatureClient).getDocuments();
     }
 
-//    @Test
-//    public void deleteDocumentsShouldWork() throws Exception {
-//
-//        Document testDoc = TestHelpers.getTestDocument(1);
-//        Document fullDoc = documentManager.persistDocument(testDoc.getName(), testDoc.getContent());
-//
-//        mockMvc.perform(delete(Routes.DOCUMENTS)
-//                .param("documentId", String.valueOf(fullDoc.getId())))
-//                .andExpect(status().isOk())
-//                .andReturn();
-//
-//    }
-//
+    @Test
+    public void deleteDocumentsShouldWork() throws Exception {
+        reset(signatureClient);
+        when(signatureClient.deleteDocument(any(String.class))).thenReturn(Single.just(new MCMessage()));
+
+        MvcResult result = mockMvc.perform(delete(Routes.DOCUMENTS).param("documentId", "test-id"))
+                .andReturn();
+
+        mockMvc.perform(asyncDispatch(result)).andExpect(status().isOk());
+
+        verify(signatureClient).deleteDocument("test-id");
+    }
+
 //    @Test
 //    public void checkDocumentShouldValidateDocIfValid() throws Exception {
 //
