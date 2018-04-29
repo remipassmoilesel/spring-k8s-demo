@@ -2,4 +2,4 @@
 
 . ./applications/signature-service/setenv-dev.sh
 
-./gradlew signature-service:build
+./gradlew signature-service:build -x test
