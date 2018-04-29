@@ -23,14 +23,19 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+// TODO: verify values
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -45,14 +50,19 @@ public class ApiControllerTest {
     @Autowired
     private ApiController apiController;
 
+    private SignedDocument testDoc;
+
     @Before
-    public void setup() {
+    public void setup() throws IOException {
         mockMvc = MockMvcBuilders.standaloneSetup(apiController).build();
+
+        testDoc = TestHelpers.getTestDocument(1);
+        testDoc.setId("test-id");
+        testDoc.setSignature("test-signature");
     }
 
-    @Ignore
     @Test
-    public void getAppIdentityShouldWork() throws Exception {
+    public void getAppIdentity() throws Exception {
         mockMvc.perform(get(Routes.APP_IDENTITY))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
@@ -61,9 +71,10 @@ public class ApiControllerTest {
                 .andReturn();
     }
 
-    @Ignore
     @Test
-    public void postDocumentShouldWork() throws Exception {
+    public void postDocument() throws Exception {
+        when(signatureClient.persistAndSignDocument(any(SignedDocument.class)))
+                .thenReturn(Single.just(testDoc));
 
         MockMultipartFile testDocument = new MockMultipartFile(
                 "document",
@@ -79,15 +90,14 @@ public class ApiControllerTest {
                 .andExpect(jsonPath("$.name").exists())
                 .andExpect(jsonPath("$.date").exists())
                 .andExpect(jsonPath("$.signature").exists())
+                .andExpect(jsonPath("$.content").doesNotExist())
                 .andReturn();
+
+        verify(signatureClient).persistAndSignDocument(any(SignedDocument.class));
     }
 
     @Test
-    public void getDocumentsShouldWork() throws Exception {
-        SignedDocument testDoc = TestHelpers.getTestDocument(1);
-        testDoc.setId("test-id");
-        testDoc.setSignature("test-signature");
-
+    public void getDocuments() throws Exception {
         when(signatureClient.getDocuments()).thenReturn(Single.just(Arrays.asList(testDoc)));
 
         MvcResult result = mockMvc.perform(get(Routes.DOCUMENTS))
@@ -99,10 +109,12 @@ public class ApiControllerTest {
                 .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))))
                 .andExpect(jsonPath("$[0].id").exists())
                 .andExpect(jsonPath("$[0].name").exists())
-                .andExpect(jsonPath("$[0].content").doesNotExist())
                 .andExpect(jsonPath("$[0].date").exists())
                 .andExpect(jsonPath("$[0].signature").exists())
+                .andExpect(jsonPath("$[0].content").doesNotExist())
                 .andReturn();
+
+        verify(signatureClient).getDocuments();
     }
 
 //    @Test

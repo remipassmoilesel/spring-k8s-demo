@@ -19,10 +19,11 @@
 - Tests Cypress ?
 - Restaurer les messages d'erreurs en cas de problème de connexion (client http)
 - Empêcher la connexion mongo de gateway due à l'import de dépendances
+- Installer JUnit 5, instaurer un tag "only"
 
 1 - Améliorer les outils de dev
 
-- Script python de contrôle des docker ?
+- Script python de contrôle des docker ? Start: build + start, Restart: build + restart, ...
 - Image docker intégrée au docker compose avec command gradle bootRun ?
 - Exposer un port debug par application ? Voir LiveReload server is running on port 35729 https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-devtools.html
 
