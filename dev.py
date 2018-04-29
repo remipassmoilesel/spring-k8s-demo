@@ -22,6 +22,12 @@ class ArgParser:
             self.actions.showHelp()
             self.actions.exit()
 
+        if cleanArgs[1] == 'demo':
+            self.actions.buildAll()
+            self.actions.startDockerCompose()
+            self.actions.exit()
+
+
     def cleanArgs(self, arguments):
         res = []
         for arg in arguments:

@@ -2,7 +2,6 @@
 import subprocess
 import sys
 
-
 class TermStyle:
     HEADER = '\033[95m'
     BLUE = '\033[94m'
@@ -29,15 +28,3 @@ class Utils:
     @staticmethod
     def colorize(message, termStyle=TermStyle.GREEN):
         return termStyle + str(message) + TermStyle.RESET
-
-
-class ActionHandlers:
-    def showHelp(self):
-        Utils.log('Control application in development environment')
-        Utils.log('')
-        Utils.log('Examples: ')
-        Utils.log('\t$ dev start')
-        Utils.log('\t$ dev stop')
-
-    def exit(self, code=0):
-        exit(code)
