@@ -5,6 +5,7 @@ import org.remipassmoilesel.k8sdemo.commons.comm.sync.MicroCommSync;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,6 +20,7 @@ public class Application {
 
     public static final String DEV_PROFILE = "dev";
     public static final String PROD_PROFILE = "prod";
+    public static final String TEST_PROFILE = "test";
 
     @Value("${spring.profiles.active}")
     private String activeProfile;
@@ -35,14 +37,13 @@ public class Application {
     }
 
     @Bean
-    public MicroCommSync createComm() throws IOException {
+    public MicroCommSync microCommSync() throws IOException {
         return MicroCommSync.connectFromParameters(microCommNatsUrl, microCommContext);
     }
 
-    // FIXME: fix scan for components in dependencies
     @Bean
-    public SignatureClient createSignatureClient() throws IOException {
-        SignatureClient client = new SignatureClient(createComm());
+    public SignatureClient signatureClient(@Autowired MicroCommSync microCommSync) throws IOException {
+        SignatureClient client = new SignatureClient(microCommSync);
         return client;
     }
 

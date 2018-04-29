@@ -13,8 +13,8 @@
 - ~~Créer un paquet client signature~~
 - Mise en place health check
 - Réfléxion sur la dépendance d'injections: component scan pour les libs ? Ou création de bean dupliquée ?
-- Fixer la suppression de documents
-- S'assurer que les tests utilisent bien une bdd différente de celle de dev
+- ~~Fixer la suppression de documents~~
+- S'assurer que les tests utilisent bien un profil, une bdd et un contexte spécifiques
 - Tests Gateway avec Mockito
 - Tests Cypress ?
 - Restaurer les messages d'erreurs en cas de problème de connexion (client http)
