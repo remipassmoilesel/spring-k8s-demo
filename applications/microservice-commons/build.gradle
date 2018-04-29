@@ -8,7 +8,6 @@ sourceCompatibility = 1.8
 
 dependencies {
     compile('io.nats:jnats:1.0')
-    compile('com.fasterxml.jackson.core:jackson-databind:2.9.5')
     compile('org.apache.commons:commons-lang3:3.7')
     compile('io.reactivex.rxjava2:rxjava:2.1.12')
     compile('org.slf4j:slf4j-api:1.7.22')
