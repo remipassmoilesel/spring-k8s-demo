@@ -1,5 +1,6 @@
 package org.remipassmoilesel.k8sdemo.services.signature;
 
+import org.remipassmoilesel.k8sdemo.clients.signature.SignatureSubjects;
 import org.remipassmoilesel.k8sdemo.clients.signature.entities.GpgValidationResult;
 import org.remipassmoilesel.k8sdemo.clients.signature.entities.SignedDocument;
 import org.remipassmoilesel.k8sdemo.commons.comm.MCMessage;
@@ -27,14 +28,14 @@ public class SignatureServer extends AbstractSyncServer {
 
     public void registerHandlers() {
 
-        microCommSync.handle("getDocuments", (subject, message) -> {
+        microCommSync.handle(SignatureSubjects.GET_DOCUMENTS, (subject, message) -> {
             logger.trace("Server received request for: getDocuments");
 
             List<SignedDocument> documents = documentManager.getDocuments();
             return MCMessage.fromList(documents);
         });
 
-        microCommSync.handle("persistAndSignDocument", (subject, message) -> {
+        microCommSync.handle(SignatureSubjects.PERSIST_AND_SIGN_DOCUMENT, (subject, message) -> {
             logger.trace("Server received request for: persistAndSignDocument");
 
             SignedDocument document = this.getDocumentFromMessage(message, 0);
@@ -42,7 +43,7 @@ public class SignatureServer extends AbstractSyncServer {
             return MCMessage.fromObject(persisted);
         });
 
-        microCommSync.handle("deleteDocument", (subject, message) -> {
+        microCommSync.handle(SignatureSubjects.DELETE_DOCUMENT, (subject, message) -> {
             logger.trace("Server received request for: deleteDocument");
 
             String documentId = message.getAsString(0);
@@ -50,7 +51,7 @@ public class SignatureServer extends AbstractSyncServer {
             return MCMessage.EMPTY;
         });
 
-        microCommSync.handle("checkDocument", (subject, message) -> {
+        microCommSync.handle(SignatureSubjects.CHECK_DOCUMENT, (subject, message) -> {
             logger.trace("Server received request for: checkDocument");
 
             SignedDocument document = this.getDocumentFromMessage(message, 0);

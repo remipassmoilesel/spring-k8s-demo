@@ -35,16 +35,16 @@ public class MicroCommSync {
     public MicroCommSync(MicroCommSyncConfig config) {
         this.config = config;
         this.subscriptions = new HashMap<>();
-        logger.trace("Initialized with configuration: {}", config);
+        logger.info("Initialized with configuration: {}", config);
     }
 
     public void connect() throws IOException {
-        logger.trace("Connecting to: {}", config.getUrl());
+        logger.info("Connecting to: {}", config.getUrl());
         this.connection = Nats.connect(config.getUrl());
     }
 
     public void handle(String subject, SyncHandler handler) {
-        logger.trace("Registering handler on subject: {}", subject);
+        logger.info("Registering handler on subject: {}", subject);
 
         this.checkConnection();
         Helpers.checkSubjectString(subject);
@@ -58,7 +58,7 @@ public class MicroCommSync {
     }
 
     public Single<MCMessage> request(String subject, MCMessage mcMessage) {
-        logger.trace("Sending request on subject: {}", subject);
+        logger.info("Sending request on subject: {}", subject);
 
         this.checkConnection();
         Helpers.checkSubjectString(subject);
@@ -76,7 +76,7 @@ public class MicroCommSync {
     }
 
     public void unsubscribe(String subject) throws IOException {
-        logger.trace("Unsubscribing from subject: {}", subject);
+        logger.info("Unsubscribing from subject: {}", subject);
 
         this.checkConnection();
         Helpers.checkSubjectString(subject);
@@ -113,7 +113,7 @@ public class MicroCommSync {
 
     private MessageHandler createHandler(String subject, SyncHandler handler) {
         return (Message natsMessage) -> {
-            logger.trace("Handling a message on subject: {}", subject);
+            logger.info("Handling a message on subject: {}", subject);
 
             try {
                 MCMessage deserialized = (MCMessage) Serializer.deserialize(natsMessage.getData());
