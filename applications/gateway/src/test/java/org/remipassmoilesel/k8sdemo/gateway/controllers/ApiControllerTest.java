@@ -162,28 +162,4 @@ public class ApiControllerTest {
         verify(signatureClient).checkDocument(any(SignedDocument.class), eq("test-doc-id"));
     }
 
-//    @Test
-//    public void checkDocumentShouldInvalidateDocIfInvalid() throws Exception {
-//
-//        Document testDoc = TestHelpers.getTestDocument(1);
-//        Document testDoc2 = TestHelpers.getTestDocument(2);
-//        Document completeDoc = documentManager.persistDocument(testDoc.getName(), testDoc.getContent());
-//
-//        MockMultipartFile testDocument = new MockMultipartFile(
-//                "candidate",
-//                "document.odt",
-//                "application/vnd.oasis.opendocument.text",
-//                testDoc2.getContent()
-//        );
-//
-//        mockMvc.perform(MockMvcRequestBuilders.multipart(Routes.DOC_SIGNATURE)
-//                .file(testDocument)
-//                .param("documentId", String.valueOf(completeDoc.getId())))
-//                .andExpect(status().isOk())
-//                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-//                .andExpect(jsonPath("$.valid", is(false)))
-//                .andExpect(jsonPath("$.document").exists())
-//                .andReturn();
-//    }
-
 }
