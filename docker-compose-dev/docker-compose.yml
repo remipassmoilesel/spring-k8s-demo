@@ -34,7 +34,7 @@ services:
     volumes:
       - "..:/sources"
     ports:
-      - 8080:8080
+      - 8090:8080
       - 10100:35729
     networks:
       spring-k8s-demo-dev-network:
@@ -49,7 +49,7 @@ services:
     volumes:
       - "..:/sources"
     ports:
-      - 8085:8080
+      - 8091:8080
       - 10105:35729
     networks:
       spring-k8s-demo-dev-network:
