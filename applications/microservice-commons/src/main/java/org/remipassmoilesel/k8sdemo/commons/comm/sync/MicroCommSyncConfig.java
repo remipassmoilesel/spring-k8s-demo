@@ -9,7 +9,7 @@ public class MicroCommSyncConfig {
     private final String url;
     private final String context;
 
-    public MicroCommSyncConfig(String context, String url) {
+    public MicroCommSyncConfig(String url, String context) {
         Helpers.checkSubjectString(context);
         this.context = context;
         this.url = url;

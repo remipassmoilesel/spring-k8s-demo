@@ -4,17 +4,20 @@ import io.nats.client.*;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
-import org.pmw.tinylog.Logger;
 import org.remipassmoilesel.k8sdemo.commons.comm.utils.Helpers;
 import org.remipassmoilesel.k8sdemo.commons.comm.MCMessage;
 import org.remipassmoilesel.k8sdemo.commons.comm.utils.RemoteException;
 import org.remipassmoilesel.k8sdemo.commons.comm.utils.Serializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MicroCommSync {
+
+    private static final Logger logger = LoggerFactory.getLogger(MicroCommSync.class);
 
     private final MicroCommSyncConfig config;
     private final Scheduler scheduler = Schedulers.computation();
@@ -24,16 +27,16 @@ public class MicroCommSync {
     public MicroCommSync(MicroCommSyncConfig config) {
         this.config = config;
         this.subscriptions = new HashMap<>();
-        Logger.trace("Initialized with configuration: {}", config);
+        logger.trace("Initialized with configuration: {}", config);
     }
 
     public void connect() throws IOException {
-        Logger.trace("Connecting to: {}", config.getUrl());
+        logger.trace("Connecting to: {}", config.getUrl());
         this.connection = Nats.connect(config.getUrl());
     }
 
     public void handle(String subject, SyncHandler handler) {
-        Logger.trace("Registering handler on subject: {}", subject);
+        logger.trace("Registering handler on subject: {}", subject);
 
         Helpers.checkSubjectString(subject);
 
@@ -46,7 +49,7 @@ public class MicroCommSync {
     }
 
     public Single<MCMessage> request(String subject, MCMessage mcMessage) {
-        Logger.trace("Sending request on subject: {}", subject);
+        logger.trace("Sending request on subject: {}", subject);
 
         Helpers.checkSubjectString(subject);
 
@@ -61,7 +64,7 @@ public class MicroCommSync {
     }
 
     public void unsubscribe(String subject) throws IOException {
-        Logger.trace("Unsubscribing from subject: {}", subject);
+        logger.trace("Unsubscribing from subject: {}", subject);
 
         Helpers.checkSubjectString(subject);
 
@@ -92,7 +95,7 @@ public class MicroCommSync {
 
     private MessageHandler createHandler(String subject, SyncHandler handler) {
         return (Message natsMessage) -> {
-            Logger.trace("Handling a message on subject: {}", subject);
+            logger.trace("Handling a message on subject: {}", subject);
 
             try {
                 MCMessage deserialized = (MCMessage) Serializer.deserialize(natsMessage.getData());
@@ -118,8 +121,7 @@ public class MicroCommSync {
         try {
             this.connection.publish(replyTo, MCMessage.fromError(remoteException).serialize());
         } catch (Exception e1) {
-            Logger.error("Error while handling error: {}", e.getMessage());
-            Logger.error(e);
+            logger.error("Error while handling error: {}", e);
         }
     }
 

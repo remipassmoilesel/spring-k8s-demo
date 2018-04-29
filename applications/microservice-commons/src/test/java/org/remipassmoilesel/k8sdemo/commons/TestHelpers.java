@@ -9,7 +9,7 @@ import java.util.UUID;
 public class TestHelpers {
 
     public static MicroCommSync newSync() throws IOException {
-        MicroCommSyncConfig config = new MicroCommSyncConfig("testcontext", "nats://localhost:4222");
+        MicroCommSyncConfig config = new MicroCommSyncConfig("nats://localhost:4222", "testcontext");
         MicroCommSync comm = new MicroCommSync(config);
         comm.connect();
         return comm;
