@@ -1,9 +1,9 @@
 package org.remipassmoilesel.k8sdemo.clients.signature;
 
 import io.reactivex.Single;
-import org.remipassmoilesel.k8sdemo.commons.AbstractSyncClient;
 import org.remipassmoilesel.k8sdemo.commons.comm.MCMessage;
 import org.remipassmoilesel.k8sdemo.commons.comm.sync.MicroCommSync;
+import org.remipassmoilesel.k8sdemo.commons.utils.AbstractSyncClient;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,11 +15,10 @@ public class SignatureClient extends AbstractSyncClient {
         super(microCommSync);
     }
 
+    @SuppressWarnings("unchecked")
     public Single<List<SignedDocument>> getDocuments() {
         return microCommSync.request("getDocuments", MCMessage.EMPTY)
-                .map((message) -> {
-                    return (List<SignedDocument>) message.getContent()[0];
-                });
+                .map((message) -> (List<SignedDocument>) message.getContent()[0]);
     }
 
     public Single<SignedDocument> persistAndSignDocument(SignedDocument document) {
