@@ -8,16 +8,25 @@
 
 1 - Monter les deux micro-services: gateway et signature
 
-- Remplacer MySQL par Mongodb
-- Créer un serveur pour signature
-- Créer un paquet de clients
+- ~~Remplacer MySQL par Mongodb~~
+- ~~Créer un serveur pour signature~~
+- ~~Créer un paquet client signature~~
 - Mise en place health check
 - Réfléxion sur la dépendance d'injections: component scan pour les libs ? Ou création de bean dupliquée ?
+- Fixer la suppression de documents
+- S'assurer que les tests utilisent bien une bdd différente de celle de dev
+- Tests Gateway avec Mockito
+- Tests Cypress ?
 
 1 - Améliorer les outils de dev
 
 - Script python de contrôle des docker ?
 - Image docker intégrée au docker compose avec command gradle bootRun ?
+- Exposer un port debug par application ?
 
 1 - Trouver un moyen convenable de configuration par environement (Chart Helm ?)
 1 - Monter un pipeline CI / CD
+
+- Dépôt d'artefacts (JFrog ? Sonatype Nexus ?)
+- Gitlab CI
+- Docker registry
