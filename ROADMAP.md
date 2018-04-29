@@ -17,6 +17,7 @@
 - S'assurer que les tests utilisent bien une bdd différente de celle de dev
 - Tests Gateway avec Mockito
 - Tests Cypress ?
+- Restaurer les messages d'erreurs en cas de problème de connexion (client http)
 - Empêcher la connexion mongo de gateway due à l'import de dépendances
 
 1 - Améliorer les outils de dev

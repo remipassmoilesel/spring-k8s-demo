@@ -5,6 +5,6 @@ set -e
 
 cd /sources
 
-. ./applications/signature-service/setenv-docker.sh
+source ./applications/signature-service/setenv-docker.sh
 
-./gradlew signature-service:bootRun
+java -jar ./applications/signature-service/build/libs/signature-service-0.0.1-SNAPSHOT.jar

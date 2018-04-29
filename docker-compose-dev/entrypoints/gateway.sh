@@ -5,6 +5,6 @@ set -e
 
 cd /sources
 
-. ./applications/gateway/setenv-docker.sh
+source ./applications/gateway/setenv-docker.sh
 
-./gradlew gateway:bootRun
+java -jar ./applications/gateway/build/libs/gateway-0.0.1-SNAPSHOT.jar

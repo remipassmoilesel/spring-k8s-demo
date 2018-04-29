@@ -26,5 +26,35 @@ services:
         aliases:
         - nats.docker.net
 
+  gateway:
+    build: ./springboot-dev-image
+    image: springboot-dev-image:0.1
+    restart: always
+    entrypoint: "/sources/docker-compose-dev/entrypoints/gateway.sh"
+    volumes:
+      - "..:/sources"
+    ports:
+      - 8080:8080
+      - 10100:35729
+    networks:
+      spring-k8s-demo-dev-network:
+        aliases:
+        - gateway.docker.net
+
+  signature-service:
+    build: ./springboot-dev-image
+    image: springboot-dev-image:0.1
+    restart: always
+    entrypoint: "/sources/docker-compose-dev/entrypoints/signature-service.sh"
+    volumes:
+      - "..:/sources"
+    ports:
+      - 8085:8080
+      - 10105:35729
+    networks:
+      spring-k8s-demo-dev-network:
+        aliases:
+        - signature-service.docker.net
+
 networks:
   spring-k8s-demo-dev-network:

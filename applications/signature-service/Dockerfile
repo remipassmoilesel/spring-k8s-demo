@@ -2,7 +2,7 @@ FROM alpine:3.6
 
 RUN adduser tomcat -D
 
-RUN apk update && apk add gnupg openjdk8
+RUN apk update && apk add gnupg openjdk8 bash
 
 COPY build/libs/signature-service-0.0.1-SNAPSHOT.jar /signature-service.jar
 
