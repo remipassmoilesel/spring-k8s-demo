@@ -30,9 +30,6 @@ public class Application {
     private String microCommNatsUrl;
 
     public static void main(String[] args) {
-        Logger rootLogger = (Logger) LoggerFactory.getLogger(MicroCommSync.class);
-        rootLogger.setLevel(Level.TRACE);
-
         SpringApplication springApp = new SpringApplication(Application.class);
         springApp.run(args);
     }

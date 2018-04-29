@@ -39,9 +39,6 @@ public class Application implements ApplicationListener<ApplicationReadyEvent> {
 
     @Bean
     public MicroCommSync createComm() throws IOException {
-        Logger rootLogger = (Logger) LoggerFactory.getLogger(MicroCommSync.class);
-        rootLogger.setLevel(Level.TRACE);
-
         return MicroCommSync.connectFromParameters(microCommNatsUrl, microCommContext);
     }
 

@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Controller
@@ -29,14 +30,14 @@ public class SignatureServer extends AbstractSyncServer {
     public void registerHandlers() {
 
         microCommSync.handle(SignatureSubjects.GET_DOCUMENTS, (subject, message) -> {
-            logger.trace("Server received request for: getDocuments");
+            logger.info("Receiving request on subject: {}", SignatureSubjects.GET_DOCUMENTS);
 
             List<SignedDocument> documents = documentManager.getDocuments();
-            return MCMessage.fromList(documents);
+            return MCMessage.fromObject((Serializable) documents);
         });
 
         microCommSync.handle(SignatureSubjects.PERSIST_AND_SIGN_DOCUMENT, (subject, message) -> {
-            logger.trace("Server received request for: persistAndSignDocument");
+            logger.info("Receiving request on subject: {}", SignatureSubjects.PERSIST_AND_SIGN_DOCUMENT);
 
             SignedDocument document = this.getDocumentFromMessage(message, 0);
             SignedDocument persisted = documentManager.persistDocument(document.getName(), document.getContent());
@@ -44,7 +45,7 @@ public class SignatureServer extends AbstractSyncServer {
         });
 
         microCommSync.handle(SignatureSubjects.DELETE_DOCUMENT, (subject, message) -> {
-            logger.trace("Server received request for: deleteDocument");
+            logger.info("Receiving request on subject: {}", SignatureSubjects.DELETE_DOCUMENT);
 
             String documentId = message.getAsString(0);
             documentManager.deleteDocument(documentId);
@@ -52,7 +53,7 @@ public class SignatureServer extends AbstractSyncServer {
         });
 
         microCommSync.handle(SignatureSubjects.CHECK_DOCUMENT, (subject, message) -> {
-            logger.trace("Server received request for: checkDocument");
+            logger.info("Receiving request on subject: {}", SignatureSubjects.CHECK_DOCUMENT);
 
             SignedDocument document = this.getDocumentFromMessage(message, 0);
             String documentId = message.getAsString(1);
