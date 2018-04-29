@@ -5,6 +5,7 @@ import org.apache.commons.io.IOUtils;
 import org.remipassmoilesel.k8sdemo.clients.signature.entities.GpgValidationResult;
 import org.remipassmoilesel.k8sdemo.clients.signature.SignatureClient;
 import org.remipassmoilesel.k8sdemo.clients.signature.entities.SignedDocument;
+import org.remipassmoilesel.k8sdemo.commons.comm.MCMessage;
 import org.remipassmoilesel.k8sdemo.gateway.Routes;
 import org.remipassmoilesel.k8sdemo.gateway.app_identity.GatewayIdentity;
 import org.remipassmoilesel.k8sdemo.gateway.app_identity.GatewayIdentityProvider;
@@ -85,8 +86,8 @@ public class ApiController {
             path = Routes.DOCUMENTS,
             method = RequestMethod.DELETE
     )
-    public void deleteDocument(@RequestParam("documentId") String documentId) {
-        signatureClient.deleteDocument(documentId);
+    public Single<MCMessage> deleteDocument(@RequestParam("documentId") String documentId) {
+        return signatureClient.deleteDocument(documentId);
     }
 
     @ResponseBody

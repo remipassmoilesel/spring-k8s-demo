@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-. ./applications/signature-service/setenv-dev.sh
+source ./applications/signature-service/setenv-dev.sh
 
 ./gradlew signature-service:bootRun

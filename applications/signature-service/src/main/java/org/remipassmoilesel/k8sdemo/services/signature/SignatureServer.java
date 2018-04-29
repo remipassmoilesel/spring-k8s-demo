@@ -48,15 +48,18 @@ public class SignatureServer extends AbstractSyncServer {
             logger.info("Receiving request on subject: {}", SignatureSubjects.DELETE_DOCUMENT);
 
             String documentId = message.getAsString(0);
+
             documentManager.deleteDocument(documentId);
             return MCMessage.EMPTY;
         });
+
 
         microCommSync.handle(SignatureSubjects.CHECK_DOCUMENT, (subject, message) -> {
             logger.info("Receiving request on subject: {}", SignatureSubjects.CHECK_DOCUMENT);
 
             SignedDocument document = this.getDocumentFromMessage(message, 0);
             String documentId = message.getAsString(1);
+
             GpgValidationResult validationResult = documentManager.verifyDocument(document.getContent(), documentId);
             return MCMessage.fromObject(validationResult);
         });

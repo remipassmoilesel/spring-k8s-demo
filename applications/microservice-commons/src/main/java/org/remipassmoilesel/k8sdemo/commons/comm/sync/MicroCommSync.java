@@ -44,28 +44,30 @@ public class MicroCommSync {
     }
 
     public void handle(String subject, SyncHandler handler) {
-        logger.info("Registering handler on subject: {}", subject);
+        String completeSubject = this.getCompleteSubjectFrom(subject);
+        logger.info("Registering handler on subject: {}", completeSubject);
 
         this.checkConnection();
-        Helpers.checkSubjectString(subject);
+        Helpers.checkSubjectString(completeSubject);
 
         AsyncSubscription subscription = this.connection.subscribe(
-                this.getCompleteSubjectFrom(subject),
-                this.createHandler(subject, handler)
+                completeSubject,
+                this.createHandler(completeSubject, handler)
         );
 
-        this.subscriptions.put(subject, subscription);
+        this.subscriptions.put(completeSubject, subscription);
     }
 
     public Single<MCMessage> request(String subject, MCMessage mcMessage) {
-        logger.info("Sending request on subject: {}", subject);
+        String completeSubject = this.getCompleteSubjectFrom(subject);
+        logger.info("Sending request on subject: {}", completeSubject);
 
         this.checkConnection();
-        Helpers.checkSubjectString(subject);
+        Helpers.checkSubjectString(completeSubject);
 
         return Single.fromCallable(() -> {
             Message rawResponse = this.connection.request(
-                    this.getCompleteSubjectFrom(subject),
+                    completeSubject,
                     mcMessage.serialize(),
                     1,
                     TimeUnit.SECONDS
@@ -76,14 +78,15 @@ public class MicroCommSync {
     }
 
     public void unsubscribe(String subject) throws IOException {
-        logger.info("Unsubscribing from subject: {}", subject);
+        String completeSubject = this.getCompleteSubjectFrom(subject);
+        logger.info("Unsubscribing from subject: {}", completeSubject);
 
         this.checkConnection();
-        Helpers.checkSubjectString(subject);
+        Helpers.checkSubjectString(completeSubject);
 
-        AsyncSubscription sub = this.subscriptions.get(subject);
+        AsyncSubscription sub = this.subscriptions.get(completeSubject);
         if (sub == null) {
-            throw new NullPointerException("No subscription found for subject: " + subject);
+            throw new NullPointerException("No subscription found for subject: " + completeSubject);
         }
         sub.unsubscribe();
     }
@@ -105,19 +108,20 @@ public class MicroCommSync {
 
         MCMessage deserializedResp = (MCMessage) Serializer.deserialize(data);
         if (deserializedResp.getError() != null) {
+            logger.info("Remote error was thrown: {}", deserializedResp.getError().getMessage());
             throw deserializedResp.getError();
         }
 
         return deserializedResp;
     }
 
-    private MessageHandler createHandler(String subject, SyncHandler handler) {
+    private MessageHandler createHandler(String completeSubject, SyncHandler handler) {
         return (Message natsMessage) -> {
-            logger.info("Handling a message on subject: {}", subject);
+            logger.info("Handling a message on subject: {}", completeSubject);
 
             try {
                 MCMessage deserialized = (MCMessage) Serializer.deserialize(natsMessage.getData());
-                MCMessage response = handler.handle(subject, deserialized);
+                MCMessage response = handler.handle(completeSubject, deserialized);
 
                 byte[] reply;
                 if (response != null) {
@@ -128,6 +132,7 @@ public class MicroCommSync {
 
                 this.connection.publish(natsMessage.getReplyTo(), reply);
             } catch (Exception e) {
+                logger.error("Error while handling message:", e);
                 this.sendHandlerException(natsMessage.getReplyTo(), e);
             }
         };
@@ -135,11 +140,11 @@ public class MicroCommSync {
 
     private void sendHandlerException(String replyTo, Exception e) {
         RemoteException remoteException = RemoteException.wrap(e);
-
         try {
-            this.connection.publish(replyTo, MCMessage.fromError(remoteException).serialize());
+            byte[] serializedError = MCMessage.fromError(remoteException).serialize();
+            this.connection.publish(replyTo, serializedError);
         } catch (Exception e1) {
-            logger.error("Error while handling error: {}", e);
+            logger.error("Error while handling error:", e);
         }
     }
 
