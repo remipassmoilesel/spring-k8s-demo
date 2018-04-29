@@ -4,36 +4,28 @@ import org.remipassmoilesel.k8sdemo.clients.signature.GpgValidationResult;
 import org.remipassmoilesel.k8sdemo.clients.signature.SignedDocument;
 import org.remipassmoilesel.k8sdemo.commons.comm.MCMessage;
 import org.remipassmoilesel.k8sdemo.commons.comm.sync.MicroCommSync;
+import org.remipassmoilesel.k8sdemo.commons.utils.AbstractSyncServer;
 import org.remipassmoilesel.k8sdemo.services.signature.document.DocumentManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import java.io.IOException;
 import java.util.List;
 
-// TODO: implement AbstractSyncServer
-
 @Controller
-public class SignatureServer implements InitializingBean {
+public class SignatureServer extends AbstractSyncServer {
 
     private static final Logger logger = LoggerFactory.getLogger(SignatureServer.class);
 
     @Autowired
     private DocumentManager documentManager;
 
-    @Autowired
-    private MicroCommSync microCommSync;
-
-    @Override
-    public void afterPropertiesSet() throws IOException {
-        microCommSync.connect();
-        this.registerHandlers();
+    public SignatureServer(@Autowired MicroCommSync microCommSync) {
+        super(microCommSync);
     }
 
-    private void registerHandlers() {
+    public void registerHandlers() {
 
         microCommSync.handle("getDocuments", (subject, message) -> {
             List<SignedDocument> documents = documentManager.getDocuments();
