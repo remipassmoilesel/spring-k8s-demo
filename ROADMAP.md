@@ -17,12 +17,13 @@
 - S'assurer que les tests utilisent bien une bdd différente de celle de dev
 - Tests Gateway avec Mockito
 - Tests Cypress ?
+- Empêcher la connexion mongo de gateway due à l'import de dépendances
 
 1 - Améliorer les outils de dev
 
 - Script python de contrôle des docker ?
 - Image docker intégrée au docker compose avec command gradle bootRun ?
-- Exposer un port debug par application ?
+- Exposer un port debug par application ? Voir LiveReload server is running on port 35729 https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-devtools.html
 
 1 - Trouver un moyen convenable de configuration par environement (Chart Helm ?)
 1 - Monter un pipeline CI / CD
