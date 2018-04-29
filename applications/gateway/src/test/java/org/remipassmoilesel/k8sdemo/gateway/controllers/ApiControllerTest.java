@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.remipassmoilesel.k8sdemo.TestHelpers;
 import org.remipassmoilesel.k8sdemo.clients.signature.SignatureClient;
+import org.remipassmoilesel.k8sdemo.clients.signature.entities.GpgValidationResult;
 import org.remipassmoilesel.k8sdemo.clients.signature.entities.SignedDocument;
 import org.remipassmoilesel.k8sdemo.commons.comm.MCMessage;
 import org.remipassmoilesel.k8sdemo.gateway.Application;
@@ -25,12 +26,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.io.IOException;
 import java.util.Arrays;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -119,7 +119,7 @@ public class ApiControllerTest {
     }
 
     @Test
-    public void deleteDocumentsShouldWork() throws Exception {
+    public void deleteDocument() throws Exception {
         reset(signatureClient);
         when(signatureClient.deleteDocument(any(String.class))).thenReturn(Single.just(new MCMessage()));
 
@@ -131,29 +131,37 @@ public class ApiControllerTest {
         verify(signatureClient).deleteDocument("test-id");
     }
 
-//    @Test
-//    public void checkDocumentShouldValidateDocIfValid() throws Exception {
-//
-//        Document testDoc = TestHelpers.getTestDocument(1);
-//        Document completeDoc = documentManager.persistDocument(testDoc.getName(), testDoc.getContent());
-//
-//        MockMultipartFile testDocument = new MockMultipartFile(
-//                "candidate",
-//                "document.odt",
-//                "application/vnd.oasis.opendocument.text",
-//                testDoc.getContent()
-//        );
-//
-//        mockMvc.perform(MockMvcRequestBuilders.multipart(Routes.DOC_SIGNATURE)
-//                .file(testDocument)
-//                .param("documentId", String.valueOf(completeDoc.getId())))
-//                .andExpect(status().isOk())
-//                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-//                .andExpect(jsonPath("$.valid", is(true)))
-//                .andExpect(jsonPath("$.document").exists())
-//                .andReturn();
-//    }
-//
+    @Test
+    public void checkDocument() throws Exception {
+        reset(signatureClient);
+
+        GpgValidationResult testGpgValid = new GpgValidationResult(testDoc, false);
+
+        when(signatureClient.checkDocument(any(SignedDocument.class), any(String.class)))
+                .thenReturn(Single.just(testGpgValid));
+
+        MockMultipartFile testDocument = new MockMultipartFile(
+                "candidate",
+                "document.odt",
+                "application/vnd.oasis.opendocument.text",
+                testDoc.getContent()
+        );
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.multipart(Routes.DOC_SIGNATURE)
+                .file(testDocument)
+                .param("documentId", "test-doc-id"))
+                .andReturn();
+
+        mockMvc.perform(asyncDispatch(result))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.valid", is(false)))
+                .andExpect(jsonPath("$.document").exists())
+                .andReturn();
+
+        verify(signatureClient).checkDocument(any(SignedDocument.class), eq("test-doc-id"));
+    }
+
 //    @Test
 //    public void checkDocumentShouldInvalidateDocIfInvalid() throws Exception {
 //
