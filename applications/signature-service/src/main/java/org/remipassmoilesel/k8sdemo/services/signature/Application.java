@@ -9,6 +9,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.io.IOException;
+
 @SpringBootApplication
 public class Application {
 
@@ -32,9 +34,8 @@ public class Application {
     }
 
     @Bean
-    public MicroCommSync createComm() {
-        MicroCommSyncConfig config = new MicroCommSyncConfig(microCommNatsUrl, microCommContext);
-        return new MicroCommSync(config);
+    public MicroCommSync createComm() throws IOException {
+        return MicroCommSync.fromParameters(microCommNatsUrl, microCommContext);
     }
 
 }

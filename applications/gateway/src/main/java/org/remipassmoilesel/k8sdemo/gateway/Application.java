@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.io.IOException;
+
 @SpringBootApplication
 public class Application {
 
@@ -31,14 +33,13 @@ public class Application {
     }
 
     @Bean
-    public MicroCommSync createComm() {
-        MicroCommSyncConfig config = new MicroCommSyncConfig(microCommNatsUrl, microCommContext);
-        return new MicroCommSync(config);
+    public MicroCommSync createComm() throws IOException {
+        return MicroCommSync.fromParameters(microCommNatsUrl, microCommContext);
     }
 
     // FIXME: fix scan for components in dependencies
     @Bean
-    public SignatureClient createSignatureClient() {
+    public SignatureClient createSignatureClient() throws IOException {
         SignatureClient client = new SignatureClient(createComm());
         return client;
     }

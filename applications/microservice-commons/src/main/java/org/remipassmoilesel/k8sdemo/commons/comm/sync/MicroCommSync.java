@@ -17,6 +17,13 @@ import java.util.Map;
 
 public class MicroCommSync {
 
+    public static final MicroCommSync fromParameters(String natsUrl, String context) throws IOException {
+        MicroCommSyncConfig config = new MicroCommSyncConfig(natsUrl, context);
+        MicroCommSync comm = new MicroCommSync(config);
+        comm.connect();
+        return comm;
+    }
+
     private static final Logger logger = LoggerFactory.getLogger(MicroCommSync.class);
 
     private final MicroCommSyncConfig config;
@@ -38,6 +45,7 @@ public class MicroCommSync {
     public void handle(String subject, SyncHandler handler) {
         logger.trace("Registering handler on subject: {}", subject);
 
+        this.checkConnection();
         Helpers.checkSubjectString(subject);
 
         AsyncSubscription subscription = this.connection.subscribe(
@@ -51,6 +59,7 @@ public class MicroCommSync {
     public Single<MCMessage> request(String subject, MCMessage mcMessage) {
         logger.trace("Sending request on subject: {}", subject);
 
+        this.checkConnection();
         Helpers.checkSubjectString(subject);
 
         return Single.fromCallable(() -> {
@@ -66,6 +75,7 @@ public class MicroCommSync {
     public void unsubscribe(String subject) throws IOException {
         logger.trace("Unsubscribing from subject: {}", subject);
 
+        this.checkConnection();
         Helpers.checkSubjectString(subject);
 
         AsyncSubscription sub = this.subscriptions.get(subject);
@@ -73,6 +83,11 @@ public class MicroCommSync {
             throw new NullPointerException("No subscription found for subject: " + subject);
         }
         sub.unsubscribe();
+    }
+
+    public void disconnect(){
+        this.checkConnection();
+        this.connection.close();
     }
 
     private String getCompleteSubjectFrom(String subject) {
@@ -125,8 +140,15 @@ public class MicroCommSync {
         }
     }
 
+    private void checkConnection() {
+        if(this.connection == null || !this.connection.isConnected()){
+            throw new IllegalStateException("Not connected !");
+        }
+    }
+
     @Override
     protected void finalize() throws Throwable {
-        this.connection.close();
+        this.disconnect();
     }
+
 }
