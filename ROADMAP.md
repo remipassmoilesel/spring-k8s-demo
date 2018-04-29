@@ -12,6 +12,12 @@
 - Créer un serveur pour signature
 - Créer un paquet de clients
 - Mise en place health check
+- Réfléxion sur la dépendance d'injections: component scan pour les libs ? Ou création de bean dupliquée ?
+
+1 - Améliorer les outils de dev
+
+- Script python de contrôle des docker ?
+- Image docker intégrée au docker compose avec command gradle bootRun ?
 
 1 - Trouver un moyen convenable de configuration par environement (Chart Helm ?)
 1 - Monter un pipeline CI / CD
