@@ -2,9 +2,9 @@ package org.remipassmoilesel.k8sdemo.gateway.controllers;
 
 import io.reactivex.Single;
 import org.apache.commons.io.IOUtils;
-import org.remipassmoilesel.k8sdemo.clients.signature.GpgValidationResult;
+import org.remipassmoilesel.k8sdemo.clients.signature.entities.GpgValidationResult;
 import org.remipassmoilesel.k8sdemo.clients.signature.SignatureClient;
-import org.remipassmoilesel.k8sdemo.clients.signature.SignedDocument;
+import org.remipassmoilesel.k8sdemo.clients.signature.entities.SignedDocument;
 import org.remipassmoilesel.k8sdemo.gateway.Routes;
 import org.remipassmoilesel.k8sdemo.gateway.app_identity.GatewayIdentity;
 import org.remipassmoilesel.k8sdemo.gateway.app_identity.GatewayIdentityProvider;

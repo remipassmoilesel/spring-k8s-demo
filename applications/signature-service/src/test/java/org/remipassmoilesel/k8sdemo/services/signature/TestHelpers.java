@@ -1,6 +1,6 @@
 package org.remipassmoilesel.k8sdemo.services.signature;
 
-import org.remipassmoilesel.k8sdemo.clients.signature.SignedDocument;
+import org.remipassmoilesel.k8sdemo.clients.signature.entities.SignedDocument;
 import org.remipassmoilesel.k8sdemo.commons.utils.FileUtils;
 import org.remipassmoilesel.k8sdemo.services.signature.gpg.GpgKey;
 

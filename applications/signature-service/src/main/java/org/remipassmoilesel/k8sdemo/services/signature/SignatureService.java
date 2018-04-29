@@ -1,8 +1,8 @@
 package org.remipassmoilesel.k8sdemo.services.signature;
 
 import org.apache.commons.io.IOUtils;
-import org.remipassmoilesel.k8sdemo.clients.signature.GpgValidationResult;
-import org.remipassmoilesel.k8sdemo.clients.signature.SignedDocument;
+import org.remipassmoilesel.k8sdemo.clients.signature.entities.GpgValidationResult;
+import org.remipassmoilesel.k8sdemo.clients.signature.entities.SignedDocument;
 import org.remipassmoilesel.k8sdemo.services.signature.document.DocumentManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

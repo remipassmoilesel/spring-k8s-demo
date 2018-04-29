@@ -1,7 +1,7 @@
 package org.remipassmoilesel.k8sdemo.services.signature;
 
-import org.remipassmoilesel.k8sdemo.clients.signature.GpgValidationResult;
-import org.remipassmoilesel.k8sdemo.clients.signature.SignedDocument;
+import org.remipassmoilesel.k8sdemo.clients.signature.entities.GpgValidationResult;
+import org.remipassmoilesel.k8sdemo.clients.signature.entities.SignedDocument;
 import org.remipassmoilesel.k8sdemo.commons.comm.MCMessage;
 import org.remipassmoilesel.k8sdemo.commons.comm.sync.MicroCommSync;
 import org.remipassmoilesel.k8sdemo.commons.utils.AbstractSyncServer;

@@ -2,7 +2,9 @@ package org.remipassmoilesel.k8sdemo.gateway;
 
 import org.remipassmoilesel.k8sdemo.clients.signature.SignatureClient;
 import org.remipassmoilesel.k8sdemo.commons.comm.sync.MicroCommSync;
-import org.remipassmoilesel.k8sdemo.commons.comm.sync.MicroCommSyncConfig;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,13 +30,16 @@ public class Application {
     private String microCommNatsUrl;
 
     public static void main(String[] args) {
+        Logger rootLogger = (Logger) LoggerFactory.getLogger(MicroCommSync.class);
+        rootLogger.setLevel(Level.TRACE);
+
         SpringApplication springApp = new SpringApplication(Application.class);
         springApp.run(args);
     }
 
     @Bean
     public MicroCommSync createComm() throws IOException {
-        return MicroCommSync.fromParameters(microCommNatsUrl, microCommContext);
+        return MicroCommSync.connectFromParameters(microCommNatsUrl, microCommContext);
     }
 
     // FIXME: fix scan for components in dependencies

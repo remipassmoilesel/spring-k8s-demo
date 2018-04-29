@@ -1,4 +1,4 @@
-package org.remipassmoilesel.k8sdemo.clients.signature;
+package org.remipassmoilesel.k8sdemo.clients.signature.entities;
 
 import java.io.Serializable;
 import java.util.Objects;

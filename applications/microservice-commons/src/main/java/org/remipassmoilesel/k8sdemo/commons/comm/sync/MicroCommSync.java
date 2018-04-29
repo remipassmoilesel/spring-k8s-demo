@@ -14,10 +14,11 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class MicroCommSync {
 
-    public static final MicroCommSync fromParameters(String natsUrl, String context) throws IOException {
+    public static final MicroCommSync connectFromParameters(String natsUrl, String context) throws IOException {
         MicroCommSyncConfig config = new MicroCommSyncConfig(natsUrl, context);
         MicroCommSync comm = new MicroCommSync(config);
         comm.connect();
@@ -65,7 +66,9 @@ public class MicroCommSync {
         return Single.fromCallable(() -> {
             Message rawResponse = this.connection.request(
                     this.getCompleteSubjectFrom(subject),
-                    mcMessage.serialize()
+                    mcMessage.serialize(),
+                    1,
+                    TimeUnit.SECONDS
             );
             return this.handleRemoteResponse(rawResponse);
         }).observeOn(this.scheduler);
