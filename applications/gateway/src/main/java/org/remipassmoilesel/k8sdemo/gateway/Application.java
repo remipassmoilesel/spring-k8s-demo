@@ -32,7 +32,7 @@ public class Application {
 
     @Bean
     public MicroCommSync createComm() {
-        MicroCommSyncConfig config = new MicroCommSyncConfig(microCommContext, microCommNatsUrl);
+        MicroCommSyncConfig config = new MicroCommSyncConfig(microCommNatsUrl, microCommContext);
         return new MicroCommSync(config);
     }
 
