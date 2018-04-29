@@ -16,7 +16,7 @@ services:
 
   nats:
     image: nats:1.1.0-linux
-    entrypoint: "/gnatsd -m 8222 -DV"
+    entrypoint: "/gnatsd -m 8222 -D"
     ports:
       - 8222:8222
       - 4222:4222
