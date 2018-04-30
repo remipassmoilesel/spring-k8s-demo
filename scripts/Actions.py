@@ -1,19 +1,25 @@
 # -*- coding: utf-8 -*-
+import time
 from .utils import Paths
 from .utils import Utils
 
 
 class ActionHandlers:
 
+    def __init__(self):
+        self.commands = []
+
     def buildAll(self):
         self.buildFrontend()
         self.buildAllApplications()
 
     def buildFrontend(self):
-        Utils.runCommand("npm install && npm run update-gateway", Paths.FRONTEND_ROOT)
+        comm = Utils.runCommand("npm install && npm run update-gateway", Paths.FRONTEND_ROOT)
+        self.commands.append(comm)
 
     def buildAllApplications(self):
-        Utils.runCommand("./gradlew build -x test")
+        comm = Utils.runCommand("./gradlew build -x test")
+        self.commands.append(comm)
 
     def buildApplications(self, containers):
         self.assertNoServiceContainers(containers)
@@ -21,23 +27,29 @@ class ActionHandlers:
         appStr = self.joinGradleAppNames(containers, "build")
 
         print("./gradlew " + appStr + " -x test")
-        Utils.runCommand("./gradlew " + appStr + " -x test")
+        comm = Utils.runCommand("./gradlew " + appStr + " -x test")
+        self.commands.append(comm)
 
     def startDockerCompose(self, containers):
         containersStr = self.joinContainerNames(containers)
-        Utils.runCommand("docker-compose up " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
+        comm = Utils.runCommand("docker-compose up " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
+        self.commands.append(comm)
 
     def stopDockerCompose(self, containers):
         containersStr = self.joinContainerNames(containers)
         print(containersStr)
         if len(containersStr) > 0:
-            Utils.runCommand("docker-compose stop " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
+            comm = Utils.runCommand("docker-compose stop " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
+            self.commands.append(comm)
+
         else:
-            Utils.runCommand("docker-compose down", Paths.DOCKER_COMPOSE_ROOT)
+            comm = Utils.runCommand("docker-compose down", Paths.DOCKER_COMPOSE_ROOT)
+            self.commands.append(comm)
 
     def restartDockerContainers(self, containers):
         containersStr = self.joinContainerNames(containers)
-        Utils.runCommand("docker-compose restart " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
+        comm = Utils.runCommand("docker-compose restart " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
+        self.commands.append(comm)
 
     def buildAndRestart(self, containers):
         if len(containers) > 0:
@@ -52,7 +64,8 @@ class ActionHandlers:
         self.assertNoServiceContainers(containers)
 
         appStr = self.joinGradleAppNames(containers, "bootRun")
-        Utils.runCommand("source " + containers[0].devEnvFile + " && ./gradlew " + appStr)
+        comm = Utils.runCommand("source " + containers[0].devEnvFile + " && ./gradlew " + appStr)
+        self.commands.append(comm)
 
     def showHelp(self):
         Utils.log('Control application in development environment')
@@ -83,3 +96,23 @@ class ActionHandlers:
         for ctr in containers:
             if ctr.isServiceContainer:
                 raise Exception('Services containers are not allowed for this operation')
+
+    def killAllAndWait(self):
+        for comm in self.commands:
+            comm.kill()
+        self.waitUntilAllAppFinished()
+
+    def isThereAliveCommands(self):
+        for comm in self.commands:
+            if comm.isAlive():
+                return True
+        return False
+
+    def waitUntilAllAppFinished(self):
+        while self.isThereAliveCommands():
+            self.printCommandsOutput()
+            time.sleep(0.5)
+
+    def printCommandsOutput(self):
+        for com in self.commands:
+            com.printOutput()

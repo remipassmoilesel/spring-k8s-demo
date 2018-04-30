@@ -3,6 +3,8 @@
 
 import sys
 import traceback
+import signal
+import time
 from scripts import ActionHandlers, TermStyle
 from scripts import Utils
 from scripts import Containers
@@ -11,7 +13,8 @@ from scripts import Containers
 
 DEBUG=True
 
-class ArgParser:
+
+class MainApplication:
     def __init__(self):
         self.actions = ActionHandlers()
 
@@ -70,15 +73,28 @@ class ArgParser:
             res.append(arg.strip())
         return res
 
+    def handleInterrupt(self):
+        def signal_handler(signal, frame):
+            Utils.log("\nApplication will stop soon ...\n")
+            self.actions.killAllAndWait()
+            sys.exit(1)
+
+        signal.signal(signal.SIGINT, signal_handler)
+
+    def waitUntilAllAppDone(self):
+        self.actions.waitUntilAllAppFinished()
+
 
 if __name__ == '__main__':
     Utils.log('Dev helper 💪💪💪')
     Utils.log()
 
-    argParser = ArgParser()
+    mainApp = MainApplication()
 
     try:
-        argParser.processArgs(sys.argv)
+        mainApp.handleInterrupt()
+        mainApp.processArgs(sys.argv)
+        mainApp.waitUntilAllAppDone()
     except Exception as err:
         Utils.log("Error: {0}".format(err), termStyle=TermStyle.RED)
         if DEBUG:
