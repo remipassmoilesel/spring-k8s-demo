@@ -4,12 +4,9 @@
 import sys
 import traceback
 import signal
-import time
 from scripts import ActionHandlers, TermStyle
 from scripts import Utils
 from scripts import Containers
-
-# TODO: handle CTRL+C and stop docker compose properly
 
 DEBUG=True
 
@@ -59,23 +56,21 @@ class MainApplication:
         else:
             raise Exception("Invalid command: " + " ".join(cleanArgs))
 
+    def cleanArgs(self, arguments):
+        return list(map(lambda arg: arg.strip(), arguments))
+
     def getContainersFromArgs(self, cleanArgs):
         if len(cleanArgs) < 3:
             return []
-        elif cleanArgs[2] == 'service-containers':
+        elif cleanArgs[2] == 'svc':
             return Containers.getServiceContainers()
         else:
             return Containers.getContainersByName(cleanArgs[2:])
 
-    def cleanArgs(self, arguments):
-        res = []
-        for arg in arguments:
-            res.append(arg.strip())
-        return res
-
     def handleInterrupt(self):
         def signal_handler(signal, frame):
             Utils.log("\nApplication will stop soon ...\n")
+
             self.actions.killAllAndWait()
             sys.exit(1)
 
@@ -86,6 +81,7 @@ class MainApplication:
 
 
 if __name__ == '__main__':
+
     Utils.log('Dev helper 💪💪💪')
     Utils.log()
 
