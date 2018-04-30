@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
-from .utils import Utils
 from .utils import Paths
+from .utils import Utils
 
+
+# TODO: separate docker control and build in distinct classes
+# TODO: check if containers are service containers
 
 class ActionHandlers:
 
@@ -16,7 +19,10 @@ class ActionHandlers:
         Utils.runCommand("./gradlew build -x test")
 
     def buildApplications(self, containers):
+        self.assertNoServiceContainers(containers)
+
         appStr = self.joinGradleAppNames(containers, "build")
+
         print("./gradlew " + appStr + " -x test")
         Utils.runCommand("./gradlew " + appStr + " -x test")
 
@@ -30,7 +36,7 @@ class ActionHandlers:
         if len(containersStr) > 0:
             Utils.runCommand("docker-compose stop " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
         else:
-            Utils.runCommand("docker-compose down " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
+            Utils.runCommand("docker-compose down", Paths.DOCKER_COMPOSE_ROOT)
 
     def restartDockerContainers(self, containers):
         containersStr = self.joinContainerNames(containers)
@@ -43,6 +49,13 @@ class ActionHandlers:
         else:
             self.buildAllApplications()
             self.startDockerCompose([])
+
+    def launchDev(self, containers):
+        self.assertAtLeastOneContainer(containers, 1)
+        self.assertNoServiceContainers(containers)
+
+        appStr = self.joinGradleAppNames(containers, "bootRun")
+        Utils.runCommand("source " + containers[0].devEnvFile + " && ./gradlew " + appStr)
 
     def showHelp(self):
         Utils.log('Control application in development environment')
@@ -62,4 +75,14 @@ class ActionHandlers:
         containerNames = list(map(lambda ctr: ctr.serviceName, containers))
         return " ".join(containerNames)
 
+    def assertAtLeastOneContainer(self, containers, number=None):
+        if len(containers) < 0:
+            raise Exception('You must specify at least one application')
 
+        if number is not None and len(containers) != number:
+            raise Exception('Expected ' + number + ' applications exactly')
+
+    def assertNoServiceContainers(self, containers):
+        for ctr in containers:
+            if ctr.isServiceContainer:
+                raise Exception('Services containers are not allowed for this operation')

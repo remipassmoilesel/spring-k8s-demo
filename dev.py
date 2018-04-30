@@ -48,6 +48,11 @@ class ArgParser:
             containers = self.getContainersFromArgs(cleanArgs)
             self.actions.buildAndRestart(containers)
 
+        elif cleanArgs[1] == 'dev':
+            Utils.log('Build and restart containers...\n')
+            containers = self.getContainersFromArgs(cleanArgs)
+            self.actions.launchDev(containers)
+
         else:
             raise Exception("Invalid command: " + " ".join(cleanArgs))
 

@@ -18,7 +18,7 @@ class Utils:
     @staticmethod
     def runCommand(command, cwd = Paths.ROOT):
         Utils.log('\nExecuting command: ' + command + "\n", termStyle=TermStyle.BLUE)
-        subprocess.run(command, shell=True, check=True, cwd=cwd)
+        subprocess.run(command, shell=True, check=True, cwd=cwd, executable='/bin/bash')
 
     @staticmethod
     def log(message='', data=None, termStyle=TermStyle.GREEN):
