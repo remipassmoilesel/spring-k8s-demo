@@ -21,13 +21,6 @@ class TermStyle:
 class Utils:
 
     @staticmethod
-    def runCommand(shellCommand, cwd = Paths.ROOT):
-        Utils.log('\nExecuting command: ' + shellCommand + "\n", termStyle=TermStyle.BLUE)
-        comm = Command(shellCommand, cwd)
-        comm.execute()
-        return comm
-
-    @staticmethod
     def log(message='', data=None, termStyle=TermStyle.GREEN):
         print(Utils.colorize(message, termStyle=termStyle))
         if data:
@@ -48,6 +41,13 @@ class Utils:
             return None
 
 class Command:
+
+    @staticmethod
+    def run(shellCommand, cwd = Paths.ROOT):
+        Utils.log('\nExecuting command: ' + shellCommand + "\n", termStyle=TermStyle.BLUE)
+        comm = Command(shellCommand, cwd)
+        comm.execute()
+        return comm
 
     def __init__(self, shellCommand, workingDir):
         self.shellCommand = shellCommand
