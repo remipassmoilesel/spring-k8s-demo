@@ -1,4 +1,5 @@
 from .utils import Utils
+from .utils import Paths
 
 
 class ActionHandlers:
@@ -9,7 +10,7 @@ class ActionHandlers:
         self.buildApplications()
 
     def buildFrontend(self):
-        Utils.runCommand("cd applications/frontend && npm run update-gateway")
+        Utils.runCommand("npm install && npm run update-gateway", Paths.FRONTEND_ROOT)
 
     def buildApplications(self):
         Utils.runCommand("./gradlew build -x test")

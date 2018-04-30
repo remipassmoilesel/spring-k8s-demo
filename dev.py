@@ -19,10 +19,12 @@ class ArgParser:
             self.actions.exit(1)
 
         if cleanArgs[1] == 'help':
+            Utils.log('Help !\n')
             self.actions.showHelp()
             self.actions.exit()
 
         if cleanArgs[1] == 'demo':
+            Utils.log('Launching demo ...\n')
             self.actions.buildAll()
             self.actions.startDockerCompose()
             self.actions.exit()
@@ -41,3 +43,4 @@ if __name__ == '__main__':
 
     argParser = ArgParser()
     argParser.processArgs(sys.argv)
+

@@ -1,5 +1,7 @@
-
 import subprocess
+import sys
+from .Paths import Paths
+import signal
 import sys
 
 class TermStyle:
@@ -16,8 +18,8 @@ class TermStyle:
 
 class Utils:
     @staticmethod
-    def runCommand(command):
-        subprocess.run(command, shell=True, check=True)
+    def runCommand(command, cwd = Paths.ROOT):
+        subprocess.run(command, shell=True, check=True, cwd=cwd)
 
     @staticmethod
     def log(message='', data=None, termStyle=TermStyle.GREEN):
@@ -28,3 +30,4 @@ class Utils:
     @staticmethod
     def colorize(message, termStyle=TermStyle.GREEN):
         return termStyle + str(message) + TermStyle.RESET
+
