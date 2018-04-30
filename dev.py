@@ -6,6 +6,8 @@ import sys
 
 # TODO: handle CTRL+C and stop docker compose properly
 
+DOCKER_COMPOSE_SERVICES = ['mongodb', 'nats']
+
 class ArgParser:
     def __init__(self):
         self.actions = ActionHandlers()
@@ -45,6 +47,8 @@ class ArgParser:
     def getServicesToLaunch(self, cleanArgs):
         if len(cleanArgs) < 3:
             return []
+        elif cleanArgs[2] == 'services':
+            return DOCKER_COMPOSE_SERVICES
         else:
             return cleanArgs[2:]
 
