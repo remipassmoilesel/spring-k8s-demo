@@ -10,13 +10,16 @@ class ActionHandlers:
     def __init__(self):
         self.commands = []
 
+    def buildAndStart(self, containers):
+        self.buildAllApplications()
+        self.startDockerCompose(containers)
+
     def buildAndRestart(self, containers):
         if len(containers) > 0:
             self.buildApplications(containers)
-            self.restartDockerContainers(containers)
         else:
             self.buildAllApplications()
-            self.startDockerCompose([])
+        self.restartDockerContainers(containers)
 
     def buildAll(self):
         self.buildFrontend()
@@ -54,8 +57,7 @@ class ActionHandlers:
 
     def restartDockerContainers(self, containers):
         containersStr = Utils.joinContainerNames(containers)
-        comm = Command.runAsync("docker-compose restart " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
-        self.commands.append(comm)
+        Command.runSync("docker-compose up --force-recreate " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
 
     def launchLocal(self, containers):
         Utils.assertAtLeastOneContainer(containers, 1)

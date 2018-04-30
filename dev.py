@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import signal
 import sys
 import traceback
-import signal
-from scripts import ActionHandlers, TermStyle
-from scripts import Utils
+
+from scripts import ActionHandlers
 from scripts import Containers
+from scripts import Utils, TermStyle
 
 DEBUG=False
 
@@ -26,6 +27,7 @@ class MainApplication:
         Utils.log('\t$ dev stop')
         Utils.log('\t$ dev stop nats mongodb')
         Utils.log('\t$ dev restart gateway')
+        Utils.log('\t$ dev build-start gateway')
         Utils.log('\t$ dev local signature-service')
         Utils.log('\t$ dev test signature-service')
 
@@ -51,6 +53,11 @@ class MainApplication:
             Utils.log('Start containers...\n')
             containers = self.getContainersFromArgs(cleanArgs)
             self.actions.startDockerCompose(containers)
+
+        elif cleanArgs[1] == 'build-start':
+            Utils.log('Build and start containers...\n')
+            containers = self.getContainersFromArgs(cleanArgs)
+            self.actions.buildAndStart(containers)
 
         elif cleanArgs[1] == 'stop':
             Utils.log('Stop containers...\n')
