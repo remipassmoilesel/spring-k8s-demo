@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
-import subprocess
-import sys
 from scripts import ActionHandlers
 from scripts import Utils
+import sys
+
+# TODO: handle CTRL+C and stop docker compose properly
 
 class ArgParser:
     def __init__(self):
@@ -28,6 +29,24 @@ class ArgParser:
             self.actions.buildAll()
             self.actions.startDockerCompose()
             self.actions.exit()
+
+        if cleanArgs[1] == 'start':
+            Utils.log('Start docker compose...\n')
+            services = self.getServicesToLaunch(cleanArgs)
+            self.actions.startDockerCompose(services)
+            self.actions.exit()
+
+        if cleanArgs[1] == 'stop':
+            Utils.log('Stop docker compose...\n')
+            services = self.getServicesToLaunch(cleanArgs)
+            self.actions.stopDockerCompose(services)
+            self.actions.exit()
+
+    def getServicesToLaunch(self, cleanArgs):
+        if len(cleanArgs) < 3:
+            return []
+        else:
+            return cleanArgs[2:]
 
 
     def cleanArgs(self, arguments):

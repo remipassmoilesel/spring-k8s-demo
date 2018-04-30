@@ -1,8 +1,5 @@
 import subprocess
-import sys
 from .Paths import Paths
-import signal
-import sys
 
 class TermStyle:
     HEADER = '\033[95m'
