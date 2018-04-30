@@ -17,6 +17,7 @@ class TermStyle:
 class Utils:
     @staticmethod
     def runCommand(command, cwd = Paths.ROOT):
+        Utils.log('Executing command: ' + command, termStyle=TermStyle.BLUE)
         subprocess.run(command, shell=True, check=True, cwd=cwd)
 
     @staticmethod

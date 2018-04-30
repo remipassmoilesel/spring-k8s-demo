@@ -2,11 +2,14 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import traceback
 from scripts import ActionHandlers, TermStyle
 from scripts import Utils
 from scripts import Containers
 
 # TODO: handle CTRL+C and stop docker compose properly
+
+DEBUG=True
 
 class ArgParser:
     def __init__(self):
@@ -28,34 +31,33 @@ class ArgParser:
         elif cleanArgs[1] == 'demo':
             Utils.log('Launching demo ...\n')
             self.actions.buildAll()
-            self.actions.startDockerCompose()
+            self.actions.startDockerCompose([])
 
         elif cleanArgs[1] == 'start':
-            Utils.log('Start docker compose...\n')
+            Utils.log('Start containers...\n')
             containers = self.getContainersFromArgs(cleanArgs)
             self.actions.startDockerCompose(containers)
 
         elif cleanArgs[1] == 'stop':
-            Utils.log('Stop docker compose...\n')
+            Utils.log('Stop containers...\n')
             containers = self.getContainersFromArgs(cleanArgs)
             self.actions.stopDockerCompose(containers)
 
         elif cleanArgs[1] == 'restart':
-            Utils.log('Restart and build containers...\n')
+            Utils.log('Build and restart containers...\n')
             containers = self.getContainersFromArgs(cleanArgs)
-            self.actions.restartContainers(containers)
+            self.actions.rebuildAndRestart(containers)
 
         else:
             raise Exception("Invalid command: " + " ".join(cleanArgs))
-
 
     def getContainersFromArgs(self, cleanArgs):
         if len(cleanArgs) < 3:
             return []
         elif cleanArgs[2] == 'service-containers':
-            return Containers.getServiceContainerNames()
+            return Containers.getServiceContainers()
         else:
-            return cleanArgs[2:]
+            return Containers.getContainersByName(cleanArgs[2:])
 
     def cleanArgs(self, arguments):
         res = []
@@ -74,5 +76,6 @@ if __name__ == '__main__':
         argParser.processArgs(sys.argv)
     except Exception as err:
         Utils.log("Error: {0}".format(err), termStyle=TermStyle.RED)
-
+        if DEBUG:
+            traceback.print_exc()
 
