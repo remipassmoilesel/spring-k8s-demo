@@ -21,11 +21,12 @@ Kubernetes offer many advantages:
 
 ⚠️ Warning: This application has only been tested on Ubuntu and Alpine Linux
 
-You can try this application locally easily. You will need NodeJS 8, npm, and a Mariadb/MySQL database:
+You can try this application locally easily. You will need NodeJS 8, npm, Docker and Docker compose:
 
 ```
-    $ sudo apt install -y mariadb-server nodejs npm
-    $ sudo systemctl start mysql
+    $ sudo apt install -y docker-ce nodejs npm python3 python-pip
+    $ sudo pip install --upgrade pip
+    $ sudo pip install docker-compose
 ```
 
 Then clone and setup the database:
@@ -33,19 +34,7 @@ Then clone and setup the database:
 ```
     $ git clone https://github.com/remipassmoilesel/spring-k8s-demo
     $ cd spring-k8s-demo
-    $ ./scripts/setup-dev-db.sh
-```
-
-Then build and run the application locally:
-
-```
-    $ ./scripts/package-and-launch.sh
-```
-
-To launch tests, you will need to enable the database:
-
-```
-    $ ./scripts/launch-tests.sh
+    $ ./dev.py demo
 ```
 
 ## Deploy on a Kubernetes cluster
