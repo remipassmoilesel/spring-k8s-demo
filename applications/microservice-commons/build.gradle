@@ -1,6 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
+apply plugin: 'jacoco'
 
 group = 'org.remipassmoilesel'
 version = '0.0.1-SNAPSHOT'
@@ -25,4 +26,10 @@ publishing {
     }
 }
 
+// see docs.gradle.org/current/userguide/jacoco_plugin.html
+jacoco {
+    toolVersion = "0.8.1"
+}
+
 build.finalizedBy(publishToMavenLocal)
+test.finalizedBy(jacocoTestReport)
