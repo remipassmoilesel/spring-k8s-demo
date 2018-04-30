@@ -10,6 +10,14 @@ class ActionHandlers:
     def __init__(self):
         self.commands = []
 
+    def buildAndRestart(self, containers):
+        if len(containers) > 0:
+            self.buildApplications(containers)
+            self.restartDockerContainers(containers)
+        else:
+            self.buildAllApplications()
+            self.startDockerCompose([])
+
     def buildAll(self):
         self.buildFrontend()
         self.buildAllApplications()
@@ -52,28 +60,13 @@ class ActionHandlers:
         comm = Command.run("docker-compose restart " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
         self.commands.append(comm)
 
-    def buildAndRestart(self, containers):
-        if len(containers) > 0:
-            self.buildApplications(containers)
-            self.restartDockerContainers(containers)
-        else:
-            self.buildAllApplications()
-            self.startDockerCompose([])
-
-    def launchDev(self, containers):
+    def launchLocal(self, containers):
         Utils.assertAtLeastOneContainer(containers, 1)
         Utils.assertNoServiceContainers(containers)
 
         appStr = Utils.joinGradleAppNames(containers, "bootRun")
         comm = Command.run("source " + containers[0].devEnvFile + " && ./gradlew " + appStr)
         self.commands.append(comm)
-
-    def showHelp(self):
-        Utils.log('Control application in development environment')
-        Utils.log('')
-        Utils.log('Examples: ')
-        Utils.log('\t$ dev start')
-        Utils.log('\t$ dev stop')
 
     def exit(self, code=0):
         exit(code)
