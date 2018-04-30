@@ -3,9 +3,6 @@ from .utils import Paths
 from .utils import Utils
 
 
-# TODO: separate docker control and build in distinct classes
-# TODO: check if containers are service containers
-
 class ActionHandlers:
 
     def buildAll(self):
