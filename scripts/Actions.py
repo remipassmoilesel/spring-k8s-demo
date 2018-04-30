@@ -23,12 +23,10 @@ class ActionHandlers:
         self.buildAllApplications()
 
     def buildFrontend(self):
-        comm = Command.run("npm install && npm run update-gateway", Paths.FRONTEND_ROOT)
-        self.commands.append(comm)
+        Command.runSync("npm install && npm run update-gateway", Paths.FRONTEND_ROOT)
 
     def buildAllApplications(self):
-        comm = Command.run("./gradlew build -x test")
-        self.commands.append(comm)
+        Command.runSync("./gradlew build -x test")
 
     def buildApplications(self, containers):
         Utils.assertNoServiceContainers(containers)
@@ -36,28 +34,27 @@ class ActionHandlers:
         appStr = Utils.joinGradleAppNames(containers, "build")
 
         print("./gradlew " + appStr + " -x test")
-        comm = Command.run("./gradlew " + appStr + " -x test")
-        self.commands.append(comm)
+        Command.runSync("./gradlew " + appStr + " -x test")
 
     def startDockerCompose(self, containers):
         containersStr = Utils.joinContainerNames(containers)
-        comm = Command.run("docker-compose up " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
+        comm = Command.runAsync("docker-compose up " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
         self.commands.append(comm)
 
     def stopDockerCompose(self, containers):
         containersStr = Utils.joinContainerNames(containers)
         print(containersStr)
         if len(containersStr) > 0:
-            comm = Command.run("docker-compose stop " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
+            comm = Command.runAsync("docker-compose stop " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
             self.commands.append(comm)
 
         else:
-            comm = Command.run("docker-compose down", Paths.DOCKER_COMPOSE_ROOT)
+            comm = Command.runAsync("docker-compose down", Paths.DOCKER_COMPOSE_ROOT)
             self.commands.append(comm)
 
     def restartDockerContainers(self, containers):
         containersStr = Utils.joinContainerNames(containers)
-        comm = Command.run("docker-compose restart " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
+        comm = Command.runAsync("docker-compose restart " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
         self.commands.append(comm)
 
     def launchLocal(self, containers):
@@ -65,7 +62,7 @@ class ActionHandlers:
         Utils.assertNoServiceContainers(containers)
 
         appStr = Utils.joinGradleAppNames(containers, "bootRun")
-        comm = Command.run("source " + containers[0].devEnvFile + " && ./gradlew " + appStr)
+        comm = Command.runAsync("source " + containers[0].devEnvFile + " && ./gradlew " + appStr)
         self.commands.append(comm)
 
     def exit(self, code=0):

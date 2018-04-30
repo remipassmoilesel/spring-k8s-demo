@@ -1,4 +1,4 @@
-from subprocess import Popen, PIPE
+from subprocess import run, Popen, PIPE
 from .Paths import Paths
 from .Utils import Utils, TermStyle
 
@@ -7,18 +7,27 @@ CONSOLE_ENCODING = 'utf-8'
 class Command:
 
     @staticmethod
-    def run(shellCommand, cwd = Paths.ROOT):
-        Utils.log('\nExecuting command: ' + shellCommand + "\n", termStyle=TermStyle.BLUE)
+    def runAsync(shellCommand, cwd = Paths.ROOT):
+        Utils.log('Executing command: \n' + shellCommand, termStyle=TermStyle.BLUE)
         comm = Command(shellCommand, cwd)
-        comm.execute()
+        comm.executeAsync()
         return comm
+
+    @staticmethod
+    def runSync(shellCommand, cwd = Paths.ROOT):
+        Utils.log('Executing command: \n' + shellCommand, termStyle=TermStyle.BLUE)
+        comm = Command(shellCommand, cwd)
+        comm.executeSync()
 
     def __init__(self, shellCommand, workingDir):
         self.shellCommand = shellCommand
         self.workingDir = workingDir
 
-    def execute(self):
-        self.process = Popen(self.shellCommand, shell=True, cwd=self.workingDir, stderr=PIPE, stdout=PIPE)
+    def executeSync(self):
+        self.process = run(self.shellCommand, shell=True, cwd=self.workingDir, executable="/bin/bash")
+
+    def executeAsync(self):
+        self.process = Popen(self.shellCommand, shell=True, cwd=self.workingDir, executable="/bin/bash", stderr=PIPE, stdout=PIPE)
 
     def isAlive(self):
         return self.process is not None and self.process.poll() is None
