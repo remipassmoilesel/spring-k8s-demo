@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import time
-from .utils import Paths
-from .utils import Utils, Command
+from .Paths import Paths
+from .Utils import Utils
+from .Command import Command
 
 
 class ActionHandlers:
