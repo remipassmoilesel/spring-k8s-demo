@@ -5,8 +5,8 @@ import io.reactivex.observers.TestObserver;
 import org.junit.Before;
 import org.junit.Test;
 import org.remipassmoilesel.k8sdemo.commons.comm.MCMessage;
-import org.remipassmoilesel.k8sdemo.commons.comm.utils.RemoteException;
 import org.remipassmoilesel.k8sdemo.commons.comm.sync.MicroCommSync;
+import org.remipassmoilesel.k8sdemo.commons.comm.utils.RemoteException;
 
 import java.io.IOException;
 
@@ -20,6 +20,14 @@ public class MicroCommSyncTest {
     @Before
     public void testSetup() throws IOException {
         microComm = TestHelpers.newSync();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void badSubjectShouldThrow() {
+        String badSubject = "test@subject";
+        microComm.handle(badSubject, (s, m) -> {
+            return MCMessage.EMPTY;
+        });
     }
 
     @Test

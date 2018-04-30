@@ -8,7 +8,7 @@ from scripts import ActionHandlers, TermStyle
 from scripts import Utils
 from scripts import Containers
 
-DEBUG=True
+DEBUG=False
 
 
 class MainApplication:

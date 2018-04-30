@@ -16,6 +16,6 @@ public class TestHelpers {
     }
 
     public static String getRandomSubject(String prefix) {
-        return prefix + "." + UUID.randomUUID().toString();
+        return prefix + "." + UUID.randomUUID().toString().replace('-', '_');
     }
 }

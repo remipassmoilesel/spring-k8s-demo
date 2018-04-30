@@ -39,5 +39,5 @@ class Containers:
         result = list(filter(lambda ctr: ctr.serviceName in containerNames, Containers.allContainers))
         if len(result) != len(containerNames):
             containersNotFound = list(filter(lambda name: name not in Containers.allContainers, containerNames))
-            raise Exception("Some containers were not found. Found: " + " ".join(containersNotFound))
+            raise Exception("Some containers were not found: " + " ".join(containersNotFound))
         return result
