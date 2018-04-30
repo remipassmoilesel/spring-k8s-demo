@@ -15,6 +15,11 @@ class ActionHandlers:
     def buildAllApplications(self):
         Utils.runCommand("./gradlew build -x test")
 
+    def buildApplications(self, containers):
+        appStr = self.joinGradleAppNames(containers, "build")
+        print("./gradlew " + appStr + " -x test")
+        Utils.runCommand("./gradlew " + appStr + " -x test")
+
     def startDockerCompose(self, containers):
         containersStr = self.joinContainerNames(containers)
         Utils.runCommand("docker-compose up " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
@@ -27,14 +32,14 @@ class ActionHandlers:
         else:
             Utils.runCommand("docker-compose down " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
 
+    def restartDockerContainers(self, containers):
+        containersStr = self.joinContainerNames(containers)
+        Utils.runCommand("docker-compose restart " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
+
     def buildAndRestart(self, containers):
         if len(containers) > 0:
-            appStr = self.joinGradleAppNames(containers, "build")
-            print("./gradlew " + appStr + " -x test")
-            Utils.runCommand("./gradlew " + appStr + " -x test")
-
-            containersStr = self.joinContainerNames(containers)
-            Utils.runCommand("docker-compose restart " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
+            self.buildApplications(containers)
+            self.restartDockerContainers(containers)
         else:
             self.buildAllApplications()
             self.startDockerCompose([])
@@ -56,3 +61,5 @@ class ActionHandlers:
     def joinContainerNames(self, containers):
         containerNames = list(map(lambda ctr: ctr.serviceName, containers))
         return " ".join(containerNames)
+
+
