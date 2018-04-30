@@ -40,6 +40,31 @@ class Utils:
         except:
             return None
 
+    @staticmethod
+    def joinGradleAppNames(containers, gradleTask):
+        tasks = list(map(lambda ctr: ctr.serviceName + ":" + gradleTask, containers))
+        return " ".join(tasks)
+
+    @staticmethod
+    def joinContainerNames(containers):
+        containerNames = list(map(lambda ctr: ctr.serviceName, containers))
+        return " ".join(containerNames)
+
+    @staticmethod
+    def assertAtLeastOneContainer(containers, number=None):
+        if len(containers) < 0:
+            raise Exception('You must specify at least one application')
+
+        if number is not None and len(containers) != number:
+            raise Exception('Expected ' + number + ' applications exactly')
+
+    @staticmethod
+    def assertNoServiceContainers(containers):
+        for ctr in containers:
+            if ctr.isServiceContainer:
+                raise Exception('Services containers are not allowed for this operation')
+
+
 class Command:
 
     @staticmethod

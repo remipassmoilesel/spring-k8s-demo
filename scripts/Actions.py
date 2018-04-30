@@ -22,21 +22,21 @@ class ActionHandlers:
         self.commands.append(comm)
 
     def buildApplications(self, containers):
-        self.assertNoServiceContainers(containers)
+        Utils.assertNoServiceContainers(containers)
 
-        appStr = self.joinGradleAppNames(containers, "build")
+        appStr = Utils.joinGradleAppNames(containers, "build")
 
         print("./gradlew " + appStr + " -x test")
         comm = Command.run("./gradlew " + appStr + " -x test")
         self.commands.append(comm)
 
     def startDockerCompose(self, containers):
-        containersStr = self.joinContainerNames(containers)
+        containersStr = Utils.joinContainerNames(containers)
         comm = Command.run("docker-compose up " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
         self.commands.append(comm)
 
     def stopDockerCompose(self, containers):
-        containersStr = self.joinContainerNames(containers)
+        containersStr = Utils.joinContainerNames(containers)
         print(containersStr)
         if len(containersStr) > 0:
             comm = Command.run("docker-compose stop " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
@@ -47,7 +47,7 @@ class ActionHandlers:
             self.commands.append(comm)
 
     def restartDockerContainers(self, containers):
-        containersStr = self.joinContainerNames(containers)
+        containersStr = Utils.joinContainerNames(containers)
         comm = Command.run("docker-compose restart " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
         self.commands.append(comm)
 
@@ -60,10 +60,10 @@ class ActionHandlers:
             self.startDockerCompose([])
 
     def launchDev(self, containers):
-        self.assertAtLeastOneContainer(containers, 1)
-        self.assertNoServiceContainers(containers)
+        Utils.assertAtLeastOneContainer(containers, 1)
+        Utils.assertNoServiceContainers(containers)
 
-        appStr = self.joinGradleAppNames(containers, "bootRun")
+        appStr = Utils.joinGradleAppNames(containers, "bootRun")
         comm = Command.run("source " + containers[0].devEnvFile + " && ./gradlew " + appStr)
         self.commands.append(comm)
 
@@ -76,26 +76,6 @@ class ActionHandlers:
 
     def exit(self, code=0):
         exit(code)
-
-    def joinGradleAppNames(self, containers, gradleTask):
-        tasks = list(map(lambda ctr: ctr.serviceName + ":" + gradleTask, containers))
-        return " ".join(tasks)
-
-    def joinContainerNames(self, containers):
-        containerNames = list(map(lambda ctr: ctr.serviceName, containers))
-        return " ".join(containerNames)
-
-    def assertAtLeastOneContainer(self, containers, number=None):
-        if len(containers) < 0:
-            raise Exception('You must specify at least one application')
-
-        if number is not None and len(containers) != number:
-            raise Exception('Expected ' + number + ' applications exactly')
-
-    def assertNoServiceContainers(self, containers):
-        for ctr in containers:
-            if ctr.isServiceContainer:
-                raise Exception('Services containers are not allowed for this operation')
 
     def killAllAndWait(self):
         for comm in self.commands:
