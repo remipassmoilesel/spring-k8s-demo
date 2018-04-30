@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 from scripts import ActionHandlers
 from scripts import Utils
+from scripts import Containers
 import sys
 
 # TODO: handle CTRL+C and stop docker compose properly
-
-DOCKER_COMPOSE_SERVICES = ['mongodb', 'nats']
 
 class ArgParser:
     def __init__(self):
@@ -34,24 +34,29 @@ class ArgParser:
 
         if cleanArgs[1] == 'start':
             Utils.log('Start docker compose...\n')
-            services = self.getServicesToLaunch(cleanArgs)
-            self.actions.startDockerCompose(services)
+            containers = self.getContainersFromArgs(cleanArgs)
+            self.actions.startDockerCompose(containers)
             self.actions.exit()
 
         if cleanArgs[1] == 'stop':
             Utils.log('Stop docker compose...\n')
-            services = self.getServicesToLaunch(cleanArgs)
-            self.actions.stopDockerCompose(services)
+            containers = self.getContainersFromArgs(cleanArgs)
+            self.actions.stopDockerCompose(containers)
             self.actions.exit()
 
-    def getServicesToLaunch(self, cleanArgs):
+        if cleanArgs[1] == 'restart':
+            Utils.log('Restart and build containers...\n')
+            containers = self.getContainersFromArgs(cleanArgs)
+            self.actions.restartContainers(containers)
+            self.actions.exit()
+
+    def getContainersFromArgs(self, cleanArgs):
         if len(cleanArgs) < 3:
             return []
-        elif cleanArgs[2] == 'services':
-            return DOCKER_COMPOSE_SERVICES
+        elif cleanArgs[2] == 'service-containers':
+            return Containers.getServiceContainerNames()
         else:
             return cleanArgs[2:]
-
 
     def cleanArgs(self, arguments):
         res = []

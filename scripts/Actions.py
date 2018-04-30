@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from .utils import Utils
 from .utils import Paths
 
@@ -15,13 +16,17 @@ class ActionHandlers:
     def buildApplications(self):
         Utils.runCommand("./gradlew build -x test")
 
-    def startDockerCompose(self, serviceNames = []):
-        servicesStr = " ".join(serviceNames)
-        Utils.runCommand("docker-compose up " + servicesStr, Paths.DOCKER_COMPOSE_ROOT)
+    def startDockerCompose(self, containers = []):
+        containersStr = " ".join(containers)
+        Utils.runCommand("docker-compose up " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
 
-    def stopDockerCompose(self, serviceNames = []):
-        servicesStr = " ".join(serviceNames)
-        Utils.runCommand("docker-compose down " + servicesStr, Paths.DOCKER_COMPOSE_ROOT)
+    def stopDockerCompose(self, containers = []):
+        containersStr = " ".join(containers)
+        Utils.runCommand("docker-compose down " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
+
+    def restartContainers(self, containers = []):
+        containersStr = " ".join(containers)
+        Utils.runCommand("docker-compose down " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
 
     def showHelp(self):
         Utils.log('Control application in development environment')
