@@ -27,6 +27,7 @@ class MainApplication:
         Utils.log('\t$ dev stop nats mongodb')
         Utils.log('\t$ dev restart gateway')
         Utils.log('\t$ dev local signature-service')
+        Utils.log('\t$ dev test signature-service')
 
     def processArgs(self, args):
         cleanArgs = self.cleanArgs(args)
@@ -65,6 +66,11 @@ class MainApplication:
             Utils.log('Local launch...\n')
             containers = self.getContainersFromArgs(cleanArgs)
             self.actions.launchLocal(containers)
+
+        elif cleanArgs[1] == 'test':
+            Utils.log('Launch test ...\n')
+            containers = self.getContainersFromArgs(cleanArgs)
+            self.actions.testApplications(containers)
 
         else:
             raise Exception("Invalid command: " + " ".join(cleanArgs))

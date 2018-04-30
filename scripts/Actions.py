@@ -65,6 +65,14 @@ class ActionHandlers:
         comm = Command.runAsync("source " + containers[0].devEnvFile + " && ./gradlew " + appStr)
         self.commands.append(comm)
 
+    def testApplications(self, containers):
+        Utils.assertAtLeastOneContainer(containers)
+        Utils.assertNoServiceContainers(containers)
+
+        appStr = Utils.joinGradleAppNames(containers, "test")
+        comm = Command.runAsync("source " + containers[0].devEnvFile + " && ./gradlew " + appStr)
+        self.commands.append(comm)
+
     def exit(self, code=0):
         exit(code)
 
