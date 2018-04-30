@@ -46,7 +46,7 @@ class ArgParser:
         elif cleanArgs[1] == 'restart':
             Utils.log('Build and restart containers...\n')
             containers = self.getContainersFromArgs(cleanArgs)
-            self.actions.rebuildAndRestart(containers)
+            self.actions.buildAndRestart(containers)
 
         else:
             raise Exception("Invalid command: " + " ".join(cleanArgs))

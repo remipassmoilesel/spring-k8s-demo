@@ -27,9 +27,17 @@ class ActionHandlers:
         else:
             Utils.runCommand("docker-compose down " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
 
-    def rebuildAndRestart(self, containers):
-        containersStr = self.joinContainerNames(containers)
-        Utils.runCommand("docker-compose restart " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
+    def buildAndRestart(self, containers):
+        if len(containers) > 0:
+            appStr = self.joinGradleAppNames(containers, "build")
+            print("./gradlew " + appStr + " -x test")
+            Utils.runCommand("./gradlew " + appStr + " -x test")
+
+            containersStr = self.joinContainerNames(containers)
+            Utils.runCommand("docker-compose restart " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
+        else:
+            self.buildAllApplications()
+            self.startDockerCompose([])
 
     def showHelp(self):
         Utils.log('Control application in development environment')
@@ -40,6 +48,10 @@ class ActionHandlers:
 
     def exit(self, code=0):
         exit(code)
+
+    def joinGradleAppNames(self, containers, gradleTask):
+        tasks = list(map(lambda ctr: ctr.serviceName + ":" + gradleTask, containers))
+        return " ".join(tasks)
 
     def joinContainerNames(self, containers):
         containerNames = list(map(lambda ctr: ctr.serviceName, containers))

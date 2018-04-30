@@ -2,13 +2,10 @@
 
 
 class Container:
-    def __init__(self, serviceName, buildPath, isServiceContainer = False):
+    def __init__(self, serviceName, isServiceContainer = False):
 
         # Docker compose service name
         self.serviceName = serviceName
-
-        # If specified, gradle build will be applied on restart
-        self.buildPath = buildPath
 
         self.isServiceContainer = isServiceContainer
 
@@ -16,11 +13,11 @@ class Container:
 class Containers:
 
     allContainers = [
-        Container("gateway", "./applications/gateway"),
-        Container("signature-service", "./applications/signature-service"),
+        Container("gateway"),
+        Container("signature-service"),
 
-        Container("mongodb", None, True),
-        Container("nats", None, True)
+        Container("mongodb", True),
+        Container("nats", True)
     ]
 
     serviceContainers = list(filter(lambda ctr: ctr.isServiceContainer, allContainers))

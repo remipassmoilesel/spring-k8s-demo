@@ -20,6 +20,7 @@
 - Restaurer les messages d'erreurs en cas de problème de connexion (client http)
 - Empêcher la connexion mongo de gateway due à l'import de dépendances
 - Installer JUnit 5, instaurer un tag "only"
+- Empecher la connexion mongo sur gateway (importer seulement les annotations ?)
 
 1 - Améliorer les outils de dev
 
