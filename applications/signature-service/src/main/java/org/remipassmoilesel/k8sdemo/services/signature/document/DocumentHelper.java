@@ -1,7 +1,7 @@
 package org.remipassmoilesel.k8sdemo.services.signature.document;
 
 import org.apache.commons.io.FileUtils;
-import org.remipassmoilesel.k8sdemo.clients.signature.entities.SignedDocument;
+import org.remipassmoilesel.k8sdemo.clients.signature.entities.AbstractSignedDocument;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class DocumentHelper {
 
-    public Path persistDocContentTemporary(SignedDocument document) throws IOException {
+    public Path persistDocContentTemporary(AbstractSignedDocument document) throws IOException {
         this.checkDocumentContent(document);
 
         Path tempPath = this.getTempPath();
@@ -20,7 +20,7 @@ public class DocumentHelper {
         return tempPath;
     }
 
-    public Path persistDocSignatureTemporary(SignedDocument document) throws IOException {
+    public Path persistDocSignatureTemporary(AbstractSignedDocument document) throws IOException {
         this.checkDocumentSignature(document);
 
         Path tempPath = this.getTempPath();
@@ -37,13 +37,13 @@ public class DocumentHelper {
         Files.delete(tempPath);
     }
 
-    public void checkDocumentContent(SignedDocument document) {
+    public void checkDocumentContent(AbstractSignedDocument document) {
         if (document.getContent() == null) {
             throw new Error("Document content is null");
         }
     }
 
-    public void checkDocumentSignature(SignedDocument document) {
+    public void checkDocumentSignature(AbstractSignedDocument document) {
         if (document.getSignature() == null) {
             throw new Error("Document signature is null");
         }

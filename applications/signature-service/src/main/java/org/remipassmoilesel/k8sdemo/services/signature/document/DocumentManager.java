@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class DocumentManager {
@@ -20,25 +21,28 @@ public class DocumentManager {
     private GpgHelper gpgHelper = new GpgHelper();
 
     public List<SignedDocument> getDocuments() {
-        return documentRepository.findAll();
+        return documentRepository.findAll()
+                .stream()
+                .map(db -> db.toSignedDocument())
+                .collect(Collectors.toList());
     }
 
     public SignedDocument getDocumentById(String id) {
-        Optional<SignedDocument> optionnal = documentRepository.findById(id);
+        Optional<DbSignedDocument> optionnal = documentRepository.findById(id);
         if (!optionnal.isPresent()) {
             throw new DocumentNotFoundException(id);
         }
-        return optionnal.get();
+        return optionnal.get().toSignedDocument();
     }
 
     public SignedDocument persistDocument(String documentName, byte[] documentContent) throws IOException {
-        SignedDocument document = new SignedDocument(documentName, documentContent, new Date());
+        DbSignedDocument document = new DbSignedDocument(documentName, documentContent, new Date());
 
         String sign = gpgHelper.signDocument(document, gpgHelper.getDefaultGpgKeys());
         document.setSignature(sign);
 
         documentRepository.save(document);
-        return document;
+        return document.toSignedDocument();
     }
 
     public void deleteDocument(String documentId) {
