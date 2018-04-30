@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from scripts import ActionHandlers
+import sys
+from scripts import ActionHandlers, TermStyle
 from scripts import Utils
 from scripts import Containers
-import sys
 
 # TODO: handle CTRL+C and stop docker compose properly
 
@@ -19,36 +19,35 @@ class ArgParser:
 
         if len(cleanArgs) < 2:
             self.actions.showHelp()
-            self.actions.exit(1)
+            raise Exception('You must specify a command')
 
-        if cleanArgs[1] == 'help':
+        elif cleanArgs[1] == 'help':
             Utils.log('Help !\n')
             self.actions.showHelp()
-            self.actions.exit()
 
-        if cleanArgs[1] == 'demo':
+        elif cleanArgs[1] == 'demo':
             Utils.log('Launching demo ...\n')
             self.actions.buildAll()
             self.actions.startDockerCompose()
-            self.actions.exit()
 
-        if cleanArgs[1] == 'start':
+        elif cleanArgs[1] == 'start':
             Utils.log('Start docker compose...\n')
             containers = self.getContainersFromArgs(cleanArgs)
             self.actions.startDockerCompose(containers)
-            self.actions.exit()
 
-        if cleanArgs[1] == 'stop':
+        elif cleanArgs[1] == 'stop':
             Utils.log('Stop docker compose...\n')
             containers = self.getContainersFromArgs(cleanArgs)
             self.actions.stopDockerCompose(containers)
-            self.actions.exit()
 
-        if cleanArgs[1] == 'restart':
+        elif cleanArgs[1] == 'restart':
             Utils.log('Restart and build containers...\n')
             containers = self.getContainersFromArgs(cleanArgs)
             self.actions.restartContainers(containers)
-            self.actions.exit()
+
+        else:
+            raise Exception("Invalid command: " + " ".join(cleanArgs))
+
 
     def getContainersFromArgs(self, cleanArgs):
         if len(cleanArgs) < 3:
@@ -70,5 +69,10 @@ if __name__ == '__main__':
     Utils.log()
 
     argParser = ArgParser()
-    argParser.processArgs(sys.argv)
+
+    try:
+        argParser.processArgs(sys.argv)
+    except Exception as err:
+        Utils.log("Error: {0}".format(err), termStyle=TermStyle.RED)
+
 
