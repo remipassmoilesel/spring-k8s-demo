@@ -20,14 +20,19 @@ public class MicroCommSyncTest {
     @Before
     public void testSetup() throws IOException {
         microComm = TestHelpers.newSync();
+        microComm.connect();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void badSubjectShouldThrow() {
         String badSubject = "test@subject";
-        microComm.handle(badSubject, (s, m) -> {
-            return MCMessage.EMPTY;
-        });
+        microComm.handle(badSubject, (s, m) -> MCMessage.EMPTY);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void nonConnectedShouldThrow() throws IOException {
+        MicroCommSync nonConnected = TestHelpers.newSync();
+        nonConnected.handle("testsubject", (s, m) -> MCMessage.EMPTY);
     }
 
     @Test
