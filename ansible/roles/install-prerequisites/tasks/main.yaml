@@ -3,14 +3,8 @@
   with_items:
        - python-pip
        - python-dev
-       - libmysqlclient-dev
 
 - name: Update pip
   pip:
     name: pip
     state: latest
-
-- name: Install mysql python lib
-  pip:
-    name: MySQL-python
-    state: present

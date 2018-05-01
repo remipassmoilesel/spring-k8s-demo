@@ -1,16 +1,4 @@
-- hosts: mariadb
-  vars_files:
-  - db_configs.yml
+- hosts: mongodb
   roles:
   - install-prerequisites
-  - install-mariadb
-  tasks:
-  - name: Configure databases and users
-    with_items: "{{ databases }}"
-    include_role:
-      name: configure-database
-    vars:
-      db_name: "{{ item.name }}"
-      db_user: "{{ item.user }}"
-      db_host: "{{ item.host }}"
-      db_password: "{{ item.password }}"
+  - install-mongodb
