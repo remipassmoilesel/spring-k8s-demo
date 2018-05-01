@@ -27,7 +27,7 @@ nats:
 
 signatureService:
 
-  replicaCount: 3
+  replicaCount: 1
 
   image:
     repository: docker.remi-pace.fr/k8sdemo.signature-service
@@ -38,7 +38,7 @@ signatureService:
 
 gateway:
 
-  replicaCount: 3
+  replicaCount: 1
 
   image:
     repository: docker.remi-pace.fr/k8sdemo.gateway
