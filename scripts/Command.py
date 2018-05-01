@@ -1,4 +1,4 @@
-from subprocess import run, Popen, PIPE
+from subprocess import run, Popen, PIPE, check_output
 from .Paths import Paths
 from .Utils import Utils, TermStyle
 
@@ -19,6 +19,11 @@ class Command:
         comm = Command(shellCommand, cwd)
         comm.executeSync()
 
+    @staticmethod
+    def runSyncAndGetOutput(shellCommand, cwd = Paths.ROOT):
+        comm = Command(shellCommand, cwd)
+        return comm.executeSyncAndGetOutput()
+
     def __init__(self, shellCommand, workingDir):
         self.shellCommand = shellCommand
         self.workingDir = workingDir
@@ -28,6 +33,9 @@ class Command:
 
     def executeAsync(self):
         self.process = Popen(self.shellCommand, shell=True, cwd=self.workingDir, executable="/bin/bash", stderr=PIPE, stdout=PIPE)
+
+    def executeSyncAndGetOutput(self):
+        return check_output(self.shellCommand, shell=True, cwd=self.workingDir, executable="/bin/bash")
 
     def isAlive(self):
         return self.process is not None and self.process.poll() is None
@@ -53,3 +61,5 @@ class Command:
             if out is not None:
                 for line in out.decode(CONSOLE_ENCODING).rstrip().splitlines():
                     print(line)
+
+

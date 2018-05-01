@@ -2,6 +2,7 @@
 from .AppBuilder import AppBuilder
 from .Command import Command
 from .Containers import Containers
+from .Containers import BaseDockerImage
 from .Paths import Paths
 
 
@@ -11,6 +12,7 @@ class DeployHandlers:
         self.appBuilder = AppBuilder()
 
     def helmDeploy(self, namespace, releaseName):
+        self.buildBaseImageIfNecessary()
         self.appBuilder.buildAllApplications()
 
         self.appBuilder.buildDockerImages(Containers.appContainers)
@@ -26,4 +28,11 @@ class DeployHandlers:
 
     def destroyHelmChart(self, releaseName):
         Command.runSync("helm delete --purge " + releaseName)
+
+    def buildBaseImageIfNecessary(self):
+        out = Command.runSyncAndGetOutput("docker images -q " + BaseDockerImage.name)
+        if len(out) < 1:
+            self.appBuilder.buildBaseImage()
+
+
 

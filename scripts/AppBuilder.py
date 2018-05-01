@@ -2,6 +2,7 @@
 from .Command import Command
 from .Paths import Paths
 from .Utils import Utils
+from .Containers import BaseDockerImage
 
 
 class AppBuilder:
@@ -24,8 +25,14 @@ class AppBuilder:
 
     def buildDockerImages(self, containers):
         for ctr in containers:
-            Command.runSync("docker build . -t " + ctr.imageName, cwd=ctr.dockerBuildDir)
+            self.__buildImage(ctr.imageName, ctr.dockerBuildDir)
 
     def pushDockerImages(self, containers):
         for ctr in containers:
             Command.runSync("docker push " + ctr.imageName)
+
+    def buildBaseImage(self):
+        self.__buildImage(BaseDockerImage.name, BaseDockerImage.dockerBuildDir)
+
+    def __buildImage(self, imageName, dockerBuildDir):
+        Command.runSync("docker build . -t " + imageName, cwd=dockerBuildDir)

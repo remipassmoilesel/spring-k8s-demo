@@ -4,6 +4,9 @@
 # TODO: move this class to a setup file, on top level directory
 # TODO: rename to Application
 
+class BaseDockerImage:
+    name = 'docker.remi-pace.fr/k8sdemo.base-image:0.1'
+    dockerBuildDir = './applications/base-docker-image'
 
 class Container:
     def __init__(self,
