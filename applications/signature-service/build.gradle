@@ -1,6 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'jacoco'
 
 group = 'org.remipassmoilesel'
 version = '0.0.1-SNAPSHOT'
@@ -32,3 +33,9 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
 }
+
+jacoco {
+    toolVersion = "0.8.1"
+}
+
+test.finalizedBy(jacocoTestReport)
