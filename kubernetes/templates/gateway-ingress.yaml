@@ -11,5 +11,5 @@ spec:
         paths:
           - backend:
               serviceName: gateway-{{ template "spring-k8s-demo.fullname" . }}
-              servicePort: 8085
+              servicePort: 8080
 
