@@ -9,5 +9,5 @@ RUN chmod +x /docker-entrypoint.sh
 
 USER tomcat
 
-EXPOSE 8080
+EXPOSE 8081
 ENTRYPOINT /docker-entrypoint.sh

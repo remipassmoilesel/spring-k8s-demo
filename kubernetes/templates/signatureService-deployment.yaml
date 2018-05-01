@@ -23,20 +23,35 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.signatureService.image.repository }}:{{ .Values.signatureService.image.tag }}"
           imagePullPolicy: {{ .Values.signatureService.image.pullPolicy }}
+          env:
+          - name: SIGNATURE_SERV_ACTIVE_PROFILE
+            value: {{ .Values.general.profile }}
+          - name: SIGNATURE_SERV_DB_NAME
+            value: documentsv2
+          - name: SIGNATURE_SERV_DB_URI
+            value: {{ .Values.general.mongodb.host }}
+          - name: SIGNATURE_SERV_DB_USERNAME
+            value: {{ .Values.general.mongodb.username }}
+          - name: SIGNATURE_SERV_DB_PASSWORD
+            value: {{ .Values.general.mongodb.password }}
+          - name: MICROCOMM_CONTEXT
+            value: {{ .Values.general.microcomm.context }}
+          - name: MICROCOMM_NATS_URL
+            value: nats://nats-{{ template "spring-k8s-demo.fullname" . }}:4222
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 8081
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /
-              port: 8080
+              port: 8081
             initialDelaySeconds: 10
             periodSeconds: 5
           readinessProbe:
             httpGet:
               path: /
-              port: 8080
+              port: 8081
             initialDelaySeconds: 10
             periodSeconds: 5
       imagePullSecrets:

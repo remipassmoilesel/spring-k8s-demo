@@ -4,9 +4,13 @@
 
 
 general:
-  profile: prod
+  profile: dev
   microcomm:
     context: k8sdemo
+  mongodb:
+    host: mongodb://192.168.0.16:27017
+    username: everybodyknow
+    password: thatnobodyputpasswordonmongo
 
 nats:
 
