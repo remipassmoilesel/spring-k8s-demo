@@ -131,7 +131,7 @@ class MainApplication:
 
 if __name__ == '__main__':
 
-    Utils.log('\nDev helper 💪💪💪\n')
+    Utils.log('\n 💪 Dev helper 💨 💨 💨 \n')
     mainApp = MainApplication()
 
     try:
