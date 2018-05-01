@@ -12,19 +12,19 @@ public class MCMessageTest {
 
     @Test
     public void typingUtilsShouldWorkOnSimpleTypes() {
-        MCMessage message = MCMessage.fromObjects(1, "a", 5l);
+        MCMessage message = MCMessage.fromObjects(1, "a", 5L);
         assertThat(MCMessage.getContentAs(message, 0, Integer.class), equalTo(1));
         assertThat(MCMessage.getContentAs(message, 1, String.class), equalTo("a"));
-        assertThat(MCMessage.getContentAs(message, 2, Long.class), equalTo(5l));
+        assertThat(MCMessage.getContentAs(message, 2, Long.class), equalTo(5L));
 
         assertThat(message.getAsInt(0), equalTo(1));
         assertThat(message.getAsString(1), equalTo("a"));
-        assertThat(message.getAsLong(2), equalTo(5l));
+        assertThat(message.getAsLong(2), equalTo(5L));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void typingUtilsShouldThrowIfTypeIsIncorrect() {
-        MCMessage message = MCMessage.fromObjects(1, "a", 5l);
+        MCMessage message = MCMessage.fromObjects(1, "a", 5L);
         MCMessage.getContentAs(message, 0, String.class);
     }
 

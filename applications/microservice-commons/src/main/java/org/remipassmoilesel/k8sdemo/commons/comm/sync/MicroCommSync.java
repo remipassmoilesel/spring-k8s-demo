@@ -12,8 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -31,11 +29,9 @@ public class MicroCommSync {
     private final MicroCommSyncConfig config;
     private final Scheduler scheduler = Schedulers.computation();
     private Connection connection;
-    private final Map<String, AsyncSubscription> subscriptions;
 
     public MicroCommSync(MicroCommSyncConfig config) {
         this.config = config;
-        this.subscriptions = new HashMap<>();
         logger.info("Initialized with configuration: {}", config);
     }
 
@@ -44,7 +40,7 @@ public class MicroCommSync {
         this.connection = Nats.connect(config.getUrl());
     }
 
-    public void handle(String subject, SyncHandler handler) {
+    public AsyncSubscription handle(String subject, SyncHandler handler) {
         String completeSubject = this.getCompleteSubjectFrom(subject);
         logger.info("Registering handler on subject: {}", completeSubject);
 
@@ -59,7 +55,7 @@ public class MicroCommSync {
                 this.createMessageHandler(completeSubject, handler)
         );
 
-        this.subscriptions.put(completeSubject, subscription);
+        return subscription;
     }
 
     public Single<MCMessage> request(String subject, MCMessage mcMessage) {
@@ -80,20 +76,6 @@ public class MicroCommSync {
             return this.handleRemoteResponse(subject, Optional.ofNullable(rawResponse));
         }).observeOn(this.scheduler);
 
-    }
-
-    public void unsubscribe(String subject) throws IOException {
-        String completeSubject = this.getCompleteSubjectFrom(subject);
-        logger.info("Unsubscribing from subject: {}", completeSubject);
-
-        this.checkConnection();
-        Helpers.checkSubjectString(completeSubject);
-
-        AsyncSubscription sub = this.subscriptions.get(completeSubject);
-        if (sub == null) {
-            throw new NullPointerException("No subscription found for subject: " + completeSubject);
-        }
-        sub.unsubscribe();
     }
 
     public void disconnect(){
