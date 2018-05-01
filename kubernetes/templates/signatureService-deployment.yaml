@@ -1,0 +1,41 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: signatureService-{{ template "spring-k8s-demo.fullname" . }}
+  labels:
+    app: signatureService-{{ template "spring-k8s-demo.name" . }}
+    chart: {{ template "spring-k8s-demo.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.signatureService.replicaCount }}
+  selector:
+    matchLabels:
+      app: signatureService-{{ template "spring-k8s-demo.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: signatureService-{{ template "spring-k8s-demo.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.signatureService.image.repository }}:{{ .Values.signatureService.image.tag }}"
+          imagePullPolicy: {{ .Values.signatureService.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
