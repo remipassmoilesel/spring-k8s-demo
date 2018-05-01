@@ -10,6 +10,23 @@ import java.util.Objects;
 
 public class MCMessage implements Serializable {
 
+    public static <T> T getContent(MCMessage message, int index, Class<? extends T> clazz) {
+        checkContentIndex(message, index);
+        Serializable rawElement = message.content[index];
+        if (!clazz.isInstance(rawElement)) {
+            throw new IllegalArgumentException(String.format("Element at index %s not instance of %s", index, clazz.getName()));
+        }
+        return clazz.cast(rawElement);
+    }
+
+    private static void checkContentIndex(MCMessage message, int index) {
+        if (index >= message.content.length) {
+            throw new Error(String.format("Content at index %s not found. Message contains %s element",
+                    index, message.content.length)
+            );
+        }
+    }
+
     public static final MCMessage EMPTY = new MCMessage();
 
     public static MCMessage fromError(Exception error) {
@@ -72,15 +89,15 @@ public class MCMessage implements Serializable {
     }
 
     public String getAsString(int index) {
-        return (String) this.content[index];
+        return MCMessage.getContent(this, index, String.class);
     }
 
     public Integer getAsInt(int index) {
-        return (Integer) this.content[index];
+        return MCMessage.getContent(this, index, Integer.class);
     }
 
     public Long getAsLong(int index) {
-        return (Long) this.content[index];
+        return MCMessage.getContent(this, index, Long.class);
     }
 
     @Override
