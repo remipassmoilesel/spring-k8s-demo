@@ -85,4 +85,6 @@ public abstract class AbstractSignedDocument implements Serializable {
         result = 31 * result + Arrays.hashCode(content);
         return result;
     }
+
+    public abstract String toString();
 }

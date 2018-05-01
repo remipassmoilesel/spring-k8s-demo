@@ -41,6 +41,7 @@ public class SignatureServer extends AbstractSyncServer {
 
             SignedDocument document = this.getDocumentFromMessage(message, 0);
             SignedDocument persisted = documentManager.persistDocument(document.getName(), document.getContent());
+
             return MCMessage.fromObject(persisted);
         });
 

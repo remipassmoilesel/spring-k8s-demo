@@ -41,8 +41,8 @@ public class DocumentManager {
         String sign = gpgHelper.signDocument(document, gpgHelper.getDefaultGpgKeys());
         document.setSignature(sign);
 
-        documentRepository.save(document);
-        return document.toSignedDocument();
+        DbSignedDocument persisted = documentRepository.save(document);
+        return persisted.toSignedDocument();
     }
 
     public void deleteDocument(String documentId) {

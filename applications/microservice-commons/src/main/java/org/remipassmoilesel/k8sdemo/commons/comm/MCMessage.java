@@ -21,7 +21,8 @@ public class MCMessage implements Serializable {
 
     private static void checkContentIndex(MCMessage message, int index) {
         if (index >= message.content.length) {
-            throw new Error(String.format("Content at index %s not found. Message contains %s element",
+            throw new Error(String.format(
+                    "Content at index %s not found. Message contains %s element",
                     index, message.content.length)
             );
         }
@@ -82,6 +83,7 @@ public class MCMessage implements Serializable {
 
     /**
      * Prefer use of static method, with better typings
+     *
      * @return
      */
     @Deprecated

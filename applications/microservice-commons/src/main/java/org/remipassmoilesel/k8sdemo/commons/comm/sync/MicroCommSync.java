@@ -4,8 +4,8 @@ import io.nats.client.*;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
-import org.remipassmoilesel.k8sdemo.commons.comm.utils.Helpers;
 import org.remipassmoilesel.k8sdemo.commons.comm.MCMessage;
+import org.remipassmoilesel.k8sdemo.commons.comm.utils.Helpers;
 import org.remipassmoilesel.k8sdemo.commons.comm.utils.RemoteException;
 import org.remipassmoilesel.k8sdemo.commons.comm.utils.Serializer;
 import org.slf4j.Logger;
@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.OptionalInt;
 import java.util.concurrent.TimeUnit;
 
 public class MicroCommSync {
@@ -54,7 +53,10 @@ public class MicroCommSync {
 
         AsyncSubscription subscription = this.connection.subscribe(
                 completeSubject,
-                this.createHandler(completeSubject, handler)
+                // subject is used as a queue group,
+                // in order to load balance between instances
+                completeSubject,
+                this.createMessageHandler(completeSubject, handler)
         );
 
         this.subscriptions.put(completeSubject, subscription);
@@ -71,10 +73,11 @@ public class MicroCommSync {
             Message rawResponse = this.connection.request(
                     completeSubject,
                     mcMessage.serialize(),
-                    1,
+                    // FIXME: wait time is too great, because requests are long at application startup
+                    5,
                     TimeUnit.SECONDS
             );
-            return this.handleRemoteResponse(Optional.ofNullable(rawResponse));
+            return this.handleRemoteResponse(subject, Optional.ofNullable(rawResponse));
         }).observeOn(this.scheduler);
 
     }
@@ -102,9 +105,10 @@ public class MicroCommSync {
         return this.config.getContext() + "." + subject;
     }
 
-    private MCMessage handleRemoteResponse(Optional<Message> rawResponse) throws Exception {
+    private MCMessage handleRemoteResponse(String subject, Optional<Message> rawResponse) throws Exception {
+
         if(!rawResponse.isPresent()){
-            return MCMessage.EMPTY;
+            throw new IllegalStateException("Request timed out for subject: " + subject);
         }
 
         byte[] data = rawResponse.get().getData();
@@ -121,13 +125,15 @@ public class MicroCommSync {
         return deserializedResp;
     }
 
-    private MessageHandler createHandler(String completeSubject, SyncHandler handler) {
+    private MessageHandler createMessageHandler(String completeSubject, SyncHandler handler) {
         return (Message natsMessage) -> {
             logger.info("Handling a message on subject: {}", completeSubject);
 
             try {
                 MCMessage deserialized = (MCMessage) Serializer.deserialize(natsMessage.getData());
-                Optional<MCMessage> response = Optional.ofNullable(handler.handle(completeSubject, deserialized));
+                Optional<MCMessage> response = Optional.ofNullable(
+                        handler.handle(completeSubject, deserialized)
+                );
 
                 byte[] reply;
                 if (response.isPresent()) {
@@ -139,12 +145,12 @@ public class MicroCommSync {
                 this.connection.publish(natsMessage.getReplyTo(), reply);
             } catch (Exception e) {
                 logger.error("Error while handling message:", e);
-                this.sendHandlerException(natsMessage.getReplyTo(), e);
+                this.sendMessageHandlerException(natsMessage.getReplyTo(), e);
             }
         };
     }
 
-    private void sendHandlerException(String replyTo, Exception e) {
+    private void sendMessageHandlerException(String replyTo, Exception e) {
         RemoteException remoteException = RemoteException.wrap(e);
         try {
             byte[] serializedError = MCMessage.fromError(remoteException).serialize();

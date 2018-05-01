@@ -23,7 +23,7 @@ public class SignatureClient extends AbstractSyncClient {
     public Single<List<SignedDocument>> getDocuments() {
         logger.info("Requesting {}", SignatureSubjects.GET_DOCUMENTS);
         return microCommSync.request(SignatureSubjects.GET_DOCUMENTS, MCMessage.EMPTY)
-                .map((message) -> MCMessage.getContentAs(message, 0, List.class));
+                .map(message -> MCMessage.getContentAs(message, 0, List.class));
     }
 
     public Single<SignedDocument> persistAndSignDocument(SignedDocument document) {
@@ -36,7 +36,7 @@ public class SignatureClient extends AbstractSyncClient {
     public Single<Boolean> deleteDocument(String documentId) {
         logger.info("Requesting {} {}", SignatureSubjects.DELETE_DOCUMENT, documentId);
         return microCommSync.request(SignatureSubjects.DELETE_DOCUMENT, MCMessage.fromObject(documentId))
-                .map(mcMessage -> true);
+                .map(message -> true);
     }
 
     public Single<GpgValidationResult> checkDocument(SignedDocument document, String documentId) {

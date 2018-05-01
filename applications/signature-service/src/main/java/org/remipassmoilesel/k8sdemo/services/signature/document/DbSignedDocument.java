@@ -6,6 +6,7 @@ import org.remipassmoilesel.k8sdemo.clients.signature.entities.SignedDocument;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Arrays;
 import java.util.Date;
 
 @Document(collection = "signed_documents")
@@ -40,5 +41,16 @@ public class DbSignedDocument extends AbstractSignedDocument {
         doc.setContent(this.getContent());
         doc.setSignature(this.getSignature());
         return doc;
+    }
+
+    @Override
+    public String toString() {
+        return "DbSignedDocument{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", date=" + date +
+                ", content=" + Arrays.toString(content) +
+                ", signature='" + signature + '\'' +
+                '}';
     }
 }
