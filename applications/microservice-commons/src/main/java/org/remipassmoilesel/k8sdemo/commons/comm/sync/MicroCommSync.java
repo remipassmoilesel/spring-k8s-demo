@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.concurrent.TimeUnit;
 
 public class MicroCommSync {
@@ -72,7 +74,7 @@ public class MicroCommSync {
                     1,
                     TimeUnit.SECONDS
             );
-            return this.handleRemoteResponse(rawResponse);
+            return this.handleRemoteResponse(Optional.ofNullable(rawResponse));
         }).observeOn(this.scheduler);
 
     }
@@ -100,8 +102,12 @@ public class MicroCommSync {
         return this.config.getContext() + "." + subject;
     }
 
-    private MCMessage handleRemoteResponse(Message rawResponse) throws Exception {
-        byte[] data = rawResponse.getData();
+    private MCMessage handleRemoteResponse(Optional<Message> rawResponse) throws Exception {
+        if(!rawResponse.isPresent()){
+            return MCMessage.EMPTY;
+        }
+
+        byte[] data = rawResponse.get().getData();
         if (data == null) {
             return MCMessage.EMPTY;
         }
@@ -121,11 +127,11 @@ public class MicroCommSync {
 
             try {
                 MCMessage deserialized = (MCMessage) Serializer.deserialize(natsMessage.getData());
-                MCMessage response = handler.handle(completeSubject, deserialized);
+                Optional<MCMessage> response = Optional.ofNullable(handler.handle(completeSubject, deserialized));
 
                 byte[] reply;
-                if (response != null) {
-                    reply = Serializer.serialize(response);
+                if (response.isPresent()) {
+                    reply = Serializer.serialize(response.get());
                 } else {
                     reply = new byte[]{};
                 }
