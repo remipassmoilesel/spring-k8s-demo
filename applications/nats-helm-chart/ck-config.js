@@ -1,7 +1,7 @@
 
 module.exports = {
   "name": "nats-broker",
-  "applicationStructure": "helm-chart",
+  "applicationStructure": "chart",
   "defaultEnvironment": "test",
   "scripts": {
     "helmDebug": "helm install --dry-run --debug .",
