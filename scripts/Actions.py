@@ -4,100 +4,51 @@ from .Paths import Paths
 from .Utils import Utils
 from .Command import Command
 from .Containers import Containers
+from .AppBuilder import AppBuilder
+from .DevHandlers import DevHandlers
+from .DeployHandlers import DeployHandlers
 
 
 class ActionHandlers:
 
     def __init__(self):
         self.commands = []
+        self.appBuilder = AppBuilder()
+        self.devHandlers = DevHandlers()
+        self.deployHandlers = DeployHandlers()
 
     def demo(self):
-        self.buildFrontend()
-        self.buildAllApplications()
-        self.dockerComposeStart([])
-
-    def helmDeploy(self, namespace, releaseName):
-        self.buildAllApplications()
-        map(lambda ctr: self.buildDockerImage(ctr), Containers.appContainers)
-        map(lambda ctr: self.pushDockerImage(ctr), Containers.appContainers)
-        self.deployHelmChart(namespace, releaseName)
-
-    def helmDestroy(self, releaseName):
-        self.destroyHelmChart(releaseName)
+        asyncCommand = self.devHandlers.demo()
+        self.commands.append(asyncCommand)
 
     def dockerComposeBuildAndStart(self, containers):
-        self.buildAllApplications()
-        self.dockerComposeStart(containers)
+        asyncCommand = self.devHandlers.dockerComposeBuildAndStart(containers)
+        self.commands.append(asyncCommand)
 
     def dockerComposebuildAndRestart(self, containers):
-        if len(containers) > 0:
-            self.buildApplications(containers)
-        else:
-            self.buildAllApplications()
-        self.dockerComposeRestart(containers)
-
-    def buildAll(self):
-        self.buildFrontend()
-        self.buildAllApplications()
-
-    def buildFrontend(self):
-        Command.runSync("npm install && npm run update-gateway", Paths.FRONTEND_ROOT)
-
-    def buildAllApplications(self):
-        Command.runSync("./gradlew build -x test")
-
-    def buildApplications(self, containers):
-        Utils.assertNoServiceContainers(containers)
-
-        appStr = Utils.joinGradleAppNames(containers, "build")
-        Command.runSync("./gradlew " + appStr + " -x test")
+        self.devHandlers.dockerComposebuildAndRestart(containers)
 
     def dockerComposeStart(self, containers):
-        containersStr = Utils.joinContainerNames(containers)
-        comm = Command.runAsync("docker-compose up " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
-        self.commands.append(comm)
+        asyncCommand = self.devHandlers.dockerComposeStart(containers)
+        self.commands.append(asyncCommand)
 
     def dockerComposeStop(self, containers):
-        containersStr = Utils.joinContainerNames(containers)
-        if len(containersStr) > 0:
-            comm = Command.runAsync("docker-compose stop " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
-            self.commands.append(comm)
-
-        else:
-            comm = Command.runAsync("docker-compose down", Paths.DOCKER_COMPOSE_ROOT)
-            self.commands.append(comm)
-
-    def dockerComposeRestart(self, containers):
-        containersStr = Utils.joinContainerNames(containers)
-        Command.runSync("docker-compose up -d --force-recreate " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
+        asyncCommand = self.devHandlers.dockerComposeStop(containers)
+        self.commands.append(asyncCommand)
 
     def launchLocal(self, containers):
-        Utils.assertAtLeastOneContainer(containers, 1)
-        Utils.assertNoServiceContainers(containers)
-
-        appStr = Utils.joinGradleAppNames(containers, "bootRun")
-        comm = Command.runAsync("source " + containers[0].devEnvFile + " && ./gradlew " + appStr)
-        self.commands.append(comm)
+        asyncCommand = self.devHandlers.launchLocal(containers)
+        self.commands.append(asyncCommand)
 
     def testApplications(self, containers):
-        Utils.assertAtLeastOneContainer(containers)
-        Utils.assertNoServiceContainers(containers)
+        asyncCommand = self.devHandlers.testApplications(containers)
+        self.commands.append(asyncCommand)
 
-        appStr = Utils.joinGradleAppNames(containers, "test")
-        comm = Command.runAsync("source " + containers[0].devEnvFile + " && ./gradlew " + appStr)
-        self.commands.append(comm)
+    def helmDeploy(self, namespace, releaseName):
+        self.deployHandlers.helmDeploy(namespace, releaseName)
 
-    def buildDockerImage(self, ctr):
-        Command.runSync("docker build . -t " + ctr.imageName, cwd=ctr.dockerBuildDir)
-
-    def pushDockerImage(self, ctr):
-        Command.runSync("docker push " + ctr.imageName)
-
-    def deployHelmChart(self, namespace, releaseName):
-        Command.runSync("helm install " + Paths.HELM_CHART_PATH + " -n " + releaseName + " --namespace " + namespace)
-
-    def destroyHelmChart(self, releaseName):
-        Command.runSync("helm delete --purge " + releaseName)
+    def helmDestroy(self, releaseName):
+        self.deployHandlers.helmDestroy(releaseName)
 
     def exit(self, code=0):
         exit(code)

@@ -44,7 +44,7 @@ class Containers:
         Container("nats", isServiceContainer=True)
     ]
 
-    appContainers = list(filter(lambda ctr: ctr.isServiceContainer != True, allContainers))
+    appContainers = list(filter(lambda ctr: not ctr.isServiceContainer, allContainers))
     serviceContainers = list(filter(lambda ctr: ctr.isServiceContainer, allContainers))
 
     @staticmethod
@@ -66,3 +66,6 @@ class Containers:
             containersNotFound = list(filter(lambda name: name not in Containers.allContainers, containerNames))
             raise Exception("Some containers were not found: " + " ".join(containersNotFound))
         return result
+
+assert(len(Containers.appContainers) > 0)
+assert(len(Containers.serviceContainers) > 0)
