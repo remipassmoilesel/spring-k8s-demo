@@ -23,6 +23,13 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.gateway.image.repository }}:{{ .Values.gateway.image.tag }}"
           imagePullPolicy: {{ .Values.gateway.image.pullPolicy }}
+          env:
+          - name: GATEWAY_ACTIVE_PROFILE
+            value: {{ .Values.general.profile }}
+          - name: MICROCOMM_CONTEXT
+            value: {{ .Values.general.microcomm.context }}
+          - name: MICROCOMM_NATS_URL
+            value: nats://nats-{{ template "spring-k8s-demo.fullname" . }}:4222
           ports:
             - name: http
               containerPort: 8080

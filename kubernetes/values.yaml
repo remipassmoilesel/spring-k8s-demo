@@ -2,6 +2,12 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+
+general:
+  profile: prod
+  microcomm:
+    context: k8sdemo
+
 nats:
 
   # Nats broker can be clustered, but need more configuration
@@ -34,3 +40,4 @@ gateway:
     repository: docker.remi-pace.fr/k8sdemo.gateway
     tag: 0.1
     pullPolicy: Always
+
