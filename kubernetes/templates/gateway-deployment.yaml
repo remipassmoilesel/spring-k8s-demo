@@ -1,28 +1,28 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: signature-service-{{ template "spring-k8s-demo.fullname" . }}
+  name: gateway-{{ template "spring-k8s-demo.fullname" . }}
   labels:
-    app: signature-service-{{ template "spring-k8s-demo.name" . }}
+    app: gateway-{{ template "spring-k8s-demo.name" . }}
     chart: {{ template "spring-k8s-demo.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.signature-service.replicaCount }}
+  replicas: {{ .Values.gateway.replicaCount }}
   selector:
     matchLabels:
-      app: signature-service-{{ template "spring-k8s-demo.name" . }}
+      app: gateway-{{ template "spring-k8s-demo.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: signature-service-{{ template "spring-k8s-demo.name" . }}
+        app: gateway-{{ template "spring-k8s-demo.name" . }}
         release: {{ .Release.Name }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.signature-service.image.repository }}:{{ .Values.signature-service.image.tag }}"
-          imagePullPolicy: {{ .Values.signature-service.image.pullPolicy }}
+          image: "{{ .Values.gateway.image.repository }}:{{ .Values.gateway.image.tag }}"
+          imagePullPolicy: {{ .Values.gateway.image.pullPolicy }}
           ports:
             - name: http
               containerPort: 8080
