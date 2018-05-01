@@ -10,16 +10,16 @@ class ActionHandlers:
     def __init__(self):
         self.commands = []
 
-    def buildAndStart(self, containers):
+    def dockerComposeBuildAndStart(self, containers):
         self.buildAllApplications()
-        self.startDockerCompose(containers)
+        self.dockerComposeStart(containers)
 
-    def buildAndRestart(self, containers):
+    def dockerComposebuildAndRestart(self, containers):
         if len(containers) > 0:
             self.buildApplications(containers)
         else:
             self.buildAllApplications()
-        self.restartDockerContainers(containers)
+        self.dockerComposeRestart(containers)
 
     def buildAll(self):
         self.buildFrontend()
@@ -37,12 +37,12 @@ class ActionHandlers:
         appStr = Utils.joinGradleAppNames(containers, "build")
         Command.runSync("./gradlew " + appStr + " -x test")
 
-    def startDockerCompose(self, containers):
+    def dockerComposeStart(self, containers):
         containersStr = Utils.joinContainerNames(containers)
         comm = Command.runAsync("docker-compose up " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
         self.commands.append(comm)
 
-    def stopDockerCompose(self, containers):
+    def dockerComposeStop(self, containers):
         containersStr = Utils.joinContainerNames(containers)
         if len(containersStr) > 0:
             comm = Command.runAsync("docker-compose stop " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
@@ -52,7 +52,7 @@ class ActionHandlers:
             comm = Command.runAsync("docker-compose down", Paths.DOCKER_COMPOSE_ROOT)
             self.commands.append(comm)
 
-    def restartDockerContainers(self, containers):
+    def dockerComposeRestart(self, containers):
         containersStr = Utils.joinContainerNames(containers)
         Command.runSync("docker-compose up -d --force-recreate " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
 

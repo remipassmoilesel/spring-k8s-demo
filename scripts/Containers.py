@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 
 
+# TODO: move this class to a setup file, on top level directory
+# TODO: rename to Application
+
+
 class Container:
-    def __init__(self, serviceName, devEnvFile, isServiceContainer = False):
+    def __init__(self, serviceName=None, devEnvFile=None, dockerBuildDir=None, isServiceContainer=False):
 
         # Docker compose service name
         self.serviceName = serviceName
@@ -13,15 +17,23 @@ class Container:
         # Environment file loaded before dev launch
         self.devEnvFile = devEnvFile
 
+        # Docker build directory
+        self.dockerBuildDir = dockerBuildDir
+
 
 class Containers:
 
     allContainers = [
-        Container("gateway", "./applications/gateway/setenv-dev.sh"),
-        Container("signature-service", "./applications/signature-service/setenv-dev.sh"),
+        Container(serviceName="gateway", 
+                  devEnvFile="./applications/gateway/setenv-dev.sh",
+                  dockerBuildDir="./applications/gateway"),
 
-        Container("mongodb", None, isServiceContainer=True),
-        Container("nats", None, isServiceContainer=True)
+        Container(serviceName="signature-service",
+                  devEnvFile="./applications/signature-service/setenv-dev.sh",
+                  dockerBuildDir="./applications/signature-service"),
+
+        Container("mongodb", isServiceContainer=True),
+        Container("nats", isServiceContainer=True)
     ]
 
     serviceContainers = list(filter(lambda ctr: ctr.isServiceContainer, allContainers))

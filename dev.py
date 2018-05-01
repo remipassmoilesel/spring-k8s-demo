@@ -46,28 +46,27 @@ class MainApplication:
 
         elif cleanArgs[1] == 'demo':
             Utils.log('Launching demo ...\n')
-            self.actions.buildAll()
-            self.actions.startDockerCompose([])
+            self.actions.dockerComposeBuildAndStart([])
 
         elif cleanArgs[1] == 'start':
             Utils.log('Start containers...\n')
             containers = self.getContainersFromArgs(cleanArgs)
-            self.actions.startDockerCompose(containers)
+            self.actions.dockerComposeStart(containers)
 
         elif cleanArgs[1] == 'build-start':
             Utils.log('Build and start containers...\n')
             containers = self.getContainersFromArgs(cleanArgs)
-            self.actions.buildAndStart(containers)
+            self.actions.dockerComposeBuildAndStart(containers)
 
         elif cleanArgs[1] == 'stop':
             Utils.log('Stop containers...\n')
             containers = self.getContainersFromArgs(cleanArgs)
-            self.actions.stopDockerCompose(containers)
+            self.actions.dockerComposeStop(containers)
 
         elif cleanArgs[1] == 'restart':
             Utils.log('Build and restart containers...\n')
             containers = self.getContainersFromArgs(cleanArgs)
-            self.actions.buildAndRestart(containers)
+            self.actions.dockerComposebuildAndRestart(containers)
 
         elif cleanArgs[1] == 'local':
             Utils.log('Local launch...\n')
