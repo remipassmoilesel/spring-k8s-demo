@@ -15,18 +15,21 @@ import static org.junit.Assert.assertThat;
 
 public class MicroCommSyncTest {
 
-    private MicroCommSync microComm;
+    private MicroCommSync microComm1;
+    private MicroCommSync microComm2;
 
     @Before
     public void testSetup() throws IOException {
-        microComm = TestHelpers.newSync();
-        microComm.connect();
+        microComm1 = TestHelpers.newSync();
+        microComm1.connect();
+        microComm2 = TestHelpers.newSync();
+        microComm2.connect();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void badSubjectShouldThrow() {
         String badSubject = "test@subject";
-        microComm.handle(badSubject, (s, m) -> MCMessage.EMPTY);
+        microComm1.handle(badSubject, (s, m) -> MCMessage.EMPTY);
     }
 
     @Test(expected = IllegalStateException.class)
@@ -41,12 +44,12 @@ public class MicroCommSyncTest {
         MCMessage requestMessage = MCMessage.fromObject("test-message-sent");
         MCMessage replyMessage = MCMessage.fromObject("test-message-replied");
 
-        microComm.handle(subject, (String subj, MCMessage message) -> {
+        microComm1.handle(subject, (String subj, MCMessage message) -> {
             assertThat(message, equalTo(requestMessage));
             return replyMessage;
         });
 
-        Single<MCMessage> reply = microComm.request(subject, requestMessage);
+        Single<MCMessage> reply = microComm2.request(subject, requestMessage);
         TestObserver<MCMessage> test = reply.test();
         reply.blockingGet();
 
@@ -59,11 +62,11 @@ public class MicroCommSyncTest {
         String subject = TestHelpers.getRandomSubject("testsubject");
         MCMessage requestMessage = MCMessage.fromObject("test-message-sent");
 
-        microComm.handle(subject, (String subj, MCMessage message) -> {
+        microComm1.handle(subject, (String subj, MCMessage message) -> {
             throw new NullPointerException("You tried to forgot me ??? I'm back !");
         });
 
-        Single<MCMessage> reply = microComm.request(subject, requestMessage);
+        Single<MCMessage> reply = microComm2.request(subject, requestMessage);
         reply.test().assertError(RemoteException.class);
     }
 
