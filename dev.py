@@ -46,7 +46,7 @@ class MainApplication:
 
         elif cleanArgs[1] == 'demo':
             Utils.log('Launching demo ...\n')
-            self.actions.dockerComposeBuildAndStart([])
+            self.actions.demo()
 
         elif cleanArgs[1] == 'start':
             Utils.log('Start containers...\n')

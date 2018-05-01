@@ -10,9 +10,10 @@ class ActionHandlers:
     def __init__(self):
         self.commands = []
 
-    def dockerComposeBuildAndStart(self, containers):
+    def demo(self):
+        self.buildFrontend()
         self.buildAllApplications()
-        self.dockerComposeStart(containers)
+        self.dockerComposeStart([])
 
     def dockerComposebuildAndRestart(self, containers):
         if len(containers) > 0:
