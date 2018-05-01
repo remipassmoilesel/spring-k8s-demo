@@ -11,9 +11,9 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: nats
       protocol: TCP
-      name: http
+      name: nats
   selector:
     app: {{ template "nats-helm-chart.name" . }}
     release: {{ .Release.Name }}
