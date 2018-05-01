@@ -23,14 +23,16 @@ public class DocumentManager {
     public List<SignedDocument> getDocuments() {
         return documentRepository.findAll()
                 .stream()
-                .map(db -> db.toSignedDocument())
+                .map(DbSignedDocument::toSignedDocument)
                 .collect(Collectors.toList());
     }
 
-    public SignedDocument getDocumentById(String id) {
-        Optional<DbSignedDocument> optionnal = documentRepository.findById(id);
+    public SignedDocument getDocumentById(String documentId) {
+        this.checkDocumentId(documentId);
+
+        Optional<DbSignedDocument> optionnal = documentRepository.findById(documentId);
         if (!optionnal.isPresent()) {
-            throw new DocumentNotFoundException(id);
+            throw new DocumentNotFoundException(documentId);
         }
         return optionnal.get().toSignedDocument();
     }
@@ -46,10 +48,13 @@ public class DocumentManager {
     }
 
     public void deleteDocument(String documentId) {
+        this.checkDocumentId(documentId);
+
         documentRepository.deleteById(documentId);
     }
 
     public GpgValidationResult verifyDocument(byte[] documentContent, String originalDocumentId) throws IOException {
+        this.checkDocumentId(originalDocumentId);
 
         SignedDocument validDoc = this.getDocumentById(originalDocumentId);
         SignedDocument candidateDocument = new SignedDocument(
@@ -67,4 +72,9 @@ public class DocumentManager {
         return validationResult;
     }
 
+    private void checkDocumentId(String documentId) {
+        if(documentId == null || documentId.equals("null")){
+            throw new NullPointerException("Document id cannot be null");
+        }
+    }
 }
