@@ -35,8 +35,6 @@ class ActionHandlers:
         Utils.assertNoServiceContainers(containers)
 
         appStr = Utils.joinGradleAppNames(containers, "build")
-
-        print("./gradlew " + appStr + " -x test")
         Command.runSync("./gradlew " + appStr + " -x test")
 
     def startDockerCompose(self, containers):
@@ -46,7 +44,6 @@ class ActionHandlers:
 
     def stopDockerCompose(self, containers):
         containersStr = Utils.joinContainerNames(containers)
-        print(containersStr)
         if len(containersStr) > 0:
             comm = Command.runAsync("docker-compose stop " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
             self.commands.append(comm)
@@ -57,7 +54,7 @@ class ActionHandlers:
 
     def restartDockerContainers(self, containers):
         containersStr = Utils.joinContainerNames(containers)
-        Command.runSync("docker-compose up --force-recreate " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
+        Command.runSync("docker-compose up -d --force-recreate " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
 
     def launchLocal(self, containers):
         Utils.assertAtLeastOneContainer(containers, 1)
