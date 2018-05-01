@@ -30,6 +30,8 @@ class MainApplication:
         Utils.log('\t$ dev build-start gateway')
         Utils.log('\t$ dev local signature-service')
         Utils.log('\t$ dev test signature-service')
+        Utils.log('\t$ dev deploy dev application1')
+        Utils.log('\t$ dev destroy dev application1')
 
     def processArgs(self, args):
         cleanArgs = self.cleanArgs(args)
@@ -46,37 +48,59 @@ class MainApplication:
 
         elif cleanArgs[1] == 'demo':
             Utils.log('Launching demo ...\n')
+
             self.actions.demo()
 
         elif cleanArgs[1] == 'start':
             Utils.log('Start containers...\n')
             containers = self.getContainersFromArgs(cleanArgs)
+
             self.actions.dockerComposeStart(containers)
 
         elif cleanArgs[1] == 'build-start':
             Utils.log('Build and start containers...\n')
             containers = self.getContainersFromArgs(cleanArgs)
+
             self.actions.dockerComposeBuildAndStart(containers)
 
         elif cleanArgs[1] == 'stop':
             Utils.log('Stop containers...\n')
             containers = self.getContainersFromArgs(cleanArgs)
+
             self.actions.dockerComposeStop(containers)
 
         elif cleanArgs[1] == 'restart':
             Utils.log('Build and restart containers...\n')
             containers = self.getContainersFromArgs(cleanArgs)
+
             self.actions.dockerComposebuildAndRestart(containers)
 
         elif cleanArgs[1] == 'local':
             Utils.log('Local launch...\n')
             containers = self.getContainersFromArgs(cleanArgs)
+
             self.actions.launchLocal(containers)
 
         elif cleanArgs[1] == 'test':
             Utils.log('Launch test ...\n')
             containers = self.getContainersFromArgs(cleanArgs)
+
             self.actions.testApplications(containers)
+
+        elif cleanArgs[1] == 'deploy':
+            Utils.log('Deploying helm chart ...\n')
+            if len(cleanArgs) < 3:
+                raise Exception("Deploy need two more arguments: environment name and release name")
+
+            self.actions.helmDeploy(cleanArgs[2], cleanArgs[3])
+
+        elif cleanArgs[1] == 'destroy':
+            Utils.log('Destroying helm chart ...\n')
+
+            if len(cleanArgs) < 2:
+                raise Exception("Destroy need one more argument: release name")
+
+            self.actions.helmDestroy(cleanArgs[2])
 
         else:
             raise Exception("Invalid command: " + " ".join(cleanArgs))

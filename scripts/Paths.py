@@ -6,6 +6,7 @@ class Paths:
     ROOT = abspath(join(__file__, '..', '..'))
     DOCKER_COMPOSE_ROOT = join(ROOT, 'docker-compose-dev')
     FRONTEND_ROOT = join(ROOT, 'applications', 'frontend')
+    HELM_CHART_PATH = join(ROOT, 'kubernetes')
 
 
 assert(isdir(Paths.ROOT))

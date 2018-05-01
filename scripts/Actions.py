@@ -3,6 +3,7 @@ import time
 from .Paths import Paths
 from .Utils import Utils
 from .Command import Command
+from .Containers import Containers
 
 
 class ActionHandlers:
@@ -14,6 +15,19 @@ class ActionHandlers:
         self.buildFrontend()
         self.buildAllApplications()
         self.dockerComposeStart([])
+
+    def helmDeploy(self, namespace, releaseName):
+        self.buildAllApplications()
+        map(lambda ctr: self.buildDockerImage(ctr), Containers.appContainers)
+        map(lambda ctr: self.pushDockerImage(ctr), Containers.appContainers)
+        self.deployHelmChart(namespace, releaseName)
+
+    def helmDestroy(self, releaseName):
+        self.destroyHelmChart(releaseName)
+
+    def dockerComposeBuildAndStart(self, containers):
+        self.buildAllApplications()
+        self.dockerComposeStart(containers)
 
     def dockerComposebuildAndRestart(self, containers):
         if len(containers) > 0:
@@ -73,6 +87,18 @@ class ActionHandlers:
         comm = Command.runAsync("source " + containers[0].devEnvFile + " && ./gradlew " + appStr)
         self.commands.append(comm)
 
+    def buildDockerImage(self, ctr):
+        Command.runSync("docker build . -t " + ctr.imageName, cwd=ctr.dockerBuildDir)
+
+    def pushDockerImage(self, ctr):
+        Command.runSync("docker push " + ctr.imageName)
+
+    def deployHelmChart(self, namespace, releaseName):
+        Command.runSync("helm install " + Paths.HELM_CHART_PATH + " -n " + releaseName + " --namespace " + namespace)
+
+    def destroyHelmChart(self, releaseName):
+        Command.runSync("helm delete --purge " + releaseName)
+
     def exit(self, code=0):
         exit(code)
 
@@ -95,3 +121,5 @@ class ActionHandlers:
     def printCommandsOutput(self):
         for com in self.commands:
             com.printOutput()
+
+

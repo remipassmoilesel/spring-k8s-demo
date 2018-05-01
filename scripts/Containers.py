@@ -6,7 +6,12 @@
 
 
 class Container:
-    def __init__(self, serviceName=None, devEnvFile=None, dockerBuildDir=None, isServiceContainer=False):
+    def __init__(self,
+                 serviceName=None,
+                 devEnvFile=None,
+                 dockerBuildDir=None,
+                 imageName=None,
+                 isServiceContainer=False):
 
         # Docker compose service name
         self.serviceName = serviceName
@@ -17,8 +22,9 @@ class Container:
         # Environment file loaded before dev launch
         self.devEnvFile = devEnvFile
 
-        # Docker build directory
+        # Docker build directory and image name
         self.dockerBuildDir = dockerBuildDir
+        self.imageName = imageName
 
 
 class Containers:
@@ -26,16 +32,19 @@ class Containers:
     allContainers = [
         Container(serviceName="gateway", 
                   devEnvFile="./applications/gateway/setenv-dev.sh",
-                  dockerBuildDir="./applications/gateway"),
+                  dockerBuildDir="./applications/gateway",
+                  imageName="docker.remi-pace.fr/k8sdemo.gateway:0.1"),
 
         Container(serviceName="signature-service",
                   devEnvFile="./applications/signature-service/setenv-dev.sh",
-                  dockerBuildDir="./applications/signature-service"),
+                  dockerBuildDir="./applications/signature-service",
+                  imageName="docker.remi-pace.fr/k8sdemo.signature-service:0.1"),
 
         Container("mongodb", isServiceContainer=True),
         Container("nats", isServiceContainer=True)
     ]
 
+    appContainers = list(filter(lambda ctr: ctr.isServiceContainer != True, allContainers))
     serviceContainers = list(filter(lambda ctr: ctr.isServiceContainer, allContainers))
 
     @staticmethod
@@ -45,6 +54,10 @@ class Containers:
     @staticmethod
     def getServiceContainers():
         return Containers.serviceContainers
+
+    @staticmethod
+    def getAppContainers():
+        return Containers.appContainers
 
     @staticmethod
     def getContainersByName(containerNames):
