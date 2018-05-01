@@ -12,8 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -31,6 +30,8 @@ public class DocumentManagerTest {
 
         SignedDocument retrieved = documentManager.getDocumentById(persisted.getId());
 
+        assertThat(retrieved.getId(), notNullValue());
+        assertThat(retrieved.getId(), equalTo(persisted.getId()));
         assertThat(retrieved.getName(), equalTo(persisted.getName()));
         assertThat(retrieved.getDate(), equalTo(persisted.getDate()));
         assertThat(retrieved.getContent(), equalTo(persisted.getContent()));
@@ -60,7 +61,6 @@ public class DocumentManagerTest {
         GpgValidationResult result = documentManager.verifyDocument(persisted.getContent(), persisted.getId());
 
         assertThat(result.isValid(), is(true));
-
     }
 
     @Test

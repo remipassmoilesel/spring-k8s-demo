@@ -33,6 +33,16 @@ public class DbSignedDocument extends AbstractSignedDocument {
         super(name, content, date);
     }
 
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public SignedDocument toSignedDocument() {
         SignedDocument doc = new SignedDocument();
         doc.setId(this.getId());
