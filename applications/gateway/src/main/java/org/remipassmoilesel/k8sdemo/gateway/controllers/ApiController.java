@@ -91,7 +91,7 @@ public class ApiController {
             path = Routes.DOCUMENTS,
             method = RequestMethod.DELETE
     )
-    public Single<MCMessage> deleteDocument(@RequestParam("documentId") String documentId) {
+    public Single<Boolean> deleteDocument(@RequestParam("documentId") String documentId) {
         return signatureClient.deleteDocument(documentId);
     }
 

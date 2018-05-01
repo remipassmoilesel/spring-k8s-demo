@@ -66,6 +66,6 @@ public class SignatureServer extends AbstractSyncServer {
     }
 
     private SignedDocument getDocumentFromMessage(MCMessage message, int i) {
-        return (SignedDocument) message.getContent()[i];
+        return MCMessage.getContentAs(message, i, SignedDocument.class);
     }
 }

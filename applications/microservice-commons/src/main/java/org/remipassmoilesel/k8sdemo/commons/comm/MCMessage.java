@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class MCMessage implements Serializable {
 
-    public static <T> T getContent(MCMessage message, int index, Class<? extends T> clazz) {
+    public static <T> T getContentAs(MCMessage message, int index, Class<? extends T> clazz) {
         checkContentIndex(message, index);
         Serializable rawElement = message.content[index];
         if (!clazz.isInstance(rawElement)) {
@@ -80,6 +80,11 @@ public class MCMessage implements Serializable {
         this.error = error;
     }
 
+    /**
+     * Prefer use of static method, with better typings
+     * @return
+     */
+    @Deprecated
     public Serializable[] getContent() {
         return content;
     }
@@ -89,15 +94,15 @@ public class MCMessage implements Serializable {
     }
 
     public String getAsString(int index) {
-        return MCMessage.getContent(this, index, String.class);
+        return MCMessage.getContentAs(this, index, String.class);
     }
 
     public Integer getAsInt(int index) {
-        return MCMessage.getContent(this, index, Integer.class);
+        return MCMessage.getContentAs(this, index, Integer.class);
     }
 
     public Long getAsLong(int index) {
-        return MCMessage.getContent(this, index, Long.class);
+        return MCMessage.getContentAs(this, index, Long.class);
     }
 
     @Override

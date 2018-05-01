@@ -121,7 +121,7 @@ public class ApiControllerTest {
     @Test
     public void deleteDocument() throws Exception {
         reset(signatureClient);
-        when(signatureClient.deleteDocument(any(String.class))).thenReturn(Single.just(new MCMessage()));
+        when(signatureClient.deleteDocument(any(String.class))).thenReturn(Single.just(true));
 
         MvcResult result = mockMvc.perform(delete(Routes.DOCUMENTS).param("documentId", "test-id"))
                 .andReturn();
