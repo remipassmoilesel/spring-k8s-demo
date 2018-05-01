@@ -1,22 +1,22 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ template "nats-helm-chart.fullname" . }}
+  name: {{ template "spring-k8s-demo.fullname" . }}
   labels:
-    app: {{ template "nats-helm-chart.name" . }}
-    chart: {{ template "nats-helm-chart.chart" . }}
+    app: {{ template "spring-k8s-demo.name" . }}
+    chart: {{ template "spring-k8s-demo.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ template "nats-helm-chart.name" . }}
+      app: {{ template "spring-k8s-demo.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "nats-helm-chart.name" . }}
+        app: {{ template "spring-k8s-demo.name" . }}
         release: {{ .Release.Name }}
     spec:
       containers:
@@ -24,19 +24,17 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: nats
-              containerPort: 4222
+            - name: http
+              containerPort: 80
               protocol: TCP
           livenessProbe:
-            tcpSocket:
-              port: nats
-            initialDelaySeconds: 5
-            periodSeconds: 5
+            httpGet:
+              path: /
+              port: http
           readinessProbe:
-            tcpSocket:
-              port: nats
-            initialDelaySeconds: 5
-            periodSeconds: 5
+            httpGet:
+              path: /
+              port: http
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}
