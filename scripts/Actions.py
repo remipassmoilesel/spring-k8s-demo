@@ -50,6 +50,10 @@ class ActionHandlers:
     def helmDestroy(self, releaseName):
         self.deployHandlers.helmDestroy(releaseName)
 
+    def helmRedeploy(self, namespace, releaseName):
+        self.deployHandlers.helmDestroy(releaseName)
+        self.deployHandlers.helmDeploy(namespace, releaseName)
+
     def exit(self, code=0):
         exit(code)
 
@@ -72,5 +76,6 @@ class ActionHandlers:
     def printCommandsOutput(self):
         for com in self.commands:
             com.printOutput()
+
 
 

@@ -90,7 +90,7 @@ class MainApplication:
         elif cleanArgs[1] == 'deploy':
             Utils.log('Deploying helm chart ...\n')
             if len(cleanArgs) < 4:
-                raise Exception("Deploy need two more arguments: environment name and release name")
+                raise Exception("Deploy need two arguments: environment name and release name")
 
             self.actions.helmDeploy(cleanArgs[2], cleanArgs[3])
 
@@ -98,9 +98,16 @@ class MainApplication:
             Utils.log('Destroying helm chart ...\n')
 
             if len(cleanArgs) < 3:
-                raise Exception("Destroy need one more argument: release name")
+                raise Exception("Destroy need one argument: release name")
 
             self.actions.helmDestroy(cleanArgs[2])
+
+        elif cleanArgs[1] == 'redeploy':
+            Utils.log('Re-deploying helm chart ...\n')
+            if len(cleanArgs) < 4:
+                raise Exception("Re-Deploy need two arguments: environment name and release name")
+
+            self.actions.helmRedeploy(cleanArgs[2], cleanArgs[3])
 
         else:
             raise Exception("Invalid command: " + " ".join(cleanArgs))
