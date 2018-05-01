@@ -8,7 +8,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.signature-service.replicaCount }}
+  replicas: {{ .Values.signatureService.replicaCount }}
   selector:
     matchLabels:
       app: signature-service-{{ template "spring-k8s-demo.name" . }}
@@ -21,8 +21,8 @@ spec:
     spec:
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.signature-service.image.repository }}:{{ .Values.signature-service.image.tag }}"
-          imagePullPolicy: {{ .Values.signature-service.image.pullPolicy }}
+          image: "{{ .Values.signatureService.image.repository }}:{{ .Values.signatureService.image.tag }}"
+          imagePullPolicy: {{ .Values.signatureService.image.pullPolicy }}
           ports:
             - name: http
               containerPort: 8080
