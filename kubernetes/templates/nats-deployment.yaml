@@ -1,0 +1,39 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: nats-{{ template "spring-k8s-demo.fullname" . }}
+  labels:
+    app: nats-{{ template "spring-k8s-demo.name" . }}
+    chart: {{ template "spring-k8s-demo.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.nats.replicaCount }}
+  selector:
+    matchLabels:
+      app: nats-{{ template "spring-k8s-demo.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: nats-{{ template "spring-k8s-demo.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.nats.image.repository }}:{{ .Values.nats.image.tag }}"
+          imagePullPolicy: {{ .Values.nats.image.pullPolicy }}
+          ports:
+            - name: nats
+              containerPort: 4222
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: nats
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          readinessProbe:
+            tcpSocket:
+              port: nats
+            initialDelaySeconds: 5
+            periodSeconds: 5

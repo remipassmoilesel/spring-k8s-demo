@@ -2,16 +2,16 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
+nats:
 
-image:
-  repository: nginx
-  tag: stable
-  pullPolicy: IfNotPresent
+  # Nats broker can be clustered, but need more configuration
+  # See: https://github.com/pires/kubernetes-nats-cluster
+  replicaCount: 1
 
-service:
-  type: ClusterIP
-  port: 80
+  image:
+    repository: nats
+    tag: 1.1.0-linux
+    pullPolicy: IfNotPresent
 
 ingress:
   enabled: false
