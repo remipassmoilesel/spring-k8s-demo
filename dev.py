@@ -116,12 +116,13 @@ class MainApplication:
         return list(map(lambda arg: arg.strip(), arguments))
 
     def getContainersFromArgs(self, cleanArgs):
-        if len(cleanArgs) < 3:
+        containerNames = cleanArgs[2:]
+        if len(containerNames) < 1:
             return []
-        elif cleanArgs[2] == 'svc':
+        elif cleanArgs[1] == 'svc':
             return Containers.getServiceContainers()
         else:
-            return Containers.getContainersByName(cleanArgs[2:])
+            return Containers.getContainersByName(containerNames)
 
     def handleInterrupt(self):
         def signal_handler(signal, frame):

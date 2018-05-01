@@ -49,7 +49,7 @@ class Utils:
 
     @staticmethod
     def assertAtLeastOneContainer(containers, number=None):
-        if len(containers) < 0:
+        if len(containers) < 1:
             raise Exception('You must specify at least one application')
 
         if number is not None and len(containers) != number:
