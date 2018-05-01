@@ -21,8 +21,9 @@
     regexp: "^  bindIp: (0.0.0.0|127.0.0.1)"
 
 - name: Restart Mongodb
-  service:
+  systemd:
     name: mongod
     state: restarted
+    enabled: yes
 
 
