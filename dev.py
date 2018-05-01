@@ -89,7 +89,7 @@ class MainApplication:
 
         elif cleanArgs[1] == 'deploy':
             Utils.log('Deploying helm chart ...\n')
-            if len(cleanArgs) < 3:
+            if len(cleanArgs) < 4:
                 raise Exception("Deploy need two more arguments: environment name and release name")
 
             self.actions.helmDeploy(cleanArgs[2], cleanArgs[3])
@@ -97,7 +97,7 @@ class MainApplication:
         elif cleanArgs[1] == 'destroy':
             Utils.log('Destroying helm chart ...\n')
 
-            if len(cleanArgs) < 2:
+            if len(cleanArgs) < 3:
                 raise Exception("Destroy need one more argument: release name")
 
             self.actions.helmDestroy(cleanArgs[2])
