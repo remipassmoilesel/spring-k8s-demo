@@ -8,7 +8,6 @@ import org.remipassmoilesel.k8sdemo.TestHelpers;
 import org.remipassmoilesel.k8sdemo.clients.signature.SignatureClient;
 import org.remipassmoilesel.k8sdemo.clients.signature.entities.GpgValidationResult;
 import org.remipassmoilesel.k8sdemo.clients.signature.entities.SignedDocument;
-import org.remipassmoilesel.k8sdemo.commons.comm.MCMessage;
 import org.remipassmoilesel.k8sdemo.gateway.Application;
 import org.remipassmoilesel.k8sdemo.gateway.Routes;
 import org.springframework.beans.factory.annotation.Autowired;

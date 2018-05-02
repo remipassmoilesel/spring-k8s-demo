@@ -13,6 +13,11 @@ public class SignedDocument extends AbstractSignedDocument {
         super(name, content, date);
     }
 
+    public SignedDocument deleteBinaryfields(){
+        this.setContent(null);
+        return this;
+    }
+
     @Override
     public String toString() {
         return "SignedDocument{" +

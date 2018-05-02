@@ -6,9 +6,9 @@ import java.util.Objects;
 public class GpgValidationResult implements Serializable {
 
     private boolean isValid;
-    private AbstractSignedDocument document;
+    private SignedDocument document;
 
-    public GpgValidationResult(AbstractSignedDocument document, boolean isValid) {
+    public GpgValidationResult(SignedDocument document, boolean isValid) {
         this.document = document;
         this.isValid = isValid;
     }
@@ -21,11 +21,11 @@ public class GpgValidationResult implements Serializable {
         isValid = valid;
     }
 
-    public AbstractSignedDocument getDocument() {
+    public SignedDocument getDocument() {
         return document;
     }
 
-    public void setDocument(AbstractSignedDocument document) {
+    public void setDocument(SignedDocument document) {
         this.document = document;
     }
 

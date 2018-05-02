@@ -26,7 +26,7 @@ public class DocumentManagerTest {
     public void getDocumentShouldWork() throws Exception {
 
         SignedDocument testDoc = TestHelpers.getTestDocument(1);
-        SignedDocument persisted = documentManager.persistDocument(testDoc.getName(), testDoc.getContent());
+        SignedDocument persisted = documentManager.persistDocument(testDoc);
 
         SignedDocument retrieved = documentManager.getDocumentById(persisted.getId());
 
@@ -43,7 +43,7 @@ public class DocumentManagerTest {
     public void deleteDocumentsShouldWork() throws Exception {
 
         SignedDocument testDoc = TestHelpers.getTestDocument(1);
-        SignedDocument persisted = documentManager.persistDocument(testDoc.getName(), testDoc.getContent());
+        SignedDocument persisted = documentManager.persistDocument(testDoc);
 
         documentManager.deleteDocument(persisted.getId());
         documentManager.getDocumentById(persisted.getId());
@@ -53,10 +53,7 @@ public class DocumentManagerTest {
     public void checkDocumentShouldValidateDocIfValid() throws Exception {
 
         SignedDocument testDoc = TestHelpers.getTestDocument(1);
-        SignedDocument persisted = documentManager.persistDocument(
-                testDoc.getName(),
-                testDoc.getContent()
-        );
+        SignedDocument persisted = documentManager.persistDocument(testDoc);
 
         GpgValidationResult result = documentManager.verifyDocument(persisted.getContent(), persisted.getId());
 
@@ -68,10 +65,7 @@ public class DocumentManagerTest {
 
         SignedDocument testDoc = TestHelpers.getTestDocument(1);
         SignedDocument testDoc2 = TestHelpers.getTestDocument(2);
-        SignedDocument persisted = documentManager.persistDocument(
-                testDoc.getName(),
-                testDoc.getContent()
-        );
+        SignedDocument persisted = documentManager.persistDocument(testDoc);
 
         GpgValidationResult result = documentManager.verifyDocument(testDoc2.getContent(), persisted.getId());
 

@@ -1,7 +1,6 @@
 package org.remipassmoilesel.k8sdemo.services.signature.gpg;
 
 import org.apache.commons.exec.ExecuteException;
-import org.remipassmoilesel.k8sdemo.clients.signature.entities.AbstractSignedDocument;
 import org.remipassmoilesel.k8sdemo.clients.signature.entities.GpgValidationResult;
 import org.remipassmoilesel.k8sdemo.clients.signature.entities.SignedDocument;
 import org.remipassmoilesel.k8sdemo.commons.utils.FileUtils;
@@ -16,7 +15,7 @@ public class GpgHelper {
     private GpgWrapper gpgw = new GpgWrapper();
     private DocumentHelper docHelper = new DocumentHelper();
 
-    public String signDocument(AbstractSignedDocument doc, GpgKey key) throws IOException {
+    public String signDocument(SignedDocument doc, GpgKey key) throws IOException {
         this.checkGpgKeys(key);
         this.docHelper.checkDocumentContent(doc);
 
@@ -33,7 +32,7 @@ public class GpgHelper {
         return signature;
     }
 
-    public GpgValidationResult verifyDocument(AbstractSignedDocument doc, GpgKey key) throws IOException {
+    public GpgValidationResult verifyDocument(SignedDocument doc, GpgKey key) throws IOException {
         this.checkGpgKeys(key);
         this.docHelper.checkDocumentContent(doc);
         this.docHelper.checkDocumentSignature(doc);

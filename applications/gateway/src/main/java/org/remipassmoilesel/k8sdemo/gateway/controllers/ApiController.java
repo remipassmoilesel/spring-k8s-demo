@@ -5,7 +5,6 @@ import org.apache.commons.io.IOUtils;
 import org.remipassmoilesel.k8sdemo.clients.signature.entities.GpgValidationResult;
 import org.remipassmoilesel.k8sdemo.clients.signature.SignatureClient;
 import org.remipassmoilesel.k8sdemo.clients.signature.entities.SignedDocument;
-import org.remipassmoilesel.k8sdemo.commons.comm.MCMessage;
 import org.remipassmoilesel.k8sdemo.gateway.Routes;
 import org.remipassmoilesel.k8sdemo.gateway.app_identity.GatewayIdentity;
 import org.remipassmoilesel.k8sdemo.gateway.app_identity.GatewayIdentityProvider;
@@ -41,9 +40,7 @@ public class ApiController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public GatewayIdentity getAppIdentity() {
-
         return gatewayIdentityProvider.getGatewayIdentity();
-
     }
 
     @ResponseBody
@@ -56,7 +53,7 @@ public class ApiController {
         return signatureClient.getDocuments()
                 .map((list) -> {
                     // do not send document content as it is binary
-                    list.forEach(doc -> doc.setContent(null));
+                    list.forEach(SignedDocument::deleteBinaryfields);
                     return list;
                 });
     }
@@ -80,9 +77,8 @@ public class ApiController {
 
         return signatureClient.persistAndSignDocument(document)
                 .map(doc -> {
-                    // do not send document content as it is binary
-                    doc.setContent(null);
-                    return doc;
+                    // do not send binary data
+                    return doc.deleteBinaryfields();
                 });
     }
 
@@ -112,10 +108,10 @@ public class ApiController {
         document.setContent(documentContent);
 
         return signatureClient.checkDocument(document, documentId)
-                .map((result) -> {
-                    // do not send document content as it is binary
-                    result.getDocument().setContent(null);
-                    return result;
+                .map((gpgValidation) -> {
+                    // do not send binary data
+                    gpgValidation.getDocument().deleteBinaryfields();
+                    return gpgValidation;
                 });
 
     }

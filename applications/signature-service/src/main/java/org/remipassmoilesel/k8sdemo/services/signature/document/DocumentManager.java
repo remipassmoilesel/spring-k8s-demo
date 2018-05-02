@@ -37,13 +37,13 @@ public class DocumentManager {
         return optionnal.get().toSignedDocument();
     }
 
-    public SignedDocument persistDocument(String documentName, byte[] documentContent) throws IOException {
-        DbSignedDocument document = new DbSignedDocument(documentName, documentContent, new Date());
+    public SignedDocument persistDocument(SignedDocument documentToPersist) throws IOException {
+        DbSignedDocument dbDocument = new DbSignedDocument(documentToPersist.getName(), documentToPersist.getContent(), new Date());
 
-        String sign = gpgHelper.signDocument(document, gpgHelper.getDefaultGpgKeys());
-        document.setSignature(sign);
+        String sign = gpgHelper.signDocument(dbDocument.toSignedDocument(), gpgHelper.getDefaultGpgKeys());
+        dbDocument.setSignature(sign);
 
-        DbSignedDocument persisted = documentRepository.save(document);
+        DbSignedDocument persisted = documentRepository.save(dbDocument);
         return persisted.toSignedDocument();
     }
 
