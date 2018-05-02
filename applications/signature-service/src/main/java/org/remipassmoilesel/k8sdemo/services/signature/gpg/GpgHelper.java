@@ -54,7 +54,7 @@ public class GpgHelper {
             if (e.getExitValue() == 1) {
                 isValid = false;
             } else {
-                throw e;
+                throw new IOException("GPG return code incorrect: ", e);
             }
         } finally {
             docHelper.deleteTempDocument(docTempPath);
