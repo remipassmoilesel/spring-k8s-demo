@@ -18,6 +18,8 @@ import java.io.IOException;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+// TODO: verify config content
+
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @ActiveProfiles(Application.DEV_PROFILE)

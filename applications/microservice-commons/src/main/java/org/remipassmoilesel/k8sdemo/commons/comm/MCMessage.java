@@ -82,7 +82,7 @@ public class MCMessage implements Serializable {
     }
 
     /**
-     * Prefer use of static methods, with better typings
+     * Prefer use of static methods, with better typing
      *
      * @return
      */

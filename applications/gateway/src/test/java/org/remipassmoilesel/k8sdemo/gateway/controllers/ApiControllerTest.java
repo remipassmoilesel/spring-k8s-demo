@@ -33,7 +33,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-// TODO: verify values
+// TODO: verify values returned by gateway
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -122,8 +122,7 @@ public class ApiControllerTest {
         reset(signatureClient);
         when(signatureClient.deleteDocument(any(String.class))).thenReturn(Single.just(true));
 
-        MvcResult result = mockMvc.perform(delete(Routes.DOCUMENTS).param("documentId", "test-id"))
-                .andReturn();
+        MvcResult result = mockMvc.perform(delete(Routes.DOCUMENTS).param("documentId", "test-id")).andReturn();
 
         mockMvc.perform(asyncDispatch(result)).andExpect(status().isOk());
 
