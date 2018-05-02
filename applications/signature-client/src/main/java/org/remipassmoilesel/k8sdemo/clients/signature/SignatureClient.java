@@ -32,7 +32,6 @@ public class SignatureClient extends AbstractSyncClient {
                 .map(message -> MCMessage.getContentAs(message, 0, SignedDocument.class));
     }
 
-    // TODO: return Single<Void> or better type
     public Single<Boolean> deleteDocument(String documentId) {
         logger.info("Requesting {} {}", SignatureSubjects.DELETE_DOCUMENT, documentId);
         return microCommSync.request(SignatureSubjects.DELETE_DOCUMENT, MCMessage.fromObject(documentId))
