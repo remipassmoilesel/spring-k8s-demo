@@ -49,8 +49,8 @@ public class MicroCommSync {
 
         AsyncSubscription subscription = this.connection.subscribe(
                 completeSubject,
-                // subject is used as a queue group,
-                // in order to load balance between instances
+                // Subject is used as a queue group name,
+                // in order to load balance messages between instances
                 completeSubject,
                 this.createMessageHandler(completeSubject, handler)
         );
