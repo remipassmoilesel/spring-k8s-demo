@@ -8,6 +8,8 @@ With this application, you can upload documents, sign them then check them with 
 A living demo on a Kubernetes cluster is available here: [spring-demo.remi-pace.fr](https://spring-demo.remi-pace.fr) - 
 sorry for the self-signed certificate, I have done too many experiments with Let's Encrypt :)
 
+## Architecture diagram
+
 ![Simplified architecture schema](./documentation/architecture.png)
 
 ## Why microservices ?
