@@ -119,7 +119,7 @@ class MainApplication:
         containerNames = cleanArgs[2:]
         if len(containerNames) < 1:
             return []
-        elif cleanArgs[1] == 'svc':
+        elif cleanArgs[2] == 'svc':
             return Containers.getServiceContainers()
         else:
             return Containers.getContainersByName(containerNames)
