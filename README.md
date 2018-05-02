@@ -14,7 +14,11 @@ sorry for the self-signed certificate, I have done too many experiments with Let
 
 ## Why microservices ?
 
-TODO...
+Microservices is a great opportunity for companies:
+
+- Software lifecyle can be optimized, deploy features in few hours !
+- All components can be changed, regardless of which technolgies they use
+- Applications are scalable, they can grow as need come
 
 ## Why Kubernetes ?
 
