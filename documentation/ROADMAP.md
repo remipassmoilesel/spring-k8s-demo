@@ -11,8 +11,6 @@
 - ~~Remplacer MySQL par Mongodb~~
 - ~~Créer un serveur pour signature~~
 - ~~Créer un paquet client signature~~
-- Mise en place health check
-- Réfléxion sur la dépendance d'injections: component scan pour les libs ? Ou création de bean dupliquée ?
 - ~~Fixer la suppression de documents~~
 - S'assurer que les tests utilisent bien un profil, une bdd et un contexte spécifiques
 - ~~Tests Gateway avec Mockito~~
@@ -21,6 +19,9 @@
 - Installer JUnit 5, instaurer un tag "only"
 - ~~Empecher la connexion mongo sur gateway~~
     - ~~entretenir deux modèles, un dans le client, un pour la BDD~~
+- Mise en place health check
+- Mise en place graceful shutdown
+- Réfléxion sur la dépendance d'injections: component scan pour les libs ? Ou création de bean dupliquée ?
 
 1 - Améliorer les outils de dev
 
