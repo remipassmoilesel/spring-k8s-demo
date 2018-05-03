@@ -14,15 +14,15 @@ export function getAllRoutes(): IRouteConfigAugmented[] {
             description: '',
         },
         {
-            path: '/documents',
-            component: DocumentsView,
-            text: 'Documents',
-            description: '',
-        },
-        {
             path: '/new',
             component: NewDocumentView,
             text: 'New',
+            description: '',
+        },
+        {
+            path: '/documents',
+            component: DocumentsView,
+            text: 'Documents',
             description: '',
         },
         {
