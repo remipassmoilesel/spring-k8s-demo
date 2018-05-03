@@ -3,9 +3,9 @@
 ## Purpose
 
 This is a small demonstration application built with Spring Boot and VueJS, intended to be deployed on a Kubernetes cluster.
-With this application, you can upload documents, sign them then check them with a PGP key. 
+With this application, you can upload documents, sign them then check them with a PGP key.
 
-A living demo on a Kubernetes cluster is available here: [spring-demo.remi-pace.fr](https://spring-demo.remi-pace.fr) - 
+A living demo on a Kubernetes cluster is available here: [spring-demo.remi-pace.fr](https://spring-demo.remi-pace.fr) -
 sorry for the self-signed certificate, I have done too many experiments with Let's Encrypt :)
 
 **Disclaimer**: This is a night project, I've done it after work in few days, so a lot of things can
@@ -79,7 +79,7 @@ Then clone and launch the projetc:
 
 ## Deploy on a Kubernetes cluster
 
-You will need a running Kubernetes cluster and an ingress controller. You can make trials quickly and easily with 
+You will need a running Kubernetes cluster and an ingress controller. You can make trials quickly and easily with
 [Minikube](https://kubernetes.io/docs/tutorials/stateless-application/hello-minikube/).
 
 Then adapt the deployment file with the address of your MongoDB database: [kubernetes/values.yaml](kubernetes/values.yaml)
@@ -103,9 +103,14 @@ In order to restart application on build in developement mode, configure Intelli
      File | Settings | Build, Execution, Deployment | Build Tools | Gradle | Runner
      => Delegate IDE build/run actions to gradle.
 
-## TODO
+## What can I improve ?
 
-- Application auto-scaling setup
-- Sonarqube analysis and CI/CD example
-- Kubernetes statefulset for databases
+As said on top, this is a night project, I've done it after work in few days, so a lot of things can be improved.
+
+- Make a chart per application, in order to deploy them separately,
+- Add a CI/CD example, with a Sonarqube analysis
+- Use Kubernetes statefulset for databases
+- Setup application auto-scaling
+- More unit tests, and more integration tests
+- A better development environment, maybe with Minikube
 
