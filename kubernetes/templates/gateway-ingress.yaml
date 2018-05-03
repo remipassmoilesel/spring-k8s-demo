@@ -6,7 +6,7 @@ metadata:
     app: gateway-{{ template "spring-k8s-demo.fullname" . }}
 spec:
   rules:
-    - host: dev.spring-demo.remi-pace.fr
+    - host: {{ .Values.general.ingress }}
       http:
         paths:
           - backend:

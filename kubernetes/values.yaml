@@ -4,6 +4,7 @@
 
 
 general:
+  ingress: spring-demo.remi-pace.fr
   profile: dev
   microcomm:
     context: k8sdemo
