@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This is a small application built with Spring Boot and VueJS, intended to be deployed on a Kubernetes cluster.
+This is a small demonstration application built with Spring Boot and VueJS, intended to be deployed on a Kubernetes cluster.
 With this application, you can upload documents, sign them then check them with a PGP key. 
 
 A living demo on a Kubernetes cluster is available here: [spring-demo.remi-pace.fr](https://spring-demo.remi-pace.fr) - 
@@ -101,3 +101,4 @@ In order to restart application on build in developement mode, configure Intelli
 
 - Application auto-scaling setup
 - Sonarqube analysis and CI/CD example
+- Kubernetes statefulset for databases
