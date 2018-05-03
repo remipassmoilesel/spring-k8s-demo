@@ -2,35 +2,68 @@
 
     <h1>Welcome !</h1>
 
-    <div class="introduction">
-        If you don't know where you are, and what is the purpose of this application,
-        please take a few minutes to read this document:
+    <h3>Introduction</h3>
+
+    <div class="content-block introduction">
+        This is a small application built with Spring Boot and VueJS, intended to be deployed on a Kubernetes cluster.
+        With this application, you can upload documents, sign them then check them with a PGP key.
+    </div>
+
+    <h3>How to use it</h3>
+
+    <div class="content-block step-by-step">
+
+        <div class="step">
+            <number value="1"></number>
+            Upload and sign a document on page "New" (1Mo maximum).
+        </div>
+
+        <div class="step">
+            <number value="2"></number>
+            See your document and the PGP signature associated on page "Documents".
+        </div>
+
+        <div class="step">
+            <number value="3"></number>
+            Check a document against the uploaded one on page "Check". If the document is exactly the same,
+            the check will be valid.
+        </div>
+
+    </div>
+
+    <h3>Which technologies are used here ?</h3>
+
+    <div class="content-block">
+        For application backend:
+
+        <ul>
+            <li>Spring Boot as main framework</li>
+            <li>RxJava for reactive structure and performances</li>
+            <li>NATS messaging for synchronous communication between microservices</li>
+            <li>Helm Chart for Kubernetes deployments</li>
+            <li>Ansible for server configuration</li>
+        </ul>
+
+        For frontend:
+        <ul>
+            <li>VueJS as component oriented framework</li>
+            <li>Typescript as language</li>
+            <li>Webpack as application build tool</li>
+        </ul>
+
+        Development tools:
+        <ul>
+            <li>Docker Compose for development environment (should maybe replaced by Minikube)</li>
+            <li>JUnit 4, Mockito and Jacoco for testing and coverage reports (should be replaced with JUnit 5)</li>
+            <li> Gradle as application build tool</li>
+            <li>Python 3 for scripting</li>
+        </ul>
+
+    </div>
+
+    <div class="content-block">
+        Full documentation is available on Github:
         <a href="https://github.com/remipassmoilesel/spring-k8s-demo">README.md</a>
-    </div>
-
-    <b-alert show>
-        <span class="fa fa-info-circle"></span>
-        You can refresh this page several times to see that host change
-        due to load balancing.
-    </b-alert>
-
-    <div v-if="appIdentity">
-
-        <h3>Hostname: {{ appIdentity.hostname }}</h3>
-
-        <h5>Host variables:</h5>
-
-        <table>
-            <tr v-for="(value, name) in appIdentity.envVars">
-                <td class="var-name">{{ name }}</td>
-                <td class="var-value">{{ limitLength(value) }}</td>
-            </tr>
-        </table>
-
-    </div>
-
-    <div class="please-wait" v-else>
-        Please wait ...
     </div>
 
 </b-container>
