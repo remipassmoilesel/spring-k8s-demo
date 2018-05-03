@@ -3,6 +3,7 @@ import {IRouteConfigAugmented} from './IRouteConfigAugmented';
 import {DocumentsView} from '../views/documents';
 import {NewDocumentView} from '../views/new-document';
 import {CheckDocumentView} from '../views/check-document';
+import {HostInformationsView} from '../views/host-informations';
 
 export function getAllRoutes(): IRouteConfigAugmented[] {
     return [
@@ -28,6 +29,12 @@ export function getAllRoutes(): IRouteConfigAugmented[] {
             path: '/check',
             component: CheckDocumentView,
             text: 'Check',
+            description: '',
+        },
+        {
+            path: '/host-informations',
+            component: HostInformationsView,
+            text: 'Host',
             description: '',
         },
     ];

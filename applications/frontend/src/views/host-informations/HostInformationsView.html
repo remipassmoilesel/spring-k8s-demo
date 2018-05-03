@@ -1,0 +1,30 @@
+<b-container class="host-informations-view">
+
+    <h1>Host informations</h1>
+
+    <b-alert show>
+        <span class="fa fa-info-circle"></span>
+        You can refresh this page several times to see that host change
+        due to load balancing.
+    </b-alert>
+
+    <div v-if="appIdentity">
+
+        <h3>Hostname: {{ appIdentity.hostname }}</h3>
+
+        <h5>Host variables:</h5>
+
+        <table>
+            <tr v-for="(value, name) in appIdentity.envVars">
+                <td class="var-name">{{ name }}</td>
+                <td class="var-value">{{ limitLength(value) }}</td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div class="please-wait" v-else>
+        Please wait ...
+    </div>
+
+</b-container>
