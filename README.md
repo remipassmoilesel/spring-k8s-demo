@@ -94,6 +94,8 @@ And finally deploy:
 
 A first version, more "monolithic", is available at tag 0.1 with a MariaDB/MySQL database.
 
+You can browse it on Github here: [v0.1](https://github.com/remipassmoilesel/spring-k8s-demo/tree/v0.1)
+
 ## IntelliJ settings for development
 
 In order to restart application on build in developement mode, configure Intellij:
