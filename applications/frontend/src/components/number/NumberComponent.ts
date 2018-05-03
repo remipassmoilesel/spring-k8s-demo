@@ -2,6 +2,8 @@ import {AbstractUiComponent} from '../AbstractUiComponent';
 import Component from 'vue-class-component';
 import {Prop} from 'vue-property-decorator';
 
+import './NumberComponent.scss';
+
 @Component({
     template: require('./NumberComponent.html'),
 })
