@@ -90,6 +90,10 @@ And finally deploy:
     $ ./dev.py deploy
 ```
 
+## What else ?
+
+A first version, more "monolithic", is available at tag 0.1 with a MariaDB/MySQL database.
+
 ## IntelliJ settings for development
 
 In order to restart application on build in developement mode, configure Intellij:
@@ -102,3 +106,4 @@ In order to restart application on build in developement mode, configure Intelli
 - Application auto-scaling setup
 - Sonarqube analysis and CI/CD example
 - Kubernetes statefulset for databases
+
