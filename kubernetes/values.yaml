@@ -13,6 +13,7 @@ general:
     username: everybodyknow
     password: thatnobodyputpasswordonmongo
 
+
 nats:
 
   # Nats broker can be clustered, but need more configuration
@@ -34,7 +35,6 @@ signatureService:
     repository: docker.remi-pace.fr/k8sdemo.signature-service
     tag: 0.1
     pullPolicy: Always
-
 
 
 gateway:
