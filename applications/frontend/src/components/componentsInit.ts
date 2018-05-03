@@ -6,6 +6,7 @@ import {NavbarComponent} from './navbar';
 import {CustomFooterComponent} from './footer';
 import {DocumentComponent} from './document';
 import {ValidationResultComponent} from './validation-result';
+import {NumberComponent} from './number/NumberComponent';
 
 const BootstrapVue = require('bootstrap-vue');
 Vue.use(BootstrapVue);
@@ -15,6 +16,7 @@ const components: AbstractUiComponent [] = [
     new NavbarComponent(),
     new DocumentComponent(),
     new ValidationResultComponent(),
+    new NumberComponent(),
 ];
 
 const checkInstance = (inst: AbstractUiComponent) => {
