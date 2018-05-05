@@ -26,10 +26,6 @@
 </head>
 <body>
 
-<!-- Piwik Image Tracker-->
-<img src="https://remi-pace.fr/piwik/piwik.php?idsite=12&rec=1" style="border:0" alt="" />
-<!-- End Piwik -->
-
 <script th:inline="javascript">
   window.appConfig = JSON.parse(/*[[${appConfig}]]*/ null);
   console.log('Starting app with config: ', appConfig)
@@ -40,6 +36,10 @@
 <script type="text/javascript" src="/js/manifest.js"></script>
 <script type="text/javascript" src="/js/vendor.js"></script>
 <script type="text/javascript" src="/js/main.js"></script>
+
+<!-- Piwik Image Tracker-->
+<img src="https://remi-pace.fr/piwik/piwik.php?idsite=12&rec=1" style="border:0" alt="" />
+<!-- End Piwik -->
 
 </body>
 </html>
