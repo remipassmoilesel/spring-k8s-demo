@@ -40,7 +40,7 @@ For application backend:
 - [Spring Boot](https://projects.spring.io/spring-boot/) as main framework
 - [RxJava](https://github.com/ReactiveX/RxJava) for reactive structure and performances
 - [NATS](https://nats.io) messaging for synchronous communication between microservices
-- [Helm Charts](https://github.com/kubernetes/charts) for Kubernetes deployments
+- [Helm Chart](https://helm.sh) for Kubernetes deployments
 - [Ansible](https://www.ansible.com) for server configuration
 
 For frontend:
