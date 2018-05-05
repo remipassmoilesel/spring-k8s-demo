@@ -37,24 +37,24 @@ Kubernetes offer many advantages:
 
 For application backend:
 
-- Spring Boot as main framework
-- RxJava for reactive structure and performances
-- NATS messaging for synchronous communication between microservices
-- Helm Chart for Kubernetes deployments
-- Ansible for server configuration
+- [Spring Boot](https://projects.spring.io/spring-boot/) as main framework
+- [RxJava](https://github.com/ReactiveX/RxJava) for reactive structure and performances
+- [NATS](https://nats.io) messaging for synchronous communication between microservices
+- [Helm Charts](https://github.com/kubernetes/charts) for Kubernetes deployments
+- [Ansible](https://www.ansible.com) for server configuration
 
 For frontend:
 
-- VueJS as component oriented framework
-- Typescript as language
-- Webpack as application build tool
+- [VueJS](https://vuejs.org) as component oriented framework
+- [Typescript](https://www.typescriptlang.org) as language
+- [Webpack](https://webpack.js.org) as application build tool
 
 Development tools:
 
-- Docker Compose for development environment (should maybe replaced by Minikube)
-- JUnit 4, Mockito and Jacoco for testing and coverage reports (should be replaced with JUnit 5)
-- Gradle as application build tool
-- Python 3 for scripting
+- [Docker Compose](https://docs.docker.com/compose/) for development environment (should maybe replaced by Minikube)
+- [JUnit 4](https://junit.org/junit4/), [Mockito](http://site.mockito.org) and [Jacoco](https://www.eclemma.org/jacoco/) for testing and coverage reports (should be replaced with JUnit 5)
+- [Gradle](https://gradle.org) as application build tool
+- [Python 3](https://www.python.org/about/) for scripting
 
 ## Use and test application
 
