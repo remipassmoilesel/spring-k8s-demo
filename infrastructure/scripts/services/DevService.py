@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
-from Paths import Paths
-from Utils import Utils
-from Command import Command
-from AppBuilder import AppBuilder
+from Config import Config
+from commons.Shell import Shell
+from commons.Utils import Utils
+from services.BuildService import BuildService
 
 
-class DevHandlers:
+class DevController:
 
     def __init__(self):
-        self.appBuilder = AppBuilder()
+        self.appBuilder = BuildService()
 
     def demo(self):
         self.appBuilder.buildFrontend()
@@ -40,18 +40,17 @@ class DevHandlers:
             self.appBuilder.buildAllApplications()
         self.dockerComposeRestart(containers)
 
-    def dockerComposeStart(self, containers):
-        containersStr = Utils.joinContainerNames(containers)
-        return Command.runAsync("docker-compose up " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
+    def dockerComposeStart(self):
+        return Shell.run("docker-compose up -d ", Config.DOCKER_COMPOSE_ROOT)
 
     def dockerComposeStop(self, containers):
         containersStr = Utils.joinContainerNames(containers)
         if len(containersStr) > 0:
-            return Command.runAsync("docker-compose stop " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
+            return Command.runAsync("docker-compose stop " + containersStr, Config.DOCKER_COMPOSE_ROOT)
 
         else:
-            return Command.runAsync("docker-compose down", Paths.DOCKER_COMPOSE_ROOT)
+            return Command.runAsync("docker-compose down", Config.DOCKER_COMPOSE_ROOT)
 
     def dockerComposeRestart(self, containers):
         containersStr = Utils.joinContainerNames(containers)
-        Command.runSync("docker-compose up -d --force-recreate " + containersStr, Paths.DOCKER_COMPOSE_ROOT)
+        Shell.run("docker-compose up -d --force-recreate " + containersStr, Config.DOCKER_COMPOSE_ROOT)

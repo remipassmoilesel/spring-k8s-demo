@@ -17,25 +17,6 @@ class TermStyle:
 
 class Utils:
 
-    @staticmethod
-    def log(message='', data=None, termStyle=TermStyle.GREEN):
-        print(Utils.colorize(message, termStyle=termStyle))
-        if data:
-            print(data)
-
-    @staticmethod
-    def colorize(message, termStyle=TermStyle.GREEN):
-        return termStyle + str(message) + TermStyle.RESET
-
-    @staticmethod
-    def nonBlockReadStream(stream):
-        fd = stream.fileno()
-        fl = fcntl.fcntl(fd, fcntl.F_GETFL)
-        fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
-        try:
-            return stream.read()
-        except:
-            return None
 
     @staticmethod
     def joinGradleAppNames(containers, gradleTask):
