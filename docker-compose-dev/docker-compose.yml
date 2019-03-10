@@ -1,8 +1,5 @@
 version: '3'
 
-# TODO: add container and volume for spring-boot application and sources
-# ... or use minikube ?
-
 services:
   mongodb:
     image: mvertes/alpine-mongo:3.6.4-2

@@ -15,22 +15,22 @@ general:
 
 
 nats:
-
-  # Nats broker can be clustered, but need more configuration
-  # See: https://github.com/pires/kubernetes-nats-cluster
   replicaCount: 1
-
   image:
     repository: nats
     tag: 1.1.0-linux
     pullPolicy: IfNotPresent
 
 
+nats:
+  replicaCount: 1
+  image:
+    repository: mvertes/alpine-mongo
+    tag: 3.6.4-2
+    pullPolicy: IfNotPresent
 
 signatureService:
-
   replicaCount: 2
-
   image:
     repository: registry.gitlab.com/remipassmoilesel/spring-k8s-demo/k8sdemo.signature-service
     tag: 0.1
@@ -38,9 +38,7 @@ signatureService:
 
 
 gateway:
-
   replicaCount: 2
-
   image:
     repository: registry.gitlab.com/remipassmoilesel/spring-k8s-demo/k8sdemo.gateway
     tag: 0.1
