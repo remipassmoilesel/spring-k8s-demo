@@ -69,7 +69,7 @@ Helper script. Examples:
                 self.buildService.buildAll(Config.DOCKER_TAG)
                 self.buildService.pushDockerImages(Config.DOCKER_TAG)
 
-            self.deploymentService.deploy(environment, Config.DOCKER_TAG)
+            self.deploymentService.deploy(environment)
 
         elif knownArgs.destroy:
             environment = knownArgs.environment

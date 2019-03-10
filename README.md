@@ -68,13 +68,14 @@ You can try this application locally easily. Install prerequisites:
     $ sudo pip install docker-compose
 ```
 
-Then clone and launch the projetc:
+Then clone and launch the project:
 
 ```
     $ git clone https://github.com/remipassmoilesel/spring-k8s-demo
     $ cd spring-k8s-demo
 
-    $ ./dev.py demo
+    $ ./cli.py --help
+    $ ./cli.py --start
 ```
 
 ## Deploy on a Kubernetes cluster
