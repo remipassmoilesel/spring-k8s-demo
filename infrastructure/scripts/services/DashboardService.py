@@ -28,7 +28,7 @@ class DashboardService:
 
     @staticmethod
     def __showDashboardSecret():
-        Shell.run("kubectl describe secret eks-admin-token-dx9vk -n kube-system", cwd=Config.PROJECT_ROOT)
+        Shell.run("kubectl describe secret cluster-admin -n kube-system", cwd=Config.PROJECT_ROOT)
 
     @staticmethod
     def __openDashboard():

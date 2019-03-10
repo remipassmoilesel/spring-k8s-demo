@@ -5,11 +5,11 @@ services:
     image: mvertes/alpine-mongo:3.6.4-2
     restart: always
     ports:
-     - 27017:27017
+      - 27017:27017
     networks:
       spring-k8s-demo-dev-network:
         aliases:
-        - mongodb.docker.net
+          - mongodb.docker.net
 
   nats:
     image: nats:1.1.0-linux
@@ -21,37 +21,27 @@ services:
     networks:
       spring-k8s-demo-dev-network:
         aliases:
-        - nats.docker.net
+          - nats.docker.net
 
   gateway:
-    build: springboot-dev-image
-    image: springboot-dev-image:0.1
+    image: registry.gitlab.com/remipassmoilesel/spring-k8s-demo/gateway:0.1
     restart: always
-    entrypoint: "/sources/infrastructure/docker-compose-dev/entrypoints/gateway.sh"
-    volumes:
-      - "../..:/sources"
     ports:
       - 8090:8080
-      - 10100:35729
     networks:
       spring-k8s-demo-dev-network:
         aliases:
-        - gateway.docker.net
+          - gateway.docker.net
 
   signature-service:
-    build: springboot-dev-image
-    image: springboot-dev-image:0.1
+    image: registry.gitlab.com/remipassmoilesel/spring-k8s-demo/signature-service:0.1
     restart: always
-    entrypoint: "/sources/infrastructure/docker-compose-dev/entrypoints/signature-service.sh"
-    volumes:
-      - "../..:/sources"
     ports:
       - 8091:8080
-      - 10105:35729
     networks:
       spring-k8s-demo-dev-network:
         aliases:
-        - signature-service.docker.net
+          - signature-service.docker.net
 
 networks:
   spring-k8s-demo-dev-network:

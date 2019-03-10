@@ -3,6 +3,7 @@ import argparse
 
 from Config import Config
 from services.BuildService import BuildService
+from services.DashboardService import DashboardService
 from services.DeploymentService import DeploymentService
 from services.DevService import DevController
 
@@ -13,6 +14,7 @@ class MainController:
         self.buildService = BuildService()
         self.devService = DevController()
         self.deploymentService = DeploymentService()
+        self.dashboardService = DashboardService()
 
     def __getDescription(self) -> str:
         return """
@@ -32,18 +34,18 @@ Helper script. Examples:
         $ cli --help
         $ cli --start
         $ cli --build
-        $ cli --dashboard
+        $ cli --kubernetes-dashboard
         $ cli --build --deploy -e environment-name
         $ cli --destroy -e environment-name
         
         """
 
-    def processArgs(self):
+    def processArgs(self) -> None:
         parser = argparse.ArgumentParser(description=self.__getDescription(),
                                          formatter_class=argparse.RawTextHelpFormatter)
         parser.add_argument('--start', action='store_true', help='Start all applications')
         parser.add_argument('--build', action='store_true', help='Build all applications and docker images')
-        parser.add_argument('--dashboard', action='store_true', help='Show Kubernetes dashboard')
+        parser.add_argument('--kubernetes-dashboard', action='store_true', help='Show Kubernetes dashboard')
         parser.add_argument('--deploy', action='store_true', help='Deploy the specified environment')
         parser.add_argument('--destroy', action='store_true', help='Destroy the specified environment')
 
@@ -52,7 +54,8 @@ Helper script. Examples:
         knownArgs = parser.parse_args()
 
         if knownArgs.start:
-            self.devService.dockerComposeStart()
+            self.buildService.buildAll(Config.DOCKER_TAG)
+            self.devService.startAll()
 
         elif knownArgs.build:
             self.buildService.buildAll(Config.DOCKER_TAG)
@@ -74,6 +77,9 @@ Helper script. Examples:
                 raise Exception("You must specify environment name")
 
             self.deploymentService.destroy(environment)
+
+        elif knownArgs.kubernetes_dashboard:
+            self.dashboardService.showDashboard()
 
         else:
             raise Exception("Invalid command")
