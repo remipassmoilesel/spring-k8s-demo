@@ -10,7 +10,7 @@ class Config:
     DOCKER_TAG = "0.1"  # That's very bad, use Git SHA instead :)
     PROJECT_ROOT = abspath(join(__file__, '..', '..', '..'))
     DOCKER_COMPOSE_ROOT = join(PROJECT_ROOT, 'infrastructure/docker-compose-dev')
-    FRONTEND_ROOT = join(PROJECT_ROOT, 'applications', 'frontend')
+    FRONTEND_ROOT = join(PROJECT_ROOT, 'applications/frontend')
     HELM_CHART_PATH = join(PROJECT_ROOT, 'infrastructure/helm-chart')
 
     @staticmethod
@@ -20,17 +20,17 @@ class Config:
     @staticmethod
     def getBaseDockerImage() -> DockerImage:
         return DockerImage('k8sdemo.base-image',
-                           os.path.join(Config.PROJECT_ROOT, '/applications/infrastructure/base-docker-image'),
+                           os.path.join(Config.PROJECT_ROOT, 'infrastructure/base-docker-image'),
                            Config.getDockeRegistryPrefix())
 
     @staticmethod
     def getDockerImages() -> List[DockerImage]:
         return [
             DockerImage("gateway",
-                        os.path.join(Config.PROJECT_ROOT, "./applications/gateway"),
+                        os.path.join(Config.PROJECT_ROOT, "applications/gateway"),
                         Config.getDockeRegistryPrefix()),
             DockerImage("signature-service",
-                        os.path.join(Config.PROJECT_ROOT, "./applications/signature-service"),
+                        os.path.join(Config.PROJECT_ROOT, "applications/signature-service"),
                         Config.getDockeRegistryPrefix()),
         ]
 

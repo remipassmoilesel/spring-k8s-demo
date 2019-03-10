@@ -1,12 +1,26 @@
 # -*- coding: utf-8 -*-
 from Config import Config
 from commons.DockerImage import DockerImage
+from commons.Logger import Logger
 from commons.Shell import Shell
 
 
 class BuildService:
 
+    def __showBanner(self):
+        Logger.info("""
+        
+    ██╗████████╗    ██╗    ██╗██╗██╗     ██╗         ██████╗ ███████╗     ██████╗ ██╗  ██╗             
+    ██║╚══██╔══╝    ██║    ██║██║██║     ██║         ██╔══██╗██╔════╝    ██╔═══██╗██║ ██╔╝             
+    ██║   ██║       ██║ █╗ ██║██║██║     ██║         ██████╔╝█████╗      ██║   ██║█████╔╝              
+    ██║   ██║       ██║███╗██║██║██║     ██║         ██╔══██╗██╔══╝      ██║   ██║██╔═██╗              
+    ██║   ██║       ╚███╔███╔╝██║███████╗███████╗    ██████╔╝███████╗    ╚██████╔╝██║  ██╗    ██╗██╗██╗
+    ╚═╝   ╚═╝        ╚══╝╚══╝ ╚═╝╚══════╝╚══════╝    ╚═════╝ ╚══════╝     ╚═════╝ ╚═╝  ╚═╝    ╚═╝╚═╝╚═╝
+        
+        """)
+
     def buildAll(self, dockerTag: str) -> None:
+        self.__showBanner()
         self.buildFrontend()
         self.buildAllApplications()
         self.buildDockerImages(dockerTag)

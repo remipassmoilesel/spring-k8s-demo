@@ -11,8 +11,8 @@ class DevController:
         self.appBuilder = BuildService()
 
     def demo(self):
-        self.appBuilder.buildFrontend()
-        self.appBuilder.buildAllApplications()
+        self.appBuilder.__buildFrontend()
+        self.appBuilder.__buildAllApplications()
         return self.dockerComposeStart([])
 
     def launchLocal(self, containers):
@@ -30,14 +30,14 @@ class DevController:
         return Command.runAsync("source " + containers[0].devEnvFile + " && ./gradlew " + appStr)
 
     def dockerComposeBuildAndStart(self, containers):
-        self.appBuilder.buildAllApplications()
+        self.appBuilder.__buildAllApplications()
         return self.dockerComposeStart(containers)
 
     def dockerComposebuildAndRestart(self, containers):
         if len(containers) > 0:
             self.appBuilder.buildApplications(containers)
         else:
-            self.appBuilder.buildAllApplications()
+            self.appBuilder.__buildAllApplications()
         self.dockerComposeRestart(containers)
 
     def dockerComposeStart(self):
