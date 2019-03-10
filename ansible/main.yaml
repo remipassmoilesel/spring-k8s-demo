@@ -1,4 +1,0 @@
-- hosts: mongodb
-  roles:
-  - install-prerequisites
-  - install-mongodb

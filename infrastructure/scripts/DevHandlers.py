@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from .Paths import Paths
-from .Utils import Utils
-from .Command import Command
-from .AppBuilder import AppBuilder
+from Paths import Paths
+from Utils import Utils
+from Command import Command
+from AppBuilder import AppBuilder
 
 
 class DevHandlers:

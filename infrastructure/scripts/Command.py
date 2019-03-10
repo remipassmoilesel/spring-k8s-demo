@@ -1,6 +1,6 @@
 from subprocess import run, Popen, PIPE, check_output
-from .Paths import Paths
-from .Utils import Utils, TermStyle
+from Paths import Paths
+from Utils import Utils, TermStyle
 
 CONSOLE_ENCODING = 'utf-8'
 

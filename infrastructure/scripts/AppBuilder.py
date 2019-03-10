@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from .Command import Command
-from .Paths import Paths
-from .Utils import Utils
-from .Containers import BaseDockerImage
+from Command import Command
+from Paths import Paths
+from Utils import Utils
+from Containers import BaseDockerImage
 
 
 class AppBuilder:

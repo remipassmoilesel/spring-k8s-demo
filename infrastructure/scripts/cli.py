@@ -5,11 +5,11 @@ import signal
 import sys
 import traceback
 
-from scripts import ActionHandlers
-from scripts import Containers
-from scripts import Utils, TermStyle
+from Actions import ActionHandlers
+from Containers import Containers
+from Utils import Utils, TermStyle
 
-DEBUG=False
+DEBUG = False
 
 
 class MainApplication:
@@ -150,4 +150,3 @@ if __name__ == '__main__':
         Utils.log("Error: {0}".format(err), termStyle=TermStyle.RED)
         if DEBUG:
             traceback.print_exc()
-

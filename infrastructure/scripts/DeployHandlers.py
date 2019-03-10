@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import os
 
-from .AppBuilder import AppBuilder
-from .Command import Command
-from .Containers import BaseDockerImage
-from .Containers import Containers
-from .Paths import Paths
-from .Utils import Utils
+from AppBuilder import AppBuilder
+from Command import Command
+from Containers import BaseDockerImage
+from Containers import Containers
+from Paths import Paths
+from Utils import Utils
 
 
 class DeployHandlers:

@@ -82,7 +82,7 @@ Then clone and launch the projetc:
 You will need a running Kubernetes cluster and an ingress controller. You can make trials quickly and easily with
 [Minikube](https://kubernetes.io/docs/tutorials/stateless-application/hello-minikube/).
 
-Then adapt the deployment file with the address of your MongoDB database: [kubernetes/values.yaml](kubernetes/values.yaml)
+Then adapt the deployment file with the address of your MongoDB database: [kubernetes/values.yaml](infrastructure/helm-chart/values.yaml)
 
 And finally deploy:
 

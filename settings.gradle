@@ -1,10 +1,10 @@
 rootProject.name = 'spring-k8s-demo'
 
 include(':microservice-commons')
-project(':microservice-commons').projectDir = new File('./applications/microservice-commons')
+project(':microservice-commons').projectDir = new File('./applications/libraries/microservice-commons')
 
 include(':signature-client')
-project(':signature-client').projectDir = new File('./applications/signature-client')
+project(':signature-client').projectDir = new File('./applications/libraries/signature-client')
 
 include(':signature-service')
 project(':signature-service').projectDir = new File('./applications/signature-service')

@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
 import time
-from .Paths import Paths
-from .Utils import Utils
-from .Command import Command
-from .Containers import Containers
-from .AppBuilder import AppBuilder
-from .DevHandlers import DevHandlers
-from .DeployHandlers import DeployHandlers
+from AppBuilder import AppBuilder
+from DevHandlers import DevHandlers
+from DeployHandlers import DeployHandlers
 
 
 class ActionHandlers:
