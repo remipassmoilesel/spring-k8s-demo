@@ -2,46 +2,26 @@ version: '3'
 
 services:
   mongodb:
+    container_name: skd-mongodb
     image: mvertes/alpine-mongo:3.6.4-2
     restart: always
-    ports:
-      - 27017:27017
-    networks:
-      spring-k8s-demo-dev-network:
-        aliases:
-          - mongodb.docker.net
+    network_mode: host
 
   nats:
+    container_name: skd-natsd
     image: nats:1.1.0-linux
     entrypoint: "/gnatsd -m 8222 -D"
     restart: always
-    ports:
-      - 8222:8222
-      - 4222:4222
-    networks:
-      spring-k8s-demo-dev-network:
-        aliases:
-          - nats.docker.net
+    network_mode: host
 
   gateway:
+    container_name: skd-gateway
     image: registry.gitlab.com/remipassmoilesel/spring-k8s-demo/gateway:0.1
     restart: always
-    ports:
-      - 8090:8080
-    networks:
-      spring-k8s-demo-dev-network:
-        aliases:
-          - gateway.docker.net
+    network_mode: host
 
   signature-service:
+    container_name: skd-signature-service
     image: registry.gitlab.com/remipassmoilesel/spring-k8s-demo/signature-service:0.1
     restart: always
-    ports:
-      - 8091:8080
-    networks:
-      spring-k8s-demo-dev-network:
-        aliases:
-          - signature-service.docker.net
-
-networks:
-  spring-k8s-demo-dev-network:
+    network_mode: host

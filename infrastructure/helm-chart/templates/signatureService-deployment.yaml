@@ -26,13 +26,11 @@ spec:
           env:
           - name: SIGNATURE_SERV_ACTIVE_PROFILE
             value: {{ .Values.general.profile }}
-          - name: SIGNATURE_SERV_DB_NAME
-            value: documentsv2
           - name: SIGNATURE_SERV_DB_URI
             value: mongodb://mongodb-{{ template "spring-k8s-demo.name" . }}:27017
-          - name: MICROCOMM_CONTEXT
+          - name: SKD_MICROCOMM_CONTEXT
             value: {{ .Values.general.microcomm.context }}
-          - name: MICROCOMM_NATS_URL
+          - name: SKD_MICROCOMM_NATS_URL
             value: nats://nats-{{ template "spring-k8s-demo.fullname" . }}:4222
           ports:
             - name: http

@@ -32,7 +32,8 @@ class MainController:
 Helper script. Examples:
 
         $ cli --help
-        $ cli --start
+        $ cli --build --start
+        $ cli --stop
         $ cli --build
         $ cli --kubernetes-dashboard
         $ cli --build --deploy -e environment-name
@@ -44,6 +45,7 @@ Helper script. Examples:
         parser = argparse.ArgumentParser(description=self.__getDescription(),
                                          formatter_class=argparse.RawTextHelpFormatter)
         parser.add_argument('--start', action='store_true', help='Start all applications')
+        parser.add_argument('--stop', action='store_true', help='Stop all applications')
         parser.add_argument('--build', action='store_true', help='Build all applications and docker images')
         parser.add_argument('--kubernetes-dashboard', action='store_true', help='Show Kubernetes dashboard')
         parser.add_argument('--deploy', action='store_true', help='Deploy the specified environment')
@@ -54,8 +56,12 @@ Helper script. Examples:
         knownArgs = parser.parse_args()
 
         if knownArgs.start:
-            self.buildService.buildAll(Config.DOCKER_TAG)
+            if knownArgs.build:
+                self.buildService.buildAll(Config.DOCKER_TAG)
             self.devService.startAll()
+
+        elif knownArgs.stop:
+            self.devService.stopAll()
 
         elif knownArgs.build:
             self.buildService.buildAll(Config.DOCKER_TAG)

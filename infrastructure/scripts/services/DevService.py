@@ -6,13 +6,6 @@ from commons.Shell import Shell
 
 class DevController:
 
-    def startAll(self) -> None:
-        self.__showBanner()
-        return self.dockerComposeStart()
-
-    def dockerComposeStart(self) -> None:
-        return Shell.run("docker-compose up -d ", Config.DOCKER_COMPOSE_ROOT)
-
     def __showBanner(self) -> None:
         Logger.success("""        
     ______           __                                                          __  __         ____      
@@ -23,3 +16,18 @@ class DevController:
                                    /____/                                                                 
 
         """)
+
+    def startAll(self) -> None:
+        self.__showBanner()
+        return self.dockerComposeStart()
+
+    def stopAll(self) -> None:
+        self.__showBanner()
+        return self.dockerComposeStop()
+
+    def dockerComposeStart(self) -> None:
+        return Shell.run("docker-compose up -d ", Config.DOCKER_COMPOSE_ROOT)
+
+    def dockerComposeStop(self) -> None:
+        return Shell.run("docker-compose down", Config.DOCKER_COMPOSE_ROOT)
+

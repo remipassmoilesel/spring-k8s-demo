@@ -75,7 +75,7 @@ Then clone and launch the project:
     $ cd spring-k8s-demo
 
     $ ./cli.py --help
-    $ ./cli.py --start
+    $ ./cli.py --build --start
 ```
 
 ## Deploy on a Kubernetes cluster
