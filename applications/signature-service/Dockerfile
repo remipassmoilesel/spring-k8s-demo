@@ -1,4 +1,4 @@
-FROM docker.remi-pace.fr/k8sdemo.base-image:0.1
+FROM registry.gitlab.com/remipassmoilesel/spring-k8s-demo/k8sdemo.base-image:0.1
 
 RUN apk update && apk add gnupg
 

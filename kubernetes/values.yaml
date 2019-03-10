@@ -32,7 +32,7 @@ signatureService:
   replicaCount: 2
 
   image:
-    repository: docker.remi-pace.fr/k8sdemo.signature-service
+    repository: registry.gitlab.com/remipassmoilesel/spring-k8s-demo/k8sdemo.signature-service
     tag: 0.1
     pullPolicy: Always
 
@@ -42,7 +42,7 @@ gateway:
   replicaCount: 2
 
   image:
-    repository: docker.remi-pace.fr/k8sdemo.gateway
+    repository: registry.gitlab.com/remipassmoilesel/spring-k8s-demo/k8sdemo.gateway
     tag: 0.1
     pullPolicy: Always
 

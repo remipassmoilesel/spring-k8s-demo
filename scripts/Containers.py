@@ -5,7 +5,7 @@
 # TODO: rename to Application
 
 class BaseDockerImage:
-    name = 'docker.remi-pace.fr/k8sdemo.base-image:0.1'
+    name = 'registry.gitlab.com/remipassmoilesel/spring-k8s-demo/k8sdemo.base-image:0.1'
     dockerBuildDir = './applications/base-docker-image'
 
 class Container:
@@ -33,15 +33,15 @@ class Container:
 class Containers:
 
     allContainers = [
-        Container(serviceName="gateway", 
+        Container(serviceName="gateway",
                   devEnvFile="./applications/gateway/setenv-dev.sh",
                   dockerBuildDir="./applications/gateway",
-                  imageName="docker.remi-pace.fr/k8sdemo.gateway:0.1"),
+                  imageName="registry.gitlab.com/remipassmoilesel/spring-k8s-demo/k8sdemo.gateway:0.1"),
 
         Container(serviceName="signature-service",
                   devEnvFile="./applications/signature-service/setenv-dev.sh",
                   dockerBuildDir="./applications/signature-service",
-                  imageName="docker.remi-pace.fr/k8sdemo.signature-service:0.1"),
+                  imageName="registry.gitlab.com/remipassmoilesel/spring-k8s-demo/k8sdemo.signature-service:0.1"),
 
         Container("mongodb", isServiceContainer=True),
         Container("nats", isServiceContainer=True)
