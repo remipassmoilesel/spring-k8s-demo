@@ -63,9 +63,6 @@ Helper script. Examples:
         elif knownArgs.stop:
             self.devService.stopAll()
 
-        elif knownArgs.build:
-            self.buildService.buildAll(Config.DOCKER_TAG)
-
         elif knownArgs.deploy:
             environment = knownArgs.environment
             if not environment:
@@ -83,6 +80,9 @@ Helper script. Examples:
                 raise Exception("You must specify environment name")
 
             self.deploymentService.destroy(environment)
+
+        elif knownArgs.build:
+            self.buildService.buildAll(Config.DOCKER_TAG)
 
         elif knownArgs.kubernetes_dashboard:
             self.dashboardService.showDashboard()
