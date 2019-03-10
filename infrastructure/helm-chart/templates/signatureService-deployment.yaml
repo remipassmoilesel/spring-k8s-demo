@@ -26,7 +26,7 @@ spec:
           env:
           - name: SIGNATURE_SERV_ACTIVE_PROFILE
             value: {{ .Values.general.profile }}
-          - name: SIGNATURE_SERV_DB_URI
+          - name: SKD_SIGNATURE_SERV_DB_URI
             value: mongodb://mongodb-{{ template "spring-k8s-demo.name" . }}:27017
           - name: SKD_MICROCOMM_CONTEXT
             value: {{ .Values.general.microcomm.context }}

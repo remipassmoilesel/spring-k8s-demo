@@ -28,7 +28,7 @@ mongodb:
 signatureService:
   replicaCount: 2
   image:
-    repository: registry.gitlab.com/remipassmoilesel/spring-k8s-demo/k8sdemo.signature-service
+    repository: registry.gitlab.com/remipassmoilesel/spring-k8s-demo/signature-service
     tag: 0.1
     pullPolicy: Always
 
@@ -36,7 +36,7 @@ signatureService:
 gateway:
   replicaCount: 2
   image:
-    repository: registry.gitlab.com/remipassmoilesel/spring-k8s-demo/k8sdemo.gateway
+    repository: registry.gitlab.com/remipassmoilesel/spring-k8s-demo/gateway
     tag: 0.1
     pullPolicy: Always
 
