@@ -88,14 +88,8 @@ Then adapt the deployment file with the address of your MongoDB database: [kuber
 And finally deploy:
 
 ```
-    $ ./dev.py deploy
+    $ ./cli.py --build --deploy production
 ```
-
-## What else ?
-
-A first version, more "monolithic", is available at tag 0.1 with a MariaDB/MySQL database.
-
-You can browse it on Github here: [v0.1](https://github.com/remipassmoilesel/spring-k8s-demo/tree/v0.1)
 
 ## IntelliJ settings for development
 
@@ -108,6 +102,8 @@ In order to restart application on build in developement mode, configure Intelli
 
 As said on top, this is a night project, I've done it after work in few days, so a lot of things can be improved.
 
+- Share sessions, maybe with Redis
+- Change communication protocols, use Protobuf or Avro
 - Make a chart per application, in order to deploy them separately,
 - Add a CI/CD example, with a Sonarqube analysis
 - Use Kubernetes statefulset for databases
