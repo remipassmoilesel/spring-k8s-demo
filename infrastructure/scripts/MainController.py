@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+import argparse
+
 from Config import Config
-from commons.Logger import Logger
 from services.BuildService import BuildService
 from services.DeploymentService import DeploymentService
 from services.DevService import DevController
@@ -13,63 +14,69 @@ class MainController:
         self.devService = DevController()
         self.deploymentService = DeploymentService()
 
-    def showHelp(self) -> None:
-        Logger.info("""
-        
+    def __getDescription(self) -> str:
+        return """
+    $$\      $$\ $$\                                                                         $$$$$$\        $$$$\  
+    $$ | $\  $$ |$$ |                                                                        \_$$  _|      $$  $$\ 
+    $$ |$$$\ $$ |$$$$$$$\   $$$$$$\   $$$$$$\   $$$$$$\         $$$$$$\  $$$$$$\$$$$\          $$ |        \__/$$ |
+    $$ $$ $$\$$ |$$  __$$\ $$  __$$\ $$  __$$\ $$  __$$\        \____$$\ $$  _$$  _$$\         $$ |           $$  |
+    $$$$  _$$$$ |$$ |  $$ |$$$$$$$$ |$$ |  \__|$$$$$$$$ |       $$$$$$$ |$$ / $$ / $$ |        $$ |          $$  / 
+    $$$  / \$$$ |$$ |  $$ |$$   ____|$$ |      $$   ____|      $$  __$$ |$$ | $$ | $$ |        $$ |          \__/  
+    $$  /   \$$ |$$ |  $$ |\$$$$$$$\ $$ |      \$$$$$$$\       \$$$$$$$ |$$ | $$ | $$ |      $$$$$$\         $$\   
+    \__/     \__|\__|  \__| \_______|\__|       \_______|       \_______|\__| \__| \__|      \______|        \__|  
+                                                                                                                   
+                                                                                                                   
+                                                                                                                       
 Helper script. Examples:
 
-        $ cli help
-        $ cli start
-        $ cli build
-        $ cli deploy environment-name
-        $ cli destroy environment-name
+        $ cli --help
+        $ cli --start
+        $ cli --build
+        $ cli --dashboard
+        $ cli --build --deploy -e environment-name
+        $ cli --destroy -e environment-name
         
-        """)
+        """
 
-    def processArgs(self, args):
-        cleanArgs = self.cleanArgs(args)
+    def processArgs(self):
+        parser = argparse.ArgumentParser(description=self.__getDescription(),
+                                         formatter_class=argparse.RawTextHelpFormatter)
+        parser.add_argument('--start', action='store_true', help='Start all applications')
+        parser.add_argument('--build', action='store_true', help='Build all applications and docker images')
+        parser.add_argument('--dashboard', action='store_true', help='Show Kubernetes dashboard')
+        parser.add_argument('--deploy', action='store_true', help='Deploy the specified environment')
+        parser.add_argument('--destroy', action='store_true', help='Destroy the specified environment')
 
-        if len(cleanArgs) < 2:
-            self.showHelp()
-            raise Exception('You must specify a command')
+        parser.add_argument('--environment', '-e', help='Environment name')
 
-        elif cleanArgs[1] == 'help':
-            Logger.info('Help !\n')
-            self.showHelp()
+        knownArgs = parser.parse_args()
 
-        elif cleanArgs[1] == 'start':
-            Logger.info('Starting...\n')
+        if knownArgs.start:
             self.devService.dockerComposeStart()
 
-        elif cleanArgs[1] == 'build':
-            Logger.info('Building all applications ...\n')
+        elif knownArgs.build:
             self.buildService.buildAll(Config.DOCKER_TAG)
 
-        elif cleanArgs[1] == 'deploy':
-            Logger.info('Deploying ...\n')
-            if len(cleanArgs) < 3:
+        elif knownArgs.deploy:
+            environment = knownArgs.environment
+            if not environment:
                 raise Exception("You must specify environment name")
 
-            self.deploymentService.deploy(cleanArgs[2], Config.DOCKER_TAG)
+            if knownArgs.build:
+                self.buildService.buildAll(Config.DOCKER_TAG)
+                self.buildService.pushDockerImages(Config.DOCKER_TAG)
 
-        elif cleanArgs[1] == 'destroy':
-            Logger.info('Destroying ...\n')
+            self.deploymentService.deploy(environment, Config.DOCKER_TAG)
 
-            if len(cleanArgs) < 3:
-                raise Exception("Destroy need one argument: environment name")
+        elif knownArgs.destroy:
+            environment = knownArgs.environment
+            if not environment:
+                raise Exception("You must specify environment name")
 
-            self.deploymentService.destroy(cleanArgs[2])
-
-        elif cleanArgs[1] == 'redeploy':
-            Logger.info('Re-deploying ...\n')
-            if len(cleanArgs) < 3:
-                raise Exception("Re-Deploy need one argument: environment name")
-
-            self.deploymentService.destroy(cleanArgs[2])
-            self.deploymentService.deploy(cleanArgs[2], Config.DOCKER_TAG)
+            self.deploymentService.destroy(environment)
 
         else:
-            raise Exception("Invalid command: " + " ".join(cleanArgs))
+            raise Exception("Invalid command")
 
     def cleanArgs(self, arguments):
         return list(map(lambda arg: arg.strip(), arguments))

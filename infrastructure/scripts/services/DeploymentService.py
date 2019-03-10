@@ -13,9 +13,6 @@ class DeploymentService:
         self.buildService = BuildService()
 
     def deploy(self, environmentName: str, dockerTag: str) -> None:
-        self.buildService.buildAll(dockerTag)
-        self.buildService.pushDockerImages(dockerTag)
-
         prefixedEnv = self.__getPrefixedEnvironmentName(environmentName)
         self.__createNamespace(prefixedEnv)
         self.__createRegistrySecret(prefixedEnv)

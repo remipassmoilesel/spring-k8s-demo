@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import sys
 import traceback
 
 from MainController import MainController
@@ -12,7 +11,7 @@ if __name__ == '__main__':
     mainApp = MainController()
 
     try:
-        mainApp.processArgs(sys.argv)
+        mainApp.processArgs()
     except Exception as err:
         Logger.error("Error: {0}".format(err))
         traceback.print_exc()
