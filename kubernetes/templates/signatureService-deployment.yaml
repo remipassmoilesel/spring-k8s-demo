@@ -29,11 +29,7 @@ spec:
           - name: SIGNATURE_SERV_DB_NAME
             value: documentsv2
           - name: SIGNATURE_SERV_DB_URI
-            value: {{ .Values.general.mongodb.host }}
-          - name: SIGNATURE_SERV_DB_USERNAME
-            value: {{ .Values.general.mongodb.username }}
-          - name: SIGNATURE_SERV_DB_PASSWORD
-            value: {{ .Values.general.mongodb.password }}
+            value: mongodb://mongodb-{{ template "spring-k8s-demo.name" . }}:27017
           - name: MICROCOMM_CONTEXT
             value: {{ .Values.general.microcomm.context }}
           - name: MICROCOMM_NATS_URL

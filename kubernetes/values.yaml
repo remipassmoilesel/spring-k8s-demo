@@ -8,11 +8,6 @@ general:
   profile: dev
   microcomm:
     context: k8sdemo
-  mongodb:
-    host: mongodb://192.168.0.16:27017
-    username: everybodyknow
-    password: thatnobodyputpasswordonmongo
-
 
 nats:
   replicaCount: 1
@@ -22,12 +17,13 @@ nats:
     pullPolicy: IfNotPresent
 
 
-nats:
+mongodb:
   replicaCount: 1
   image:
     repository: mvertes/alpine-mongo
     tag: 3.6.4-2
     pullPolicy: IfNotPresent
+
 
 signatureService:
   replicaCount: 2

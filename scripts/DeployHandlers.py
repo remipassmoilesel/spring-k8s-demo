@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
+import os
+
 from .AppBuilder import AppBuilder
 from .Command import Command
-from .Containers import Containers
 from .Containers import BaseDockerImage
+from .Containers import Containers
 from .Paths import Paths
+from .Utils import Utils
 
 
 class DeployHandlers:
@@ -18,13 +21,30 @@ class DeployHandlers:
         self.appBuilder.buildDockerImages(Containers.appContainers)
         self.appBuilder.pushDockerImages(Containers.appContainers)
 
+        self.createRegistrySecret(namespace)
         self.deployHelmChart(namespace, releaseName)
+
+    def createRegistrySecret(self, namespace):
+        createSecret = "kubectl create secret generic registry-secret"
+        createSecret += " --from-file=.dockerconfigjson=" + os.path.expanduser('~/.docker/config.json')
+        createSecret += " --type=kubernetes.io/dockerconfigjson "
+        createSecret += " --namespace " + namespace
+        try:
+            Command.runSync(createSecret)
+        except:
+            Utils.log('Error while creating registry secret')
+
 
     def helmDestroy(self, releaseName):
         self.destroyHelmChart(releaseName)
 
     def deployHelmChart(self, namespace, releaseName):
-        Command.runSync("helm install " + Paths.HELM_CHART_PATH + " -n " + releaseName + " --namespace " + namespace)
+        helmUpgrade = "helm upgrade "
+        helmUpgrade += " --install --force " + releaseName
+        helmUpgrade += " --wait --timeout 500"
+        helmUpgrade += " --namespace " + namespace
+        helmUpgrade += " " + Paths.HELM_CHART_PATH
+        Command.runSync(helmUpgrade)
 
     def destroyHelmChart(self, releaseName):
         Command.runSync("helm delete --purge " + releaseName)
@@ -33,6 +53,3 @@ class DeployHandlers:
         out = Command.runSyncAndGetOutput("docker images -q " + BaseDockerImage.name)
         if len(out) < 1:
             self.appBuilder.buildBaseImage()
-
-
-
