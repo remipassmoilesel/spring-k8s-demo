@@ -21,8 +21,15 @@ class DeployHandlers:
         self.appBuilder.buildDockerImages(Containers.appContainers)
         self.appBuilder.pushDockerImages(Containers.appContainers)
 
+        self.createNamespace(namespace)
         self.createRegistrySecret(namespace)
         self.deployHelmChart(namespace, releaseName)
+
+    def createNamespace(self, namespace):
+        try:
+            Command.runSync("kubectl create namespace " + namespace)
+        except:
+            Utils.log('Error while creating namespace')
 
     def createRegistrySecret(self, namespace):
         createSecret = "kubectl create secret generic registry-secret"
